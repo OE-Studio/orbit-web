@@ -1,0 +1,64 @@
+const bgData =[
+    {
+        name:'bricks',
+        bgLink:'./assets/backgrounds/bricks.svg'
+    },
+    {
+        name:'anchors',
+        bgLink:'./assets/backgrounds/anchors.svg'
+    },
+    {
+        name:'bubbles',
+        bgLink:'./assets/backgrounds/bubbles.svg'
+    },
+    {
+        name:'chess',
+        bgLink:'./assets/backgrounds/chess.svg'
+    },
+    {
+        name:'circle',
+        bgLink:'./assets/backgrounds/circle.svg'
+    },
+    {
+        name:'diagonal',
+        bgLink:'./assets/backgrounds/Diagonal.svg'
+    },
+    {
+        name:'diamond',
+        bgLink:'./assets/backgrounds/Diamond.svg'
+    },
+    {
+        name:'moving-line',
+        bgLink:'./assets/backgrounds/moving-line.svg'
+    },
+    {
+        name:'shapes',
+        bgLink:'./assets/backgrounds/shapes.svg'
+    },
+    {
+        name:'tictac',
+        bgLink:'./assets/backgrounds/tictac.svg'
+    },
+    {
+        name:'woodline',
+        bgLink:'./assets/backgrounds/woodline.svg'
+    },
+    {
+        name:'wormline',
+        bgLink:'./assets/backgrounds/worm-lines.svg'
+    },
+    {
+        name:'xpattern',
+        bgLink:'./assets/backgrounds/x-pattern.svg'
+    },
+    {
+        name:'zigzag',
+        bgLink:'./assets/backgrounds/zigzag.svg'
+    },
+    {
+        name:'empty',
+    },
+]
+
+
+export default bgData
