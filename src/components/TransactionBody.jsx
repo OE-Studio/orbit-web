@@ -1,85 +1,212 @@
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "./Container";
 import TransactionType from "./TransactionComponents/TransactionType";
+import { useSelector } from "react-redux";
+import emptyTransaction from "../assets/empty-state/emptyTransaction.svg";
+import convertToSentenceCase from "../utils/convertToSentence";
+import { format } from "date-fns";
 
-const IndividualTransaction = ({ title, description, price, type }) => {
+import { truncateText } from "../utils/TruncateText";
+import Receipt from "./Receipts/Receipt";
+
+const IndividualTransaction = ({
+  title,
+  description,
+  price,
+  type,
+  transaction,
+  setCurrent,
+}) => {
+  const [toggleReceipt, setToggleReceipt] = useState(false);
+
   return (
-    <div className="w-full flex font-inter border-t border-neutral100 py-4">
-      <div className="inline-flex gap-2 items-center w-[30%]">
-        <TransactionType type={type} />
-        <p className="text-[15px] font-medium text-grey400">{title}</p>
-      </div>
+    <>
+      {toggleReceipt ? (
+        <Receipt
+          transaction={transaction}
+          setToggle={setToggleReceipt}
+          toggle={toggleReceipt}
+        />
+      ) : null}
+      <div
+        className="w-full flex font-inter border-t border-neutral100 py-4"
+        onClick={() => {
+          setToggleReceipt(!toggleReceipt);
+        }}
+      >
+        <div className="inline-flex gap-2 items-center w-[30%]">
+          <TransactionType type={type.toLowerCase()} />
+          <p className="text-[15px] font-medium text-grey400">{title}</p>
+        </div>
 
-      <div className="flex gap-2 items-center w-[50%]">
-        <p className="text-[15px] font-medium text-neutral300">{description}</p>
+        <div className="flex gap-2 items-center w-[50%]">
+          <p className="text-[15px] font-medium text-neutral300">
+            {description}
+          </p>
+        </div>
+        <div className="flex gap-4 items-center w-[20%] justify-end">
+          <p className="text-[15px]  text-neutral300 font-semibold">{price}</p>
+          <ChevronRightIcon className="h-4" />
+        </div>
       </div>
-      <div className="flex gap-4 items-center w-[20%] justify-end">
-        <p className="text-[15px]  text-neutral300 font-semibold">{price}</p>
-        <ChevronRightIcon className="h-4" />
-      </div>
+    </>
+  );
+};
+
+export const EmptyTransaction = () => {
+  return (
+    <div className="center flex-col h-[350px] w-full">
+      <img src={emptyTransaction} alt="" />
+      <div className="h-4"></div>
+      <p className="text-neutral300">No transaction recorded</p>
     </div>
   );
 };
 
-const TransactionBody = () => {
+const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
+  const [filteredTransactions, setFilteredTransactions] = useState(null);
+
+  const { transactions, status } = useSelector((state) => state.transactions);
+
+  useEffect(() => {
+    if (status === "fulfilled") {
+      setFilteredTransactions(transactions);
+    }
+  }, [status]);
+
+  let currentDate = null;
+
+  useEffect(() => {
+    let filterOperation = transactions;
+    console.log(dateFilter, transactionFilter, searchFilter);
+
+    // Filter by date
+    if (dateFilter === "Today") {
+      const today = new Date().toISOString().split("T")[0];
+      filterOperation = filterOperation.filter((transaction) => {
+        console.log(transaction.updatedAt, today);
+        return transaction.updatedAt.split("T")[0] === today;
+      });
+    } else if (dateFilter === "Last 7 Days") {
+      console.log("7 Days");
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      const fromDate = sevenDaysAgo.toISOString().split("T")[0];
+      filterOperation = filterOperation.filter((transaction) => {
+        console.log(transaction.updatedAt >= fromDate);
+        return transaction.updatedAt >= fromDate;
+      });
+    } else if (dateFilter === "This Month") {
+      const currentMonth = new Date()
+        .toISOString()
+        .split("-")
+        .slice(0, 2)
+        .join("-");
+
+      console.log(currentMonth);
+      filterOperation = filterOperation.filter((transaction) =>
+        transaction.updatedAt.startsWith(currentMonth)
+      );
+    } else if (dateFilter === "Last 3 months") {
+      const threeMonthsAgo = new Date();
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+      const fromDate = threeMonthsAgo
+        .toISOString()
+        .split("-")
+        .slice(0, 2)
+        .join("-");
+      filterOperation = filterOperation.filter(
+        (transaction) => transaction.date >= fromDate
+      );
+    }
+
+    console.log(filterOperation);
+
+    // Filter by transaction type
+    if (transactionFilter !== "All Transactions") {
+      filterOperation = filterOperation.filter((transaction) => {
+        return transaction.narration.startsWith(
+          transactionFilter.toLowerCase()
+        );
+      });
+    }
+
+    // Filter by search query
+    if (searchFilter) {
+      const query = searchFilter.toLowerCase();
+      filterOperation = filterOperation.filter((transaction) =>
+        transaction.narration.toLowerCase().includes(query)
+      );
+    }
+
+    // Sort by date in descending order
+    if (filterOperation !== null) {
+      filterOperation = [...filterOperation].sort(
+        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      );
+    }
+
+    setFilteredTransactions(filterOperation);
+  }, [transactionFilter, dateFilter, searchFilter]);
+
   return (
     <Container>
       <div className="h-6" />
-      <p className="text-sm font-medium text-neutral300">9 NOV 2022</p>
-      <div className="h-4" />
-      <IndividualTransaction
-        type="airtime"
-        title="Airtime Purchase"
-        description="MTN 1.0GB N239.0 DATA topup topup with 08039343682"
-        price="₦7,150.00"
-      />
-      <IndividualTransaction
-        type="data"
-        title="Airtime Purchase"
-        description="MTN 1.0GB N239.0 DATA topup topup with 08039343682"
-        price="₦7,150.00"
-      />
-      <IndividualTransaction
-        type="electricity"
-        title="Airtime Purchase"
-        description="MTN 1.0GB N239.0 DATA topup topup with 08039343682"
-        price="₦7,150.00"
-      />
-      <IndividualTransaction
-        type="cable"
-        title="Airtime Purchase"
-        description="MTN 1.0GB N239.0 DATA topup topup with 08039343682"
-        price="₦7,150.00"
-      />
+      {filteredTransactions?.length > 0 ? (
+        filteredTransactions.map((transaction, index) => {
+          const transactionDate = format(
+            Date.parse(transaction.updatedAt),
+            "dd MMM, yyyy"
+          );
 
-      <div className="h-6" />
-      <p className="text-sm font-medium text-neutral300">8 NOV 2022</p>
-      <div className="h-4" />
-      <IndividualTransaction
-        type="airtime"
-        title="Airtime Purchase"
-        description="MTN 1.0GB N239.0 DATA topup topup with 08039343682"
-        price="₦7,150.00"
-      />
-      <IndividualTransaction
-        type="data"
-        title="Airtime Purchase"
-        description="MTN 1.0GB N239.0 DATA topup topup with 08039343682"
-        price="₦7,150.00"
-      />
-      <IndividualTransaction
-        type="electricity"
-        title="Airtime Purchase"
-        description="MTN 1.0GB N239.0 DATA topup topup with 08039343682"
-        price="₦7,150.00"
-      />
-      <IndividualTransaction
-        type="cable"
-        title="Airtime Purchase"
-        description="MTN 1.0GB N239.0 DATA topup topup with 08039343682"
-        price="₦7,150.00"
-      />
+          if (transactionDate !== currentDate) {
+            let value = (
+              <>
+                {transactionDate !== currentDate && (
+                  <div key={index}>
+                    <div className="h-6" />
+                    <p className="text-sm font-medium text-neutral300">
+                      {transactionDate}
+                    </p>
+                    <div className="h-4" />
+                  </div>
+                )}
+                <IndividualTransaction
+                  type={transaction.narration.split(" ")[0]}
+                  title={`${convertToSentenceCase(
+                    transaction.narration.split(" ")[0]
+                  )} Purchase`}
+                  description={truncateText(transaction.narration)}
+                  price={`₦ ${transaction.amount}`}
+                  transaction={transaction.transactionId}
+                />
+              </>
+            );
+
+            currentDate = transactionDate;
+            return value;
+          }
+
+          return (
+            <div key={index}>
+              <div className="h-4" />
+              <IndividualTransaction
+                type={transaction.narration.split(" ")[0]}
+                title={`${convertToSentenceCase(
+                  transaction.narration.split(" ")[0]
+                )} Purchase`}
+                description={truncateText(transaction.narration)}
+                price={`₦ ${transaction.amount}`}
+                transaction={transaction}
+              />
+            </div>
+          );
+        })
+      ) : (
+        <EmptyTransaction />
+      )}
+      <div className="h-10"></div>
     </Container>
   );
 };

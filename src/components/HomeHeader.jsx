@@ -10,9 +10,12 @@ import React, { useState } from "react";
 import HeaderCardLayout from "./HeaderCardLayout";
 import graph from "../assets/graph.svg";
 import Referral from "./overlays/Referral";
+import { useSelector } from "react-redux";
 
 const HomeHeader = () => {
   const [toggleReferral, setToggleReferral] = useState(false);
+
+  const wallet = useSelector((state) => state.wallet);
 
   return (
     <>
@@ -48,7 +51,7 @@ const HomeHeader = () => {
                 ₦
               </p>
               <p className="font-semibold text-gray-900 font-clash text-4xl">
-                1,310,000.00
+                {wallet?.data?.data?.balance.toFixed(2)}
               </p>
             </div>
             <div className="inline-flex space-x-2.5 items-start justify-start">

@@ -5,6 +5,8 @@ import reportWebVitals from './reportWebVitals';
 
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+
 // import ErrorPage from "./error-page";
 import "./index.css";
 
@@ -25,9 +27,14 @@ import ProtectedRoutes from './components/auth/ProtectedRoutes';
 import SignupGeneral from './components/auth/SignupGeneral';
 import SignupEmail from './components/auth/SignupEmail';
 import SignupPhone from './components/auth/SignupPhone';
-import SignupPassword from './components/auth/SignupPassword';
 import SignupPin from './components/auth/SignupPin';
 import Login from './Pages/Auth/Login';
+import SignupEmailOTP from './components/auth/SignupEmailOTP';
+import ForgotPassword from './Pages/Auth/ForgotPassword/ForgotPassword';
+import ForgotPasswordEmail from './Pages/Auth/ForgotPassword/ForgotPasswordEmail';
+import ForgotPasswordOtp from './Pages/Auth/ForgotPassword/ForgotPasswordOtp';
+import UpdatePassword from './Pages/Auth/ForgotPassword/UpdatePassword';
+import UpdateSuccess from './Pages/Auth/ForgotPassword/UpdateSuccess';
 
 
 
@@ -94,12 +101,12 @@ const router = createBrowserRouter([
         element: <SignupEmail />,
       },
       {
-        path: "/signup/phone-no",
-        element: <SignupPhone />,
+        path: "/signup/email-otp",
+        element: <SignupEmailOTP />,
       },
       {
-        path: "/signup/password",
-        element: <SignupPassword />,
+        path: "/signup/phone-no",
+        element: <SignupPhone />,
       },
       {
         path: "/signup/pin",
@@ -110,6 +117,29 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPassword />,
+    children: [
+      {
+        path: "/forgot-password",
+        element: <ForgotPasswordEmail />,
+      },
+      {
+        path: "/forgot-password/otp",
+        element: <ForgotPasswordOtp />,
+      },
+      {
+        path: "/forgot-password/update",
+        element: <UpdatePassword />,
+      },
+      {
+        path: "/forgot-password/update-success",
+        element: <UpdateSuccess />,
+      },
+
+    ]
   }
 ]);
 

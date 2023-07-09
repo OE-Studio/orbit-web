@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import orbitLogo from "../../assets/onboarding/orbitLogo.svg";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "../../components/Spinner";
+import { loginUser } from "../../features/loginActions";
+import ErrorMsg from "../../components/generalUtility/ErrorMsg";
 
 const Login = () => {
   const [buttonState, setButtonState] = useState(true);
   const navigate = useNavigate();
-
   const [formDetails, setFormDetails] = useState({
-    id: "",
+    identity: "",
     password: "",
   });
 
   useEffect(() => {
-    console.log(formDetails);
     let state = Object.values(formDetails).filter((d) => d === "");
 
     if (state.length > 0) {
@@ -28,6 +30,26 @@ const Login = () => {
     setFormDetails((formDetails) => ({
       ...copiedFormInputs,
     }));
+  };
+
+  const { error, success, isLoading } = useSelector((state) => state.login);
+
+  const dispatch = useDispatch();
+
+  const loginUserFunc = async () => {
+    const userInput = { ...formDetails };
+    await dispatch(loginUser(userInput)).then((payload) => {
+      if (payload.error) {
+        return;
+      } else {
+        let user = JSON.parse(sessionStorage.getItem("user"));
+        if (user) {
+          navigate("/");
+        }
+      }
+    });
+
+    // ../../
   };
 
   return (
@@ -61,7 +83,7 @@ const Login = () => {
                       id="username"
                       className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
                       onChange={(e) => {
-                        handleClick("id", e.target.value);
+                        handleClick("identity", e.target.value);
                       }}
                     />
                   </div>
@@ -92,29 +114,39 @@ const Login = () => {
                     disabled={buttonState}
                     onClick={(e) => {
                       e.preventDefault();
-                      localStorage.setItem("isLogged", true);
-                      navigate("../../", { replace: true });
+                      loginUserFunc();
                     }}
                   >
-                    {" "}
-                    Sign in{" "}
+                    {isLoading ? <Spinner color="#ffffff" /> : "Continue"}
                   </button>
                   <div className="h-6" />
-                  <p className="text-sm font-medium text-center text-gray-400">
+                  <button
+                    className="text-sm font-medium text-center text-gray-400"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/forgot-password");
+                    }}
+                  >
                     Forgot password?
-                  </p>
+                  </button>
                   <div className="h-[100px]" />
                   <button
                     className="w-full border border-[#D0D5DD] py-4 rounded-full font-clash font-medium  text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "
                     onClick={(e) => {
                       e.preventDefault();
-
                       navigate("../../signup");
                     }}
                   >
                     {" "}
                     Create account{" "}
                   </button>
+                  <div className="h-4"></div>
+                  {/* {success && (
+                    <p className="text-[#226523] rounded-lg mt-4 text-sm px-4 py-3 bg-[#c7ffc5]">
+                      {success}
+                    </p>
+                  )} */}
+                  {error && <ErrorMsg>{error}</ErrorMsg>}
                 </form>
               </div>
             </div>
