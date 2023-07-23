@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PinInput from "react-pin-input";
 
 const ForgotPasswordOtp = () => {
+  // eslint-disable-next-line
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [resend, setResend] = useState(false);

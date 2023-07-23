@@ -46,7 +46,7 @@ export const purchaseAirtime = async (userInput, pin) => {
             }
         })
 
-        return response
+        return response.data
     } catch (error) {
         console.log(error)
     }
@@ -71,7 +71,6 @@ export const validateMeter = async (userInput) => {
 }
 
 
-
 export const purchaseElectricity = async (userInput, pin) => {
     const token = JSON.parse(sessionStorage.getItem('loginToken'))
     console.log(token)
@@ -87,6 +86,66 @@ export const purchaseElectricity = async (userInput, pin) => {
 
         return response.data
     } catch (error) {
+        return error.response.data
+    }
+}
+
+
+
+
+export const transfertoFriends = async (userInput, pin) => {
+    const token = JSON.parse(sessionStorage.getItem('loginToken'))
+    console.log(token)
+    try {
+        const response = await axios({
+            method: 'POST',
+            url: `v1/users/transferToUser?token=${token}`,
+            data: userInput,
+            headers: {
+                pin: pin
+            }
+        })
+
+        return response.data
+    } catch (error) {
         return error.response.data.data
+    }
+}
+
+
+export const validateCable = async (userInput) => {
+    console.log(userInput)
+
+
+    try {
+        const response = await axios({
+            method: 'GET',
+            url: `v1/users/validate_cable?smart_card_number=${userInput.smart_card_number}&cable_plan_api_id=${userInput.cable_plan_api_id}`,
+            data: userInput,
+        })
+
+        return response
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const purchaseCable = async (userInput, pin) => {
+    const token = JSON.parse(sessionStorage.getItem('loginToken'))
+    console.log(token)
+    try {
+        const response = await axios({
+            method: 'POST',
+            url: `v1/users/purchaseCable?token=${token}`,
+            data: userInput,
+            headers: {
+                pin: pin
+            }
+        })
+
+        return response.data
+    } catch (error) {
+        return error.response.data
     }
 }

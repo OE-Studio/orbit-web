@@ -2,8 +2,11 @@ import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import chart from "../assets/images/chart.svg";
 import TransactionType from "./TransactionComponents/TransactionType";
-
-
+import { useSelector } from "react-redux";
+import { EmptyTransaction } from "./TransactionBody";
+import convertToSentenceCase from "../utils/convertToSentence";
+import { truncateText } from "../utils/TruncateText";
+import { format } from "date-fns";
 
 const TransactionCard = ({ type, title, desc, product, price }) => {
   return (
@@ -30,6 +33,14 @@ const TransactionCard = ({ type, title, desc, product, price }) => {
 };
 
 const RecentTransactions = () => {
+  let currentDate = null;
+
+  const { transactions } = useSelector((state) => state.transactions);
+
+  let recentTransactions = [...transactions]
+    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+    .slice(0, 6);
+
   return (
     <div className="flex-1 self-start bg-white border border-[#E5ECF5] rounded-[20px] p-7 space-y-6 font-inter">
       <div className="flex justify-between items-center">
@@ -69,97 +80,66 @@ const RecentTransactions = () => {
       </div>
       <div className="w-full h-[1px] bg-neutral200" />
 
-      <div className="space-y-4">
-        <p className="text-sm font-medium leading-tight text-neutral300">
-          9 NOV 2022
-        </p>
-        <div className="w-full h-[1px] bg-neutral200" />
-        <TransactionCard
-          type="airtime"
-          title="Airtime purchase"
-          desc="08136143995"
-          price="₦7,150.00"
-          product="MTN"
-        />
-        <div className="w-full h-[1px] bg-neutral200" />
-        <TransactionCard
-          type="data"
-          title="Data Purchase"
-          desc="08136143995"
-          price="₦7,150.00"
-          product="Glo"
-        />
-        <div className="w-full h-[1px] bg-neutral200" />
-        <TransactionCard
-          type="electricity"
-          title="IBDEC Prepaid"
-          desc="54140829562"
-          price="₦7,150.00"
-          product="Prepaid"
-        />
-        <div className="w-full h-[1px] bg-neutral200" />
-        <TransactionCard
-          type="cable"
-          title="DSTV"
-          desc="54140829562"
-          price="₦7,150.00"
-          product="Compact plus"
-        />
-        <div className="w-full h-[1px] bg-neutral200" />
-      </div>
+      <div>
+        {transactions?.length > 0 ? (
+          recentTransactions.map((transaction, index) => {
+            const transactionDate = format(
+              Date.parse(transaction.updatedAt),
+              "dd MMM, yyyy"
+            );
 
-      <div className="space-y-4">
-        <p className="text-sm font-medium leading-tight text-neutral300">
-          8 NOV 2022
-        </p>
-        <div className="w-full h-[1px] bg-neutral200" />
-        <TransactionCard
-          type="airtime"
-          title="Airtime purchase"
-          desc="08136143995"
-          price="₦7,150.00"
-          product="MTN"
-        />
-        <div className="w-full h-[1px] bg-neutral200" />
-        <TransactionCard
-          type="data"
-          title="Data Purchase"
-          desc="08136143995"
-          price="₦7,150.00"
-          product="Glo"
-        />
-        <div className="w-full h-[1px] bg-neutral200" />
-        <TransactionCard
-          type="electricity"
-          title="IBDEC Prepaid"
-          desc="54140829562"
-          price="₦7,150.00"
-          product="Prepaid"
-        />
-        <div className="w-full h-[1px] bg-neutral200" />
-        <TransactionCard
-          type="cable"
-          title="DSTV"
-          desc="54140829562"
-          price="₦7,150.00"
-          product="Compact plus"
-        />
-        <div className="w-full h-[1px] bg-neutral200" />
-        <TransactionCard
-          type="cable"
-          title="DSTV"
-          desc="54140829562"
-          price="₦7,150.00"
-          product="Compact plus"
-        />
-        <div className="w-full h-[1px] bg-neutral200" />
-        <TransactionCard
-          type="cable"
-          title="DSTV"
-          desc="54140829562"
-          price="₦7,150.00"
-          product="Compact plus"
-        />
+            if (transactionDate !== currentDate) {
+              let value = (
+                <>
+                  {transactionDate !== currentDate && (
+                    <div key={index}>
+                      <div className="h-6" />
+                      <p className="text-sm font-medium text-neutral300">
+                        {transactionDate}
+                      </p>
+                    </div>
+                  )}
+                  <div className="h-4" />
+                  <div className="w-full h-[1px] bg-neutral200" />
+                  <div className="h-4" />
+                  <TransactionCard
+                    type={transaction.narration.split(" ")[0].toLowerCase()}
+                    title={`${convertToSentenceCase(
+                      transaction.narration.split(" ")[0]
+                    )} Purchase`}
+                    desc={truncateText(transaction.narration)}
+                    product={""}
+                    price={`₦ ${transaction.amount}`}
+                    transaction={transaction}
+                  />
+                </>
+              );
+
+              currentDate = transactionDate;
+              return value;
+            }
+
+            return (
+              <div key={index}>
+                <div className="h-4" />
+                  <div className="w-full h-[1px] bg-neutral200" />
+                  <div className="h-4" />
+                <TransactionCard
+                  type={transaction.narration.split(" ")[0].toLowerCase()}
+                  title={`${convertToSentenceCase(
+                    transaction.narration.split(" ")[0]
+                  )} Purchase`}
+                  desc={truncateText(transaction.narration)}
+                  product={""}
+                  price={`₦ ${transaction.amount}`}
+                  transaction={transaction}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <EmptyTransaction />
+        )}
       </div>
     </div>
   );

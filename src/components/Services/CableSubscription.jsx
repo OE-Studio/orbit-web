@@ -5,47 +5,75 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronUpIcon,
-  ClipboardDocumentIcon,
   GlobeAltIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
-import { fetchDataId, purchaseAirtime } from "./ServiceApi";
+import { fetchDataId, purchaseData, validateCable } from "./ServiceApi";
 import PrimaryButton from "../Inputs/PrimaryButton";
 import PinDialog from "../TransactionPin/PinDialog";
 import { Spinner } from "../Spinner";
 import SuccessPage from "../TransactionStatus/TransactionSuccess";
 import TransactionFailed from "../TransactionStatus/TransactionFailed";
-import { MdOutlinePhonelinkRing } from "react-icons/md";
 import Receipt from "../Receipts/Receipt";
 import { fetchTransactions } from "../../features/TransactionsSlice";
+import { MdRouter, MdSupportAgent } from "react-icons/md";
+import { truncateText } from "../../utils/TruncateText";
 
-const PurchaseAirtime = ({ toggle, setToggle }) => {
+const CableSubscription = ({ toggle, setToggle }) => {
   const [network, setNetwork] = useState(null);
   const [networkDrop, setNetworkDrop] = useState(false);
   const [plan, setPlan] = useState({});
   const [planDrop, setPlanDrop] = useState(false);
-  const [balanceCheckDrop, setBalanceCheckDrop] = useState(false);
 
-  const [provider, setProvider] = useState(null);
-  const [currentProducts, setCurrentProducts] = useState(null);
-  const [mobile_number, setMobile_number] = useState("");
-  const [amount, setAmount] = useState("");
+  const [dataProvider, setDataProvider] = useState(null);
+  const [dataProducts, setDataProducts] = useState(null);
+
   const [step, setStep] = useState(0);
 
   const setAllProvider = async () => {
     const response = await fetchDataId();
-    setProvider(response.result.airtime_provider);
-    setCurrentProducts(response.result.airtime_products);
+    setDataProvider(response.result.cabelTV_provider);
+    setDataProducts(response.result.cableTV_products);
   };
 
   useEffect(() => {
     setAllProvider();
   }, []);
 
+  // eslint-disable-next-line
   const copyText = (value) => {
     navigator.clipboard.writeText(value);
   };
+
+  const [meter_number, setMeter_number] = useState("");
+  const [meterDetail, setMeterDetail] = useState(null);
+  const [meterLoading, setMeterLoading] = useState(false);
+
+  const validMeter = async () => {
+    setMeterLoading(true);
+    setMeterDetail("");
+    try {
+      const response = await validateCable({
+        smart_card_number: meter_number,
+        cable_plan_api_id: network.id,
+      });
+      setMeterLoading(false);
+      setMeterDetail(response.data.customer_name);
+      console.log(response.data);
+    } catch (error) {}
+  };
+
+  React.useEffect(() => {
+    const getData = setTimeout(() => {
+      if (meter_number.length === 11 || meter_number.length === 10) {
+        validMeter();
+      }
+    }, 500);
+
+    return () => clearTimeout(getData);
+    // eslint-disable-next-line
+  }, [meter_number, network]);
 
   // PIN
   const [isOpen, setIsOpen] = useState(false);
@@ -57,20 +85,24 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
   const [error, setError] = useState("");
   const [failedMsg, setFailedMsg] = useState("");
 
+  const dispatch = useDispatch();
+
   const onClose = () => {
     setIsOpen(!isOpen);
   };
+
+  // Receipt
+  const [toggleReceipt, setToggleReceipt] = useState(false);
+  const [transaction, setTransaction] = useState("");
+  // "5697c4c9-78e4-4c21-9d9c-92d439a2b71e"
 
   const { products } = useSelector((state) => state.product);
 
   const wallet = useSelector((state) => state.wallet);
 
   let data_product = products.filter((item) => {
-    return item.product === "Airtime";
+    return item.product === "Cable Plan";
   });
-  const [toggleReceipt, setToggleReceipt] = useState(false);
-  const [transaction, setTransaction] = useState("");
-  const dispatch = useDispatch();
 
   return (
     <>
@@ -86,9 +118,9 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
         {step === 0 ? (
           <div className="flex justify-between items-center">
             <div className="flex gap-2">
-              <MdOutlinePhonelinkRing className=" h-[20px] text-blue25" />
+              <MdRouter className=" h-[20px] text-blue25" />
               <p className="text-sm font-medium leading-normal text-grey400">
-                Purchase Airtime
+                Cable subscription
               </p>
             </div>
             <div
@@ -124,61 +156,25 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
           {/* box */}
           <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-10">
             {step === 0 && (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setError("");
-                  setStep(1);
-                }}
-                className="mx-auto w-[353px] space-y-6"
-              >
-                {/* Balance USSD */}
-                <div className="relative">
-                  <div
-                    className="bg-neutral100 flex px-2.5 py-[14px] rounded-lg justify-between items-center"
-                    onClick={() => {
-                      setBalanceCheckDrop(!balanceCheckDrop);
-                    }}
-                  >
-                    <p className="text-[14px] text-neutral300">
-                      USD data balance check
+              <div className="mx-auto w-[353px] space-y-6">
+                {/* Support */}
+                <div>
+                  <div className="bg-purple5 border border-purple50 rounded-t-lg p-4 space-y-2.5">
+                    <div className="rounded-full w-10 h-10 bg-purple50 center">
+                      <MdSupportAgent className="text-2xl text-purple500" />
+                    </div>
+                    <p className="text-purple300 text-sm">
+                      For assistance, you can contact the DSTV/GOTV Customers
+                      Care unit on 01-2703232/08039003788 or on the toll-free
+                      lines: 08149860333, 07080630333 and 09090630333
                     </p>
-                    <div className="flex items-center justify-center h-6 w-6 ">
-                      {balanceCheckDrop ? (
-                        <ChevronUpIcon className="h-4 text-grey150" />
-                      ) : (
-                        <ChevronDownIcon className="h-4 text-grey150" />
-                      )}
-                    </div>
                   </div>
-                  {balanceCheckDrop && (
-                    <div className="absolute top-full mt-1 p-2 space-y-2 bg-white w-full rounded-lg z-10">
-                      <div
-                        className="flex rounded-full px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
-                        onClick={() => {
-                          copyText("*461*4#");
-                        }}
-                      >
-                        <p className="text-grey200 text-[14px] font-medium">
-                          MTN [SME] *461*4#
-                        </p>
-
-                        <ClipboardDocumentIcon className="h-5 text-neutral300" />
-                      </div>
-                      <div
-                        className="flex rounded-full px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
-                        onClick={() => {
-                          copyText("*131*4#");
-                        }}
-                      >
-                        <p className="text-grey200 text-[14px] font-medium">
-                          MTN [Gifting] *131*4# or *460*260#
-                        </p>
-
-                        <ClipboardDocumentIcon className="h-5 text-neutral300" />
-                      </div>
-                    </div>
-                  )}
+                  <div className="bg-purple5 border border-purple50 rounded-b-lg p-4 space-y-2.5 -mt-1">
+                    <p className="text-purple300 text-sm">
+                      Contact the StarTimes Customers Care unit on 09-4618888,
+                      01-4618888
+                    </p>
+                  </div>
                 </div>
 
                 {/* Network */}
@@ -190,7 +186,9 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                     }}
                   >
                     <div className="space-y-2">
-                      <p className="text-[11px] text-text100">Network</p>
+                      <p className="text-[11px] text-text100">
+                        Cable TV Service Provide
+                      </p>
                       <p className="text-[16px] text-neutral300">
                         {network?.name || "Select"}
                       </p>
@@ -204,14 +202,15 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                     </div>
                   </div>
                   {networkDrop && (
-                    <div className="absolute top-full mt-1 p-2 space-y-2 bg-white w-full rounded-lg z-[15]">
-                      {provider?.map((networkItem, index) => {
+                    <div className="absolute top-full mt-1 p-2 space-y-2 bg-white w-full rounded-lg z-10">
+                      {dataProvider?.map((networkItem, index) => {
                         return (
                           <div
                             className="flex rounded-full px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
                             key={index}
                             onClick={() => {
                               setNetwork(networkItem);
+
                               setNetworkDrop(false);
                             }}
                           >
@@ -231,7 +230,39 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                   )}
                 </div>
 
-                {/* Airtime Type */}
+                {/* Cable SmartCard Number */}
+                <div>
+                  <div
+                    className={`bg-neutral100 flex p-2.5 rounded-t-lg justify-between items-center ${
+                      error ? "border border-red400" : ""
+                    }`}
+                  >
+                    <div className="space-y-2">
+                      <p className="text-[11px] text-text100">
+                        Smart Card number / IUC number
+                      </p>
+                      <input
+                        type="number"
+                        value={meter_number}
+                        placeholder="000 0000 0000"
+                        className="text-neutral300 focus:outline-none w-full bg-transparent"
+                        onChange={(e) => {
+                          setMeter_number(e.target.value);
+                        }}
+                      />
+                    </div>
+                    {meterLoading ? <Spinner color="#00AA61" /> : null}
+                  </div>
+                  <div className="flex justify-between items-center border border-neutral100 border-t-0 rounded-b-lg">
+                    <div className="flex gap-1 px-4 py-2 h-9">
+                      <p className="text-xs text-text100">
+                        {meterDetail && truncateText(meterDetail, 40)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Plan */}
                 <div className="relative">
                   <div
                     className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center"
@@ -240,13 +271,9 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                     }}
                   >
                     <div className="space-y-2">
-                      <p className="text-[11px] text-text100">Airtime Type</p>
+                      <p className="text-[11px] text-text100">Cable PLAN</p>
                       <p className="text-[16px] text-neutral300">
-                        {`${plan?.description ? plan.description + " " : ""}${
-                          plan?.airtime_type
-                            ? plan.airtime_type.toUpperCase()
-                            : ""
-                        }` || "Select"}
+                        {plan?.description || "Select"}
                       </p>
                     </div>
                     <div className="flex items-center justify-center h-6 w-6 ">
@@ -258,125 +285,66 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                     </div>
                   </div>
                   {planDrop && (
-                    <div className="absolute top-full mt-1 p-2 space-y-4 bg-white w-full rounded-lg z-10 max-h-[350px] overflow-y-scroll">
-                      {network &&
-                        data_product
-                          .filter((item) => {
+                    <div className="absolute top-full mt-1 p-2 space-y-4 bg-white w-full rounded-lg z-[5] max-h-[350px] overflow-y-scroll">
+                      {data_product
+                        .filter((item) => {
+                          if (network) {
                             return (
                               item.product_provider ===
                               network.name.toUpperCase()
                             );
-                          })
-                          .map((networkItem, index) => {
-                            const currentProduct = currentProducts.find(
-                              (item) => item.id === networkItem.id
-                            );
+                          }
+                          return true;
+                        })
+                        .map((networkItem, index) => {
+                          const currentProduct = dataProducts.find(
+                            (item) => item.id === networkItem.id
+                          );
 
-                            return (
-                              <div
-                                className="flex rounded-md px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
-                                key={index}
-                                onClick={() => {
-                                  setPlan({
-                                    ...networkItem,
-                                    ...currentProduct,
-                                  });
-                                  setPlanDrop(false);
-                                }}
-                              >
-                                <div>
-                                  <p className="text-grey400 text-[14px] font-medium">
-                                    {currentProduct?.description}{" "}
-                                    {currentProduct?.airtime_type.toUpperCase()}
-                                  </p>
-                                  <div className="h-2" />
-                                  <p className="text-neutral-300 text-[14px] font-medium">
-                                    ₦{networkItem.price}
-                                  </p>
-                                </div>
-
-                                <div className="h-4 w-4 border border-[B8C0CC] rounded-full center">
-                                  {networkItem === network && (
-                                    <div className="w-2.5 h-2.5 rounded-full bg-neutral300" />
-                                  )}
-                                </div>
+                          return (
+                            <div
+                              className="flex rounded-md px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
+                              key={index}
+                              onClick={() => {
+                                setPlan({
+                                  ...networkItem,
+                                  ...currentProduct,
+                                });
+                                setPlanDrop(false);
+                              }}
+                            >
+                              <div>
+                                <p className="text-grey400 text-[14px] font-medium">
+                                  {currentProduct?.description}{" "}
+                                  {currentProduct?.cable_type.toUpperCase()}
+                                </p>
+                                <div className="h-2" />
+                                <p className="text-neutral-300 text-[14px] font-medium">
+                                  ₦{networkItem.price}
+                                </p>
                               </div>
-                            );
-                          })}
+
+                              <div className="h-4 w-4 border border-[B8C0CC] rounded-full center">
+                                {networkItem === network && (
+                                  <div className="w-2.5 h-2.5 rounded-full bg-neutral300" />
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
                     </div>
                   )}
                 </div>
 
-                {/* Mobile Number */}
-                <div>
-                  <div>
-                    <div
-                      className={`bg-neutral100 flex p-2.5 rounded-lg justify-between items-center ${
-                        error ? "border border-red400" : ""
-                      }`}
-                    >
-                      <div className="space-y-2">
-                        <p className="text-[11px] text-text100">
-                          Mobile number
-                        </p>
-                        <input
-                          type="numeric"
-                          value={mobile_number}
-                          placeholder="000 0000 0000"
-                          className="text-neutral300 focus:outline-none w-full bg-transparent"
-                          onChange={(e) => {
-                            setMobile_number(e.target.value);
-                          }}
-                        />
-                      </div>
-                    </div>
-                    {error && (
-                      <p className="mt-2 text-red400 text-sm">{error}</p>
-                    )}
-                  </div>
-                  <div className="h-1.5" />
-                  {/* Validate Phone number
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-1">
-                    <input type="checkbox" name="validate_phone" id="validate_phone" disabled={false} className=""/>
-                   <p className="text-text100 text-xs font-inter">Validate mobile number</p>                  
-                  </div>
-                </div> */}
-                </div>
-
-                <div>
-                  <div
-                    className={`bg-neutral100 flex p-2.5 rounded-lg justify-between items-center ${
-                      error ? "border border-red400" : ""
-                    }`}
-                  >
-                    <div className="space-y-2">
-                      <p className="text-[11px] text-text100">Amount</p>
-                      <input
-                        type="number"
-                        value={amount}
-                        // min="50"
-                        placeholder="0.00"
-                        className="text-neutral300 focus:outline-none w-full bg-transparent"
-                        onChange={(e) => {
-                          setAmount(e.target.value);
-                        }}
-                      />
-                    </div>
-                  </div>
-                  {error && <p className="mt-2 text-red400 text-sm">{error}</p>}
-                </div>
-
-                {/* Amount to pay */}
+                {/* Amount */}
                 <div className="rounded-lg  overflow-hidden">
                   <div className="bg-neutral100 flex p-2.5 justify-between items-center ">
                     <div className="space-y-2">
                       <p className="text-[11px] text-text100">Amount to pay</p>
                       <p className="text-[16px] text-neutral300">
-                        ₦ {(Number(plan?.price) * amount) / 100 || "Select"}
+                        ₦ {plan?.price || "Select"}
                       </p>
                     </div>
-                    {/* discount */}
                     {/* <div className="flex items-center gap-1 text-primaryColor py-1 px-2 bg-white rounded-full">
                       <p>2% Discount</p>
                       <GiftIcon className="h-5" />
@@ -385,14 +353,12 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                   <div
                     className={`p-2 
                   ${
-                    (Number(plan?.price) * amount) / 100 >
-                    wallet?.data?.data.balance
+                    plan.price > wallet?.data?.data.balance
                       ? "bg-red500"
                       : "bg-green700"
                   } flex items-center gap-2 text-white font-inter text-xs`}
                   >
-                    {(Number(plan?.price) * amount) / 100 >
-                    wallet?.data?.data.balance ? (
+                    {plan.price > wallet?.data?.data.balance ? (
                       <p>You do not have sufficient balance</p>
                     ) : (
                       <>
@@ -428,17 +394,19 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                   disabled={
                     !(
                       plan &&
-                      mobile_number &&
+                      meter_number &&
                       network &&
-                      amount &&
-                      (Number(plan?.price) * amount) / 100 <
-                        wallet?.data?.data.balance
+                      meterDetail &&
+                      plan.price < wallet?.data?.data.balance
                     )
                   }
-                  type="submit"
                   label={"Continue"}
+                  onClick={() => {
+                    setError("");
+                    setStep(1);
+                  }}
                 />
-              </form>
+              </div>
             )}
             {step === 1 && (
               <div className="mx-auto w-[353px] space-y-6">
@@ -453,14 +421,10 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                   </div>
 
                   <div className="w-full h-[1px] bg-neutral200" />
-
-                  <div className="w-full h-[1px] bg-neutral200" />
                   <div className=" flex p-2.5 justify-between items-center ">
-                    <p className="text-[11px] text-text100 text-xs">
-                      Mobile number
-                    </p>
+                    <p className="text-[11px] text-text100 text-xs">Data</p>
                     <p className="text-[11px] text-neutral300 text-xs">
-                      {mobile_number}
+                      {plan?.description}
                     </p>
                   </div>
                   <div className="w-full h-[1px] bg-neutral200" />
@@ -500,17 +464,17 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
         onClick={async () => {
           setLoading(true);
           onClose();
-          console.log(plan);
           let userInput = {
-            mobile_number: mobile_number,
-            network_api_id: network.id,
-            airtime_api_id: plan.id,
-            amount: amount,
+            smart_card_number: meter_number,
+            cable_plan_api_id: plan.id,
+            validated_customer_name: meterDetail,
           };
+          console.log(userInput);
 
           try {
-            const response = await purchaseAirtime(userInput, pin);
+            const response = await purchaseData(userInput, pin);
             console.log(response);
+            setLoading(false);
 
             if (response && response.success) {
               console.log(response.trxDetails.transactionId);
@@ -527,6 +491,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                 response.message === "Incorrect transaction pin" ||
                 response.message === "input correct transaction pin"
               ) {
+                setPin("");
                 setIsOpen(true);
                 setPinError(true);
                 return;
@@ -560,7 +525,6 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
           window.location.reload();
         }}
         onReceipt={() => {
-          console.log(transaction)
           setToggle(false);
           setIsOpenSuccess(!isOpenSuccess);
           setToggleReceipt(true);
@@ -587,4 +551,4 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
   );
 };
 
-export default PurchaseAirtime;
+export default CableSubscription;

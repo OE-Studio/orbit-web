@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   BoltIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronUpIcon,
-  GiftIcon,
   GlobeAltIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
@@ -19,6 +18,8 @@ import SuccessPage from "../TransactionStatus/TransactionSuccess";
 import TransactionFailed from "../TransactionStatus/TransactionFailed";
 import { MdSupportAgent } from "react-icons/md";
 import { truncateText } from "../../utils/TruncateText";
+import Receipt from "../Receipts/Receipt";
+import { fetchTransactions } from "../../features/TransactionsSlice";
 
 const minimumAmount = [
   {
@@ -71,6 +72,7 @@ const Electricity = ({ toggle, setToggle }) => {
   const [meter_number, setMeter_number] = useState("");
   const [amount, setAmount] = useState("");
   const [step, setStep] = useState(0);
+  const [mobile_number, setMobile_number] = useState("");
 
   const setAllProvider = async () => {
     const response = await fetchDataId();
@@ -82,10 +84,6 @@ const Electricity = ({ toggle, setToggle }) => {
     setAllProvider();
   }, []);
 
-  const copyText = (value) => {
-    navigator.clipboard.writeText(value);
-  };
-
   const [meterDetail, setMeterDetail] = useState(null);
   const [meterLoading, setMeterLoading] = useState(false);
 
@@ -96,8 +94,19 @@ const Electricity = ({ toggle, setToggle }) => {
         metre_number: meter_number,
         electricity_plan_api_id: plan.id,
       });
+
+      if (response.data.success) {
+        setMeterDetail(response.data.customer);
+      }
+
+      if (!response.data.success) {
+        let response = {
+          customerName: "Invalid Customer Detail",
+        };
+        setMeterDetail({ ...response });
+      }
+
       setMeterLoading(false);
-      setMeterDetail(response.data.customer);
       console.log(response.data);
     } catch (error) {}
   };
@@ -117,7 +126,7 @@ const Electricity = ({ toggle, setToggle }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenSuccess, setIsOpenSuccess] = useState(false);
   const [isOpenFailed, setIsOpenFailed] = useState(false);
-  const [isOpenReceipt, setIsOpenReceipt] = useState(false);
+
   const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
   const [pinError, setPinError] = useState(false);
@@ -135,9 +144,19 @@ const Electricity = ({ toggle, setToggle }) => {
   let data_product = products.filter((item) => {
     return item.product === "Electricity";
   });
+  const [toggleReceipt, setToggleReceipt] = useState(false);
+  const [transaction, setTransaction] = useState("");
+  const dispatch = useDispatch();
 
   return (
     <>
+      {toggleReceipt ? (
+        <Receipt
+          transaction={transaction}
+          setToggle={setToggleReceipt}
+          toggle={toggleReceipt}
+        />
+      ) : null}
       <SideBarWrapper toggle={toggle}>
         {/* Header */}
         {step === 0 ? (
@@ -360,7 +379,7 @@ const Electricity = ({ toggle, setToggle }) => {
                   )}
                 </div>
 
-                {/* Elctricity Meter Number */}
+                {/* Electricity Meter Number */}
                 <div>
                   <div
                     className={`bg-neutral100 flex p-2.5 rounded-t-lg justify-between items-center ${
@@ -369,7 +388,7 @@ const Electricity = ({ toggle, setToggle }) => {
                   >
                     <div className="space-y-2">
                       <p className="text-[11px] text-text100">
-                        Elctricity Meter Number
+                        Electricity Meter Number
                       </p>
                       <input
                         type="numeric"
@@ -394,10 +413,48 @@ const Electricity = ({ toggle, setToggle }) => {
                     <div className="flex gap-1 px-4 py-2 h-9">
                       <p className="text-xs text-text100">
                         {meterDetail &&
+                          meterDetail?.customerAddress &&
                           truncateText(meterDetail?.customerAddress, 40)}
                       </p>
                     </div>
                   </div>
+                </div>
+
+                {/* Mobile Number */}
+                <div>
+                  <div>
+                    <div
+                      className={`bg-neutral100 flex p-2.5 rounded-lg justify-between items-center ${
+                        error ? "border border-red400" : ""
+                      }`}
+                    >
+                      <div className="space-y-2">
+                        <p className="text-[11px] text-text100">
+                          Mobile number
+                        </p>
+                        <input
+                          type="number"
+                          value={mobile_number}
+                          placeholder="000 0000 0000"
+                          className="text-neutral300 focus:outline-none w-full bg-transparent"
+                          onChange={(e) => {
+                            setMobile_number(e.target.value);
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {error && (
+                      <p className="mt-2 text-red400 text-sm">{error}</p>
+                    )}
+                  </div>
+                  <div className="h-1.5" />
+                  {/* Validate Phone number
+                <div className="flex justify-between items-center">
+                  <div className="flex gap-1">
+                    <input type="checkbox" name="validate_phone" id="validate_phone" disabled={false} className=""/>
+                   <p className="text-text100 text-xs font-inter">Validate mobile number</p>                  
+                  </div>
+                </div> */}
                 </div>
 
                 {/* Amount to pay */}
@@ -418,10 +475,10 @@ const Electricity = ({ toggle, setToggle }) => {
                         />
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 text-primaryColor py-1 px-2 bg-white rounded-full">
+                    {/* <div className="flex items-center gap-1 text-primaryColor py-1 px-2 bg-white rounded-full">
                       <p>2% Discount</p>
                       <GiftIcon className="h-5" />
-                    </div>
+                    </div> */}
                   </div>
                   <div
                     className={`p-2 
@@ -467,9 +524,11 @@ const Electricity = ({ toggle, setToggle }) => {
                   disabled={
                     !(
                       plan &&
+                      mobile_number &&
                       meter_number &&
                       meterDetail &&
-                      network &&
+                      meterDetail.customerAddress &&
+                      meterDetail.customerName && network &&
                       amount &&
                       amount < wallet?.data?.data.balance
                     )
@@ -495,7 +554,6 @@ const Electricity = ({ toggle, setToggle }) => {
                       {network?.name}
                     </p>
                   </div>
-
                   <div className="w-full h-[1px] bg-neutral200" />
                   <div className=" flex p-2.5 justify-between items-center ">
                     <p className="text-[11px] text-text100 text-xs">
@@ -515,7 +573,6 @@ const Electricity = ({ toggle, setToggle }) => {
                     </p>
                   </div>
                   <div className="w-full h-[1px] bg-neutral200" />
-
                   <div className=" flex p-2.5 justify-between items-center ">
                     <p className="text-[11px] text-text100 text-xs">
                       Amount to pay
@@ -532,6 +589,14 @@ const Electricity = ({ toggle, setToggle }) => {
                     </p>
                   </div>
                   <div className="w-full h-[1px] bg-neutral200" />
+                  <div className=" flex p-2.5 justify-between items-center ">
+                    <p className="text-[11px] text-text100 text-xs">
+                      Mobile number
+                    </p>
+                    <p className="text-[11px] text-neutral300 text-xs">
+                      {mobile_number}
+                    </p>
+                  </div>
                   <div className="w-full h-[1px] bg-neutral200" />
                   <div className=" flex p-2.5 justify-between items-center ">
                     <p className="text-[11px] text-text100 text-xs">Address</p>
@@ -569,6 +634,7 @@ const Electricity = ({ toggle, setToggle }) => {
           onClose();
           let userInput = {
             metre_number: meter_number.toString(),
+            phone_number: mobile_number,
             electricity_plan_api_id: plan.id,
             validated_customer_name: meterDetail.customerName,
             validated_address: meterDetail.customerAddress,
@@ -578,10 +644,14 @@ const Electricity = ({ toggle, setToggle }) => {
 
           try {
             const response = await purchaseElectricity(userInput, pin);
-            console.log(response.data);
+            console.log(response);
 
             if (response && response.success) {
+              console.log(response.trxDetails.transactionId);
+              setTransaction(response.trxDetails.transactionId);
+              dispatch(fetchTransactions());
               setIsOpenSuccess(true);
+              return;
             }
 
             if (response && !response.success) {
@@ -621,6 +691,13 @@ const Electricity = ({ toggle, setToggle }) => {
         onDone={() => {
           setToggle(!toggle);
           setIsOpenSuccess(!isOpenSuccess);
+          window.location.reload();
+        }}
+        onReceipt={() => {
+          console.log(transaction);
+          setToggle(false);
+          setIsOpenSuccess(!isOpenSuccess);
+          setToggleReceipt(true);
         }}
       />
 

@@ -10,7 +10,7 @@ const SignupEmail = () => {
   // eslint-disable-next-line
   const navigate = useNavigate();
 
-  const { error, success, loading } = useSelector((state) => state.auth);
+  const { error, loading } = useSelector((state) => state.auth);
 
   // Input Formation
   const [email, setEmail] = useState("");

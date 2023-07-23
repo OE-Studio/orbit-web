@@ -1,16 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 
 import {
   ArrowRightIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  ClipboardDocumentIcon,
-  DocumentDuplicateIcon,
-  UserGroupIcon,
+    UserGroupIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
-import referralsData from "../../data/ReferralData";
+// import referralsData from "../../data/ReferralData";
 import SideBarWrapper from "../SideBarWrapper";
 import document from "../../assets/images/kyc/document.svg";
 import PrimaryButton from "../Inputs/PrimaryButton";
@@ -22,7 +18,6 @@ import { updateIdentity } from "./KycApi";
 import { Spinner } from "../Spinner";
 import check from "../../assets/images/kyc/checkBox.svg";
 import SelfieCapture from "./Selfie";
-import { useNavigate } from "react-router-dom";
 
 const KYCStepOne = ({ setStep, setDocumentType, step }) => {
   return (
@@ -329,8 +324,6 @@ const KYCStepFour = ({ setStep }) => {
 };
 
 const KYCStepFive = ({ setStep }) => {
-  const navigate = useNavigate();
-
   return (
     <motion.div
       key={"step-1"}

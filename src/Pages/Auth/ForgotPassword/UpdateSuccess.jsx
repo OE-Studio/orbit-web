@@ -1,14 +1,10 @@
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
-import React, { useEffect, useState } from "react";
-import { Spinner } from "../../../components/Spinner";
-import { updatePassword } from "./ForgotPasswordApi";
+
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "@lottiefiles/lottie-player";
 
 const UpdateSuccess = () => {
   // Input Formation
-
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   return (

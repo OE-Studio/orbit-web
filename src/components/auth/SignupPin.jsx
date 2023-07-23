@@ -8,6 +8,7 @@ const SignupPin = () => {
   // eslint-disable-next-line
   const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
+  // eslint-disable-next-line
   const [confirmPin, setConfirmPin] = useState("");
   const [displayConfirmPin, setDisplayConfirmPin] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -92,7 +93,7 @@ const SignupPin = () => {
                     return;
                   }
 
-                  const setPin = await axios(
+                  await axios(
                     {
 
                       url:`v1/users/setPin?token=${JSON.parse(

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PinInput from "react-pin-input";
 import axios from "../../api/axios";
 import { Spinner } from "../Spinner";
-import { useSelector } from "react-redux";
+
 
 const SignupPhone = () => {
   const navigate = useNavigate();
@@ -13,7 +13,9 @@ const SignupPhone = () => {
   const [inputSet, setInputSet] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  // eslint-disable-next-line
   const [presentError, setPresentError] = useState(false);
+  // eslint-disable-next-line
   const [errorMsg, setErrorMsg] = useState("");
 
 
@@ -75,6 +77,7 @@ const SignupPhone = () => {
             const parsedNumber = parseInt(phoneNumber)
             console.log('+234'+parsedNumber)
             setLoading(true);
+            // eslint-disable-next-line
             const setPhoneNumber = await axios
               .patch(
                 `users/setPhoneNumber?token=${JSON.parse(
@@ -147,7 +150,7 @@ const SignupPhone = () => {
               className="text-[#5DADEC] cursor-pointer "
               onClick={async () => {
                 setLoading(true);
-                const newOTP = await axios
+                 await axios
                   .put("/users/resendSMSotp", {
                     accountId: JSON.parse(sessionStorage.getItem("userInfo"))
                       .userId,

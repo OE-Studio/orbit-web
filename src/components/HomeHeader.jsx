@@ -8,9 +8,9 @@ import {
 } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 import HeaderCardLayout from "./HeaderCardLayout";
-import graph from "../assets/graph.svg";
 import Referral from "./overlays/Referral";
 import { useSelector } from "react-redux";
+import TransactionChart from "./TransactionChart";
 
 const HomeHeader = () => {
   const [toggleReferral, setToggleReferral] = useState(false);
@@ -64,8 +64,8 @@ const HomeHeader = () => {
             </div>
           </div>
           {/* Graph */}
-          <div className="">
-            <img src={graph} alt="" />
+          <div className="w-[575px]">
+            <TransactionChart/>
           </div>
         </div>
 

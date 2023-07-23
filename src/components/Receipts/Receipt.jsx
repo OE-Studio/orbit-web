@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import SideBarWrapper from "../SideBarWrapper";
-import { MdOutlinePhonelinkRing } from "react-icons/md";
+
 import {
   ArrowDownOnSquareIcon,
   CheckBadgeIcon,
@@ -16,7 +16,7 @@ import convertToSentenceCase from "../../utils/convertToSentence";
 import transactionImg from "../../assets/empty-state/emptyTransaction.svg";
 import cut from "../../assets/receipt/bottom.svg";
 import html2canvas from "html2canvas";
-import html2pdf from "html2pdf.js";
+// import html2pdf from "html2pdf.js";
 
 export const ReceiptHeader = ({
   bgImg,
@@ -91,11 +91,7 @@ function downloadImage(imageData) {
   link.click();
 }
 
-const Receipt = ({
-  transaction,
-  toggle,
-  setToggle,
-}) => {
+const Receipt = ({ transaction, toggle, setToggle }) => {
   const { transactions, status } = useSelector((state) => state.transactions);
 
   const [current, setCurrent] = useState(null);
@@ -106,6 +102,7 @@ const Receipt = ({
       let selected = transactions.find((item) => {
         return item.transactionId === transaction;
       });
+      console.log(selected);
       setCurrent(selected);
     }
     // eslint-disable-next-line
@@ -196,6 +193,334 @@ const Receipt = ({
       </>
     );
   }
+
+  // Airtime Receipt
+  if (current?.narration.startsWith("airtime")) {
+    receiptBody = (
+      <>
+        <div className="max-w-[350px] mx-auto">
+          <ReceiptHeader
+            topLabel={"Airtime"}
+            topDesc={
+              <>
+                ₦
+                <span className="font-semibold">
+                  {" "}
+                  {current.amount.toFixed(2)}
+                </span>
+              </>
+            }
+            bottomLabel={"Phone number"}
+            bottomDesc={
+              <span className="font-semibold"> {current.recipient_name}</span>
+            }
+          />
+          <div className="h-6"></div>
+          {/* Wallet */}
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">Account</p>
+              <p className="text-sm font-inter text-grey300 text-right font-semibold w-[45%]">
+                {" "}
+                Wallet
+              </p>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Transaction Reference */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">
+                Transaction reference
+              </p>
+              <p className="text-sm font-inter text-grey300 text-right font-semibold w-[45%]">
+                {" "}
+                # {current.transactionId}
+              </p>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Status */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">Status</p>
+              <StatusState status={current.status} />
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Date */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Date</p>
+              <div className="w-[45%]">
+                <p className="text-sm font-inter text-grey300 text-right font-semibold">
+                  {format(Date.parse(current.updatedAt), "do MMM, yyyy")}
+                </p>
+                <p className="text-xs font-inter text-grey300 text-right font-medium">
+                  {format(Date.parse(current.updatedAt), "h:mmaaaa")}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+        </div>
+      </>
+    );
+  }
+
+  // Transfer Receipt
+  if (current?.narration.includes("transfer")) {
+    receiptBody = (
+      <>
+        <div className="max-w-[350px] mx-auto">
+          <ReceiptHeader
+            topLabel={"Amount"}
+            topDesc={
+              <>
+                ₦
+                <span className="font-semibold">
+                  {" "}
+                  {current.amount.toFixed(2)}
+                </span>
+              </>
+            }
+            bottomLabel={"Receiver"}
+            bottomDesc={
+              <span className="font-semibold"> {current.recipient_name}</span>
+            }
+          />
+          <div className="h-6"></div>
+          {/* Wallet */}
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">Account</p>
+              <p className="text-sm font-inter text-grey300 text-right font-semibold w-[45%]">
+                {" "}
+                Wallet
+              </p>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Transaction Reference */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">
+                Transaction reference
+              </p>
+              <p className="text-sm font-inter text-grey300 text-right font-semibold w-[45%]">
+                {" "}
+                # {current.transactionId}
+              </p>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Status */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">Status</p>
+              <StatusState status={current.status} />
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Date */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Date</p>
+              <div className="w-[45%]">
+                <p className="text-sm font-inter text-grey300 text-right font-semibold">
+                  {format(Date.parse(current.updatedAt), "do MMM, yyyy")}
+                </p>
+                <p className="text-xs font-inter text-grey300 text-right font-medium">
+                  {format(Date.parse(current.updatedAt), "h:mmaaaa")}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+        </div>
+      </>
+    );
+  }
+
+  // Electricity Receipt
+  if (current?.narration.toLowerCase().startsWith("electricity")) {
+    receiptBody = (
+      <>
+        <div className="max-w-[350px] mx-auto">
+          <ReceiptHeader
+            topLabel={"Electricity"}
+            topDesc={
+              <>
+                ₦
+                <span className="font-semibold">
+                  {" "}
+                  {current.amount.toFixed(2)}
+                </span>
+              </>
+            }
+            bottomLabel={"METER NUMBER"}
+            bottomDesc={
+              <span className="font-semibold"> {current.meter_number}</span>
+            }
+          />
+          <div className="h-6"></div>
+          {/* Wallet */}
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">Account</p>
+              <p className="text-sm font-inter text-grey300 text-right font-semibold w-[45%]">
+                {" "}
+                Wallet
+              </p>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Transaction Reference */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">
+                Transaction reference
+              </p>
+              <p className="text-sm font-inter text-grey300 text-right font-semibold w-[45%]">
+                {" "}
+                # {current.transactionId}
+              </p>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Date */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Date</p>
+              <div className="w-[45%]">
+                <p className="text-sm font-inter text-grey300 text-right font-semibold">
+                  {format(Date.parse(current.updatedAt), "do MMM, yyyy")}
+                </p>
+                <p className="text-xs font-inter text-grey300 text-right font-medium">
+                  {format(Date.parse(current.updatedAt), "h:mmaaaa")}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Name */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Name</p>
+              <div className="w-[45%]">
+                <p className="text-sm font-inter text-grey300 text-right font-semibold">
+                  {current.recipient_name}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Address */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Address</p>
+              <div className="w-[60%]">
+                <p className="text-xs font-inter text-grey300 text-right font-medium">
+                  {current.address}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Token */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Token</p>
+              <div className="w-[60%]">
+                <p className="text-xs font-inter text-grey300 text-right font-medium">
+                  {current.narration}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Email */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Email</p>
+              <div className="w-[45%]">
+                <p className="text-sm font-inter text-grey300 text-right font-semibold">
+                  {current.email_trx}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Phone number */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Phone number</p>
+              <div className="w-[45%]">
+                <p className="text-sm font-inter text-grey300 text-right font-semibold">
+                  {current.phone_number_trx}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Status */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">Status</p>
+              <StatusState status={current.status} />
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <SideBarWrapper toggle={toggle}>
       <div className="flex justify-between items-center">
@@ -285,23 +610,40 @@ const Receipt = ({
                       className="flex justify-between items-center w-full text-grey200 px-3 py-1.5 mt-2 hover:bg-neutral100 rounded-full"
                       onClick={() => {
                         setToggleActions(!toggleActions);
-                        const receipt = document.getElementById("receipt");
+                        // const receipt = document.getElementById("receipt");
 
-                        html2canvas(receipt).then((canvas) => {
-                          const imageData = canvas.toDataURL("image/png");
+                        // let elem = document.querySelector(".print");
+                        // var WinPrint = window.open(
+                        //   "",
+                        //   "",
+                        //   "left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0"
+                        // );
+                        // WinPrint.document.write("<html><head><title></title>");
+                        // WinPrint.document.write("</style>");
+                        // WinPrint.document.write("</head>");
+                        // WinPrint.document.write("<body>");
+                        // WinPrint.document.write(receipt.innerHTML);
+                        // WinPrint.document.write("</body>");
+                        // WinPrint.document.write("</html>");
+                        // WinPrint.document.close();
+                        // WinPrint.focus();
+                        // WinPrint.print();
 
-                          const pdfOptions = {
-                            margin: 10,
-                            filename: "receipt.pdf",
-                            image: { type: "png", data: imageData },
-                            jsPDF: {
-                              format: "A5",
-                              orientation: "portrait",
-                            },
-                          };
+                        // html2canvas(receipt).then((canvas) => {
+                        //   const imageData = canvas.toDataURL("image/png");
 
-                          html2pdf().from(canvas).set(pdfOptions).save();
-                        });
+                        //   const pdfOptions = {
+                        //     margin: 10,
+                        //     filename: "receipt.pdf",
+                        //     image: { type: "png", data: imageData },
+                        //     jsPDF: {
+                        //       format: "A5",
+                        //       orientation: "portrait",
+                        //     },
+                        //   };
+
+                        //   html2pdf().from(canvas).set(pdfOptions).save();
+                        // });
                       }}
                     >
                       <p>PDF</p>

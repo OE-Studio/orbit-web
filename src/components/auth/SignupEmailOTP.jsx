@@ -9,7 +9,7 @@ const SignupEmailOTP = () => {
   // eslint-disable-next-line
   const [email, setEmail] = useState("");
 
-  const [inputSet, setInputSet] = useState(false);
+  // const [inputSet, setInputSet] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [presentError, setPresentError] = useState(false);
@@ -76,7 +76,7 @@ const SignupEmailOTP = () => {
             }}
             onComplete={async (value, index) => {
               console.log(value);
-              const verifyEmail = await axios
+               await axios
                 .put("/v1/users/verifyEmail", {
                   otp: value,
                   accountId: JSON.parse(sessionStorage.getItem("userInfo"))
@@ -123,7 +123,7 @@ const SignupEmailOTP = () => {
             className="text-[#5DADEC] cursor-pointer "
             onClick={async () => {
               setResendLoading(true);
-              const newOTP = await axios
+               await axios
                 .put("/v1/users/resendEmailOTP", {
                   accountId: JSON.parse(sessionStorage.getItem("userInfo"))
                     .userId,

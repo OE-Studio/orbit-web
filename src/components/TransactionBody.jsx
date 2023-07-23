@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import { truncateText } from "../utils/TruncateText";
 import Receipt from "./Receipts/Receipt";
 
-const IndividualTransaction = ({
+export const IndividualTransaction = ({
   title,
   description,
   price,
@@ -73,6 +73,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
     if (status === "fulfilled") {
       setFilteredTransactions(transactions);
     }
+    // eslint-disable-next-line
   }, [status]);
 
   let currentDate = null;
@@ -148,6 +149,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
     }
 
     setFilteredTransactions(filterOperation);
+    // eslint-disable-next-line
   }, [transactionFilter, dateFilter, searchFilter]);
 
   return (

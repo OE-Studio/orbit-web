@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Container from "./Container";
 import friends from "../assets/images/friends.svg";
 import friendsHover from "../assets/images/friendsHover.svg";
@@ -20,9 +20,10 @@ import comingSoon from "../assets/images/coming-soon.svg";
 import RecentTransactions from "./RecentTransactions";
 import PurchaseData from "./Services/PurchaseData";
 import KycStatus from "./kyc/KycStatus";
-import { useSelector } from "react-redux";
 import PurchaseAirtime from "./Services/PurchaseAirtime";
 import Electricity from "./Services/Electricity";
+import TransfertoFriends from "./Services/TransfertoFriends";
+import CableSubscription from "./Services/CableSubscription";
 
 const BgCard = ({ iconBg, icon, title, desc, product, tag }) => {
   return (
@@ -56,14 +57,8 @@ const HomeBody = () => {
   const [togglePurchaseData, setTogglePurchaseData] = useState(false);
   const [togglePurchaseAirtime, setTogglePurchaseAirtime] = useState(false);
   const [toggleElectricity, setToggleElectricity] = useState(false);
-
-  // const wallet = useSelector((state) => state.wallet);
-
-  // useEffect(() => {
-  //   if (wallet.status === "fulfilled") {
-  //     console.log(wallet.data);
-  //   }
-  // }, [wallet.status]);
+  const [toggleTransfer, setToggleTransfer] = useState(false);
+  const [toggleCable, setToggleCable] = useState(false);
 
   return (
     <>
@@ -82,6 +77,13 @@ const HomeBody = () => {
         toggle={toggleElectricity}
       />
 
+      <CableSubscription
+        setToggle={setToggleCable}
+        toggle={toggleCable}
+      />
+
+      <TransfertoFriends setToggle={setToggleElectricity} toggle={toggleTransfer} />
+
       <Container>
         <div className="h-[24px]" />
         <div className="flex w-full gap-6">
@@ -90,7 +92,12 @@ const HomeBody = () => {
 
             <KycStatus />
 
-            <div className="w-full bg-blue50 rounded-lg p-5 group cursor-pointer relative overflow-hidden">
+            <div
+              className="w-full bg-blue50 rounded-lg p-5 group cursor-pointer relative overflow-hidden"
+              onClick={() => {
+                setToggleTransfer(true);
+              }}
+            >
               <div
                 className="
             transition duration-500 ease-in-out
@@ -265,10 +272,11 @@ const HomeBody = () => {
               </div>
 
               {/* Electricity */}
-              <div className="flex-1 p-4 bg-[#EFF7FD] rounded-[6px] cursor-pointer relative group overflow-hidden"
-               onClick={() => {
-                setToggleElectricity(true);
-              }}
+              <div
+                className="flex-1 p-4 bg-[#EFF7FD] rounded-[6px] cursor-pointer relative group overflow-hidden"
+                onClick={() => {
+                  setToggleElectricity(true);
+                }}
               >
                 <div
                   className="transition duration-500 ease-in-out
@@ -366,7 +374,12 @@ const HomeBody = () => {
               </div>
 
               {/* Cable Subscription */}
-              <div className="flex-1 p-4 bg-[#FDF4EC] rounded-[6px] cursor-pointer relative group overflow-hidden">
+              <div
+                className="flex-1 p-4 bg-[#FDF4EC] rounded-[6px] cursor-pointer relative group overflow-hidden"
+                onClick={() => {
+                  setToggleCable(true);
+                }}
+              >
                 <div
                   className="transition duration-500 ease-in-out
             flex opacity-0 group-hover:opacity-100 absolute w-full h-full bg-[#FADFC7] left-0 top-0 justify-between items-center "

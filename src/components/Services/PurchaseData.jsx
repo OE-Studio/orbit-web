@@ -543,8 +543,9 @@ const PurchaseData = ({ toggle, setToggle }) => {
             if (response && response.success) {
               console.log(response.trxDetails.transactionId);
               setTransaction(response.trxDetails.transactionId);
-              dispatch(fetchTransactions);
+              dispatch(fetchTransactions());
               setIsOpenSuccess(true);
+              return;
             }
 
             if (response && !response.success) {
@@ -554,6 +555,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                 response.message === "Incorrect transaction pin" ||
                 response.message === "input correct transaction pin"
               ) {
+                setPin("");
                 setIsOpen(true);
                 setPinError(true);
                 return;
@@ -564,16 +566,6 @@ const PurchaseData = ({ toggle, setToggle }) => {
                 console.log("Incorrect pin");
                 setStep(0);
                 setError("Invalid network selection");
-                return;
-              }
-
-              if (
-                response.data.message === "Incorrect transaction pin" ||
-                response.data.message === "input correct transaction pin"
-              ) {
-                console.log("here");
-                setIsOpen(true);
-                setPinError(true);
                 return;
               }
 

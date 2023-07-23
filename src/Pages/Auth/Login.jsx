@@ -32,7 +32,7 @@ const Login = () => {
     }));
   };
 
-  const { error, success, isLoading } = useSelector((state) => state.login);
+  const { error, isLoading } = useSelector((state) => state.login);
 
   const dispatch = useDispatch();
 
