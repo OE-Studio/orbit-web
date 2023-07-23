@@ -107,7 +107,7 @@ const RecentTransactions = () => {
                     title={`${convertToSentenceCase(
                       transaction.narration.split(" ")[0]
                     )} Purchase`}
-                    desc={truncateText(transaction.narration)}
+                    desc={truncateText(transaction.narration, 40)}
                     product={""}
                     price={`₦ ${transaction.amount}`}
                     transaction={transaction}
@@ -122,14 +122,14 @@ const RecentTransactions = () => {
             return (
               <div key={index}>
                 <div className="h-4" />
-                  <div className="w-full h-[1px] bg-neutral200" />
-                  <div className="h-4" />
+                <div className="w-full h-[1px] bg-neutral200" />
+                <div className="h-4" />
                 <TransactionCard
                   type={transaction.narration.split(" ")[0].toLowerCase()}
                   title={`${convertToSentenceCase(
                     transaction.narration.split(" ")[0]
                   )} Purchase`}
-                  desc={truncateText(transaction.narration)}
+                  desc={truncateText(transaction.narration, 40)}
                   product={""}
                   price={`₦ ${transaction.amount}`}
                   transaction={transaction}

@@ -4,8 +4,6 @@ import { useSelector } from "react-redux";
 import { format } from "date-fns";
 
 const TransactionChart = () => {
-  
-
   const { transactions } = useSelector((state) => state.transactions);
   const chartRef = useRef(null);
 
@@ -40,7 +38,6 @@ const TransactionChart = () => {
       return format(Date.parse(item), "MMM dd");
     });
     const data = last10Days.map((date) => dailySum[date]);
-    console.log(data);
 
     // Create the gradient background color
     const gradientColor = chartRef.current
@@ -67,29 +64,33 @@ const TransactionChart = () => {
             pointStyle: "circle",
             pointRadius: 3,
             pointBorderColor: "#7FBBF8",
-            pointBackgroundColor:"#7FBBF8"
+            pointBackgroundColor: "#7FBBF8",
           },
         ],
       },
       options: {
         responsive: true,
         scales: {
-          xAxes: [{
-            scaleLabel: {
-               display: true,
-               labelString: 'Volunteer Hours',
+          xAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: "Volunteer Hours",
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false, //<- set this
+              },
             },
-            gridLines: {
-               display: false,
-               drawBorder: false //<- set this
+          ],
+          yAxes: [
+            {
+              gridLines: {
+                display: false,
+                drawBorder: false, //<- set this
+              },
             },
-         }],
-         yAxes: [{
-            gridLines: {
-               display: false,
-               drawBorder: false //<- set this
-            }
-         }],
+          ],
           y: {
             beginAtZero: true,
           },
