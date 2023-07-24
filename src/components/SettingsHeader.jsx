@@ -26,11 +26,12 @@ const SettingsHeader = () => {
 
               <div>
                 <p className="text-2xl font-semibold font-clash">
-                  Oluwatobi Bamigbade
+                  {JSON.parse(sessionStorage.getItem("user"))?.firstName}{" "}
+                  {JSON.parse(sessionStorage.getItem("user"))?.lastName}
                 </p>
                 <div className="flex gap-2 items-center">
                   <p className="text-xl font-semibold font-inter">
-                    @leyeconnect
+                    {JSON.parse(sessionStorage.getItem("user")).username}
                   </p>
                   <CheckBadgeIcon className="h-5 text-green700" />
                 </div>
@@ -43,8 +44,6 @@ const SettingsHeader = () => {
             <GiftTopIcon class=" h-[20px] text-blue25" />
           </div>
         </div>
-
-       
 
         {/* Final Breadcrumb */}
         <div className="flex items-center mt-8 justify-between">

@@ -1,7 +1,11 @@
 import { NavLink } from "react-router-dom";
 import navElements from "../data/NavElements";
 
-const NavElement = ({ label, icon, activeIcons, to }) => {
+const NavElement = ({ label, icon, activeIcons, to, linkDisabled }) => {
+  let handleClick = (e) => {
+    if (linkDisabled) e.preventDefault();
+  };
+
   const activeIcon = (
     <div className="flex items-center gap-2.5">
       {activeIcons}
@@ -18,6 +22,7 @@ const NavElement = ({ label, icon, activeIcons, to }) => {
 
   return (
     <NavLink
+      onClick={handleClick}
       to={to}
       children={({ isActive }) => (isActive ? activeIcon : inActiveIcon)}
     />
@@ -35,6 +40,7 @@ const NavBar = () => {
               icon={item.icon}
               activeIcons={item.activeIcon}
               to={item.to}
+              linkDisabled={item.linkDisabled}
             />
           );
         })}

@@ -40,7 +40,6 @@ const transactionsSlice = createSlice({
       })
       .addCase(fetchTransactions.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action.payload)
         state.transactions = action.payload;
         state.status = 'fulfilled';
         state.error = null;

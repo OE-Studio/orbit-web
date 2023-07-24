@@ -31,7 +31,6 @@ const ProtectedRoutes = () => {
     // fetchProduct
     useEffect(() => {
         if (productsStatus === "idle") {
-            console.log("fetch here");
             dispatch(fetchProducts()).then((payload) => { });
         }
         return () => { };
