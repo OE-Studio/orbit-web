@@ -16,6 +16,7 @@ import convertToSentenceCase from "../../utils/convertToSentence";
 import transactionImg from "../../assets/empty-state/emptyTransaction.svg";
 import cut from "../../assets/receipt/bottom.svg";
 import html2canvas from "html2canvas";
+import { GetAllBackgrounds } from "../settings-outlet/SettingsApi";
 // import html2pdf from "html2pdf.js";
 
 export const ReceiptHeader = ({
@@ -25,10 +26,43 @@ export const ReceiptHeader = ({
   bottomLabel,
   bottomDesc,
 }) => {
+  const [allBg, setAllBg] = useState(null);
+  const [selectedBg, setSelectedBg] = useState(null);
+
+  const bgDataFetch = async () => {
+    const response = await GetAllBackgrounds();
+    console.log(response);
+    setAllBg(response.allImages);
+  };
+
+  useEffect(() => {
+    bgDataFetch();
+  }, []);
+
+  useEffect(() => {
+    if (allBg) {
+      const preferredBg = JSON.parse(
+        sessionStorage.getItem("user")
+      ).preferredBg;
+
+      const currentBg = allBg.find((item) => {
+        return item.name === preferredBg;
+      });
+      console.log(currentBg);
+
+      if (currentBg) {
+        console.log(currentBg.bgLink);
+        setSelectedBg(currentBg);
+      }
+    }
+
+    return () => {};
+  }, [allBg]);
+
   return (
     <div className="bg-blue500 h-[156px] rounded-[10px] relative overflow-hidden flex items-center space-x-4 p-4">
       <div className="absolute top-0 left-0 z-0">
-        <img src={bg} alt="" />
+        <img src={selectedBg?.bgLink} alt="" />
       </div>
 
       <div className="space-y-1 relative z-1 ">

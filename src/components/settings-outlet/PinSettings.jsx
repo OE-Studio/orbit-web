@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Toaster from "../Inputs/Toasters";
 import UpdateSuccess from "./UpdateSuccess";
 import PinInput from "react-pin-input";
-
+import { ChangePin } from "./SettingsApi";
 const PinSettings = () => {
   const [currentPin, setCurrentPin] = useState("");
   const [error, setError] = useState("");
@@ -105,7 +105,7 @@ const PinSettings = () => {
             <div className="h-6" />
             <PinInput
               length={6}
-              focus
+              
               initialValue=""
               // secret
               onChange={(value, index) => {}}
@@ -140,10 +140,18 @@ const PinSettings = () => {
                 className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 w-[129px]"
                 onClick={async (e) => {
                   e.preventDefault();
-                  // let response = await ChangePassword({
-                  //   currentPassword: currentPin,
-                  //   newPassword: newPin,
-                  // });
+                  let response = await ChangePin({
+                    currentPin: currentPin,
+                    newPin: newPin,
+                  });
+                  console.log("here");
+                  console.log(response);
+                  if (response.success) {
+                    setIsOpenSuccess(true);
+                  } else {
+                    setError("Invalid Credentials");
+                    console.log(response);
+                  }
                 }}
               >
                 Update
@@ -154,6 +162,8 @@ const PinSettings = () => {
       </div>
 
       <UpdateSuccess
+      title ="Pin Changed Successfully"
+      label ="You have successfully changed your pin."
         isOpen={isOpenSuccess}
         onClose={() => {
           setIsOpenSuccess(!isOpenSuccess);

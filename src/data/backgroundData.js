@@ -1,62 +1,77 @@
-const bgData =[
+import bricks from '../assets/backgrounds/bricks.svg'
+import anchors from '../assets/backgrounds/anchors.svg'
+import bubbles from '../assets/backgrounds/bubbles.svg'
+import chess from '../assets/backgrounds/chess.svg'
+import circle from '../assets/backgrounds/circle.svg'
+import diagonal from '../assets/backgrounds/diagonal.svg'
+import diamond from '../assets/backgrounds/diamond.svg'
+import moving from '../assets/backgrounds/moving-lines.svg'
+import shapes from '../assets/backgrounds/shapes.svg'
+import tictac from '../assets/backgrounds/tictac.svg'
+import woodline from '../assets/backgrounds/woodline.svg'
+import wormline from '../assets/backgrounds/worm-lines.svg'
+import xpattern from '../assets/backgrounds/x-pattern.svg'
+import zigzag from '../assets/backgrounds/zigzag.svg'
+
+const bgData = [
     {
-        name:'bricks',
-        bgLink:'./assets/backgrounds/bricks.svg'
+        name: 'bricks',
+        bgLink: bricks
     },
     {
-        name:'anchors',
-        bgLink:'./assets/backgrounds/anchors.svg'
+        name: 'anchors',
+        bgLink: anchors
     },
     {
-        name:'bubbles',
-        bgLink:'./assets/backgrounds/bubbles.svg'
+        name: 'bubbles',
+        bgLink: bubbles
     },
     {
-        name:'chess',
-        bgLink:'./assets/backgrounds/chess.svg'
+        name: 'chess',
+        bgLink: chess
     },
     {
-        name:'circle',
-        bgLink:'./assets/backgrounds/circle.svg'
+        name: 'circle',
+        bgLink: circle
     },
     {
-        name:'diagonal',
-        bgLink:'./assets/backgrounds/Diagonal.svg'
+        name: 'diagonal',
+        bgLink: diagonal
     },
     {
-        name:'diamond',
-        bgLink:'./assets/backgrounds/Diamond.svg'
+        name: 'diamond',
+        bgLink: diamond
     },
     {
-        name:'moving-line',
-        bgLink:'./assets/backgrounds/moving-line.svg'
+        name: 'moving-line',
+        bgLink: moving
     },
     {
-        name:'shapes',
-        bgLink:'./assets/backgrounds/shapes.svg'
+        name: 'shapes',
+        bgLink: shapes
     },
     {
-        name:'tictac',
-        bgLink:'./assets/backgrounds/tictac.svg'
+        name: 'tictac',
+        bgLink: tictac
     },
     {
-        name:'woodline',
-        bgLink:'./assets/backgrounds/woodline.svg'
+        name: 'woodline',
+        bgLink: woodline
     },
     {
-        name:'wormline',
-        bgLink:'./assets/backgrounds/worm-lines.svg'
+        name: 'wormline',
+        bgLink: wormline
     },
     {
-        name:'xpattern',
-        bgLink:'./assets/backgrounds/x-pattern.svg'
+        name: 'xpattern',
+        bgLink: xpattern
     },
     {
-        name:'zigzag',
-        bgLink:'./assets/backgrounds/zigzag.svg'
+        name: 'zigzag',
+        bgLink: zigzag
     },
     {
-        name:'empty',
+        name: 'empty',
     },
 ]
 

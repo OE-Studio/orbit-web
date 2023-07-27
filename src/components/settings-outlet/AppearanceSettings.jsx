@@ -1,47 +1,88 @@
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import React from "react";
-import bgData from "../../data/backgroundData";
+import React, { useEffect, useState } from "react";
+// import bgData from "../../data/backgroundData";
+import { GetAllBackgrounds, SetPreferredBg } from "./SettingsApi";
+import { Spinner } from "../Spinner";
 
-const AppearanceItem = ({ url }) => {
+const AppearanceItem = ({ url, bg, selectedBg, setSelectedBg }) => {
+  console.log(url);
+
   return (
     <div
-      className={`border-[3px] border-green600 rounded-full flex h-16 w-16 items-center justify-center ${
-        "bg-[url('" + url + "')]"
-      } bg-contain bg-center`}
+      className={`${
+        bg.name === selectedBg?.name ? "border-[3px] border-green600" : ""
+      } rounded-full flex h-16 w-16 items-center justify-center  bg-center 
+      relative overflow-hidden`}
+      onClick={() => {
+        setSelectedBg(bg);
+      }}
     >
-      <CheckCircleIcon className="h-5 text-green600" />
+      <img src={url} alt="" className="absolute z-0 scale-[240%]" />
+      {bg.name === selectedBg?.name ? (
+        <CheckCircleIcon className="h-5 text-green600 relative z-10" />
+      ) : null}
     </div>
   );
 };
 
 const AppearanceSettings = () => {
+  const [allBg, setAllBg] = useState(null);
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [selectedBg, setSelectedBg] = useState();
+  const bgDataFetch = async () => {
+    const response = await GetAllBackgrounds();
+    console.log(response);
+    setAllBg(response.allImages);
+  };
+
+  useEffect(() => {
+    bgDataFetch();
+  }, []);
+
+  useEffect(() => {
+    if (allBg) {
+      const preferredBg = JSON.parse(
+        sessionStorage.getItem("user")
+      ).preferredBg;
+      console.log(preferredBg)
+      const currentBg = allBg.find((item) => {
+        return item.name === preferredBg;
+      });
+
+      if (currentBg) {
+        setSelectedBg(currentBg);
+      }
+    }
+    // eslint-disable-next-line
+  }, [allBg]);
+
   return (
     <div>
       <p className="text-base font-medium  text-neutral300">Appearance</p>
       <div className="h-8" />
       <div className="w-[556px] space-y-8">
         <div className="w-full bg-neutral100 h-[246px] rounded-[16px] flex-col px-9 pt-[75px]">
-          <div className="bg-[url('./assets/backgrounds/bricks.svg')] bg-cover w-full h-full rounded-t-[5px] flex items-end justify-center px-[52.5px] ">
+          <div className="bg-cover w-full h-full rounded-t-[5px] flex items-end justify-center px-[52.5px] relative overflow-hidden bg-blue500">
             <div classname="">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center relative z-50">
                 <div className="flex gap-2.5">
-                  <div className="flex gap-0.5">
+                  <div className="flex gap-0.5 items-center">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#1D456E]" />
                     <div className="w-9 h-[3px] rounded-full bg-[#1D456E]" />
                   </div>
-                  <div className="flex gap-0.5">
+                  <div className="flex gap-0.5 items-center">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#1D456E]" />
                     <div className="w-9 h-[3px] rounded-full bg-[#1D456E]" />
                   </div>
-                  <div className="flex gap-0.5">
+                  <div className="flex gap-0.5 items-center">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#1D456E]" />
                     <div className="w-9 h-[3px] rounded-full bg-[#1D456E]" />
                   </div>
-                  <div className="flex gap-0.5">
+                  <div className="flex gap-0.5 items-center">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#1D456E]" />
                     <div className="w-9 h-[3px] rounded-full bg-[#1D456E]" />
                   </div>
-                  <div className="flex gap-0.5">
+                  <div className="flex gap-0.5 items-center">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#1D456E]" />
                     <div className="w-9 h-[3px] rounded-full bg-[#1D456E]" />
                   </div>
@@ -49,9 +90,14 @@ const AppearanceSettings = () => {
 
                 <div className="w-12 h-2.5 rounded-full bg-green700" />
               </div>
-              <div className="h-2" />
-              <div className="w-full h-[54px] bg-blue400 rounded-t-lg" />
+              <div className="h-2 relative z-50" />
+              <div className="w-[378px] h-[54px] bg-blue400 rounded-t-lg relative z-50" />
             </div>
+            <img
+              src={allBg && selectedBg?.bgLink}
+              alt=""
+              className="absolute top-0 left-0 scale-125 z-0"
+            />
           </div>
         </div>
 
@@ -67,10 +113,43 @@ const AppearanceSettings = () => {
         </div>
 
         <div className="flex flex-wrap gap-x-[18px] gap-y-[10px]">
-          {bgData.map((bg, index) => {
-            return <AppearanceItem url={bg.bgLink} />;
+          {allBg?.map((bg, index) => {
+            return (
+              <AppearanceItem
+                url={bg.bgLink}
+                setSelectedBg={setSelectedBg}
+                selectedBg={selectedBg}
+                name={bg.name}
+                bg={bg}
+              />
+            );
           })}
         </div>
+        {updateLoading ? (
+          <div className="w-[129px] px-8 py-2.5 bg-[#00AA61] text-white hover:bg-green-500 rounded-full flex center">
+            <Spinner color="white" />
+          </div>
+        ) : (
+          <button
+            disabled={!true}
+            className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 w-[129px]"
+            onClick={async (e) => {
+              console.log("here");
+              setUpdateLoading(true);
+              let response = await SetPreferredBg({
+                bgName: selectedBg.name,
+              });
+              setUpdateLoading(false);
+              if (response.success) {
+                console.log(response);
+              } else {
+                console.log(response);
+              }
+            }}
+          >
+            Update
+          </button>
+        )}
       </div>
     </div>
   );

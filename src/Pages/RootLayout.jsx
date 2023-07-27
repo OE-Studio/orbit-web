@@ -8,12 +8,48 @@ import { BellIcon } from "@heroicons/react/24/solid";
 import Notification from "../components/overlays/Notification";
 import NotificationPage from "../components/overlays/NotificationPage";
 import { MdLogout } from "react-icons/md";
+import { useEffect } from "react";
+import { GetAllBackgrounds } from "../components/settings-outlet/SettingsApi";
 
 const RootLayout = () => {
   const [toggleNotification, setToggleNotification] = useState(false);
   const [toggleNotificationPage, setToggleNotificationPage] = useState(false);
   const [currentNotification, setcurrentNotification] = useState(0);
   const navigate = useNavigate();
+
+  const [allBg, setAllBg] = useState(null);
+  const [selectedBg, setSelectedBg] = useState(null);
+
+  const bgDataFetch = async () => {
+    const response = await GetAllBackgrounds();
+    console.log(response);
+    setAllBg(response.allImages);
+  };
+
+  useEffect(() => {
+    bgDataFetch();
+  }, []);
+
+  useEffect(() => {
+    if (allBg) {
+      const preferredBg = JSON.parse(
+        sessionStorage.getItem("user")
+      ).preferredBg;
+
+      const currentBg = allBg.find((item) => {
+        return item.name === preferredBg;
+      });
+      console.log(currentBg);
+
+      if (currentBg) {
+        console.log(currentBg.bgLink);
+        setSelectedBg(currentBg);
+      }
+    }
+
+    return () => {};
+  }, [allBg]);
+
   return (
     <>
       <Notification
@@ -29,9 +65,19 @@ const RootLayout = () => {
         setMainNotification={setToggleNotification}
       />
       <div className="font-inter">
-        <div className="bg-blue500 w-full  py-[36px] ">
-          <Container className="container mx-auto">
-            <div className="flex justify-between">
+        <div className="bg-blue500 w-full  py-[36px] relative">
+          <div className="h-[105px] bg-blue500 w-full absolute top-full" />
+          {selectedBg ? (
+            <div
+              alt=""
+              className={`absolute h-[calc(100%+105px)] top-0 w-full z-0`}
+              style={{
+                backgroundImage: `url(${selectedBg.bgLink})`,
+              }}
+            />
+          ) : null}
+          <Container className="container mx-auto ">
+            <div className="flex justify-between relative z-[2]">
               <img src={logo} alt="" />
               <div className="flex gap-6">
                 <div
@@ -77,7 +123,9 @@ const RootLayout = () => {
               </div>
             </div>
             <div className="h-[120px]" />
-            <NavBar />
+            <div className="relative z-[2]">
+              <NavBar />
+            </div>
           </Container>
         </div>
 

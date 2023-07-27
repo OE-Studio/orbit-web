@@ -3,7 +3,13 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import PrimaryButton from "../Inputs/PrimaryButton";
 import success from "../../assets/PasswordSuccess.svg";
 
-const UpdateSuccess = ({ isOpen, onClose, onDone }) => {
+const UpdateSuccess = ({
+  isOpen,
+  onClose,
+  onDone,
+  title = "Password Changed Successfully",
+  label = "You have successfully changed your password.",
+}) => {
   return (
     <>
       {isOpen ? (
@@ -29,11 +35,11 @@ const UpdateSuccess = ({ isOpen, onClose, onDone }) => {
               </div>
               <div className="p-6">
                 <p className="text-2xl font-medium text-[#001428] font-clash text-center">
-                  Password Changed Successfully
+                  {title}
                 </p>
                 <div className="h-1 5" />
                 <p className="w-[80%] text-base leading-snug text-center text-gray-600 mx-auto">
-                  You have successfully changed your password.
+                  {label}
                 </p>
               </div>
 
