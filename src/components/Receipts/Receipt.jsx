@@ -11,7 +11,6 @@ import {
 } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
 
-import bg from "../../assets/backgrounds/woodline.svg";
 import convertToSentenceCase from "../../utils/convertToSentence";
 import transactionImg from "../../assets/empty-state/emptyTransaction.svg";
 import cut from "../../assets/receipt/bottom.svg";
