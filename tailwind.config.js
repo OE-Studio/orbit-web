@@ -44,13 +44,14 @@ module.exports = {
         orange400: "#F2AB6A",
         orange500: "#EF9645",
 
-        red50: "#FDF4EC",
+        red50: "#FDECEC",
         red100: "#FCEADA",
         red150: "#FADFC7",
         red200: "#F9D5B5",
         red300: "#F5C08F",
         red400: "#F26969",
         red500: "#EF4444",
+        red600: "#C13737",
 
         green50: "#F1F7EE",
         green100: "#E3EFDC",
@@ -73,7 +74,7 @@ module.exports = {
         blue500: "#04274B",
         blue600: '#031F3C',
         oldblue500: '#5DADEC',
-        
+
         teal50: "#ECF8F6",
         teal100: "#DAF0EE",
         teal150: "#C7E9E5",
@@ -89,12 +90,12 @@ module.exports = {
         neutral300: "#A6B0BF",
         neutral400: "#6AC5B9",
         neutral500: "#45B6A8",
-        
-        
+
+
         text100: "#71879C",
         text200: "#E5ECF5",
         text300: "#A0ABBB",
-      
+
       }
     },
   },

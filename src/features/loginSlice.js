@@ -25,7 +25,6 @@ const loginSlice = createSlice({
             state.success = true
             state.isLoading = false;
             state.error = null;
-            sessionStorage.setItem("user", JSON.stringify(payload.data.existingUser))
             sessionStorage.setItem("loginToken", JSON.stringify(payload.data.loginToken))
 
         },

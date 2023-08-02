@@ -149,3 +149,21 @@ export const purchaseCable = async (userInput, pin) => {
         return error.response.data
     }
 }
+
+
+
+export const getVirtualAccount = async () => {
+    const token = JSON.parse(sessionStorage.getItem('loginToken'))
+    console.log(token)
+    try {
+        const response = await axios({
+            method: 'GET',
+            url: `v1/users/getUserVirtualWallet?token=${token}`,
+
+        })
+
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+}

@@ -47,6 +47,9 @@ export const GetAllBackgrounds = async () => {
     }
 }
 
+
+
+
 export const SetPreferredBg = async (userInput) => {
     const token = JSON.parse(sessionStorage.getItem('loginToken'))
 
@@ -56,6 +59,21 @@ export const SetPreferredBg = async (userInput) => {
             url: `v1/users/bg/set?token=${token}`,
             data: userInput,
         })
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+}
+
+
+export const GetAllReferrals = async () => {
+    const token = JSON.parse(sessionStorage.getItem('loginToken'))
+    try {
+        const response = await axios({
+            method: 'GET',
+            url: `v1/users/referral/getUserReferrals?token=${token}`,
+        })
+
         return response.data
     } catch (error) {
         return error.response.data

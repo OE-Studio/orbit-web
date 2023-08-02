@@ -10,6 +10,7 @@ import NotificationPage from "../components/overlays/NotificationPage";
 import { MdLogout } from "react-icons/md";
 import { useEffect } from "react";
 import { GetAllBackgrounds } from "../components/settings-outlet/SettingsApi";
+import { useSelector } from "react-redux";
 
 const RootLayout = () => {
   const [toggleNotification, setToggleNotification] = useState(false);
@@ -22,33 +23,28 @@ const RootLayout = () => {
 
   const bgDataFetch = async () => {
     const response = await GetAllBackgrounds();
-    console.log(response);
     setAllBg(response.allImages);
   };
-
+  const user = useSelector((state) => state.user.user);
+  const userStatus = useSelector((state) => state.user.status);
   useEffect(() => {
     bgDataFetch();
   }, []);
 
   useEffect(() => {
     if (allBg) {
-      const preferredBg = JSON.parse(
-        sessionStorage.getItem("user")
-      ).preferredBg;
-
+      const preferredBg = user.preferredBg;
       const currentBg = allBg.find((item) => {
         return item.name === preferredBg;
       });
-      console.log(currentBg);
-
       if (currentBg) {
-        console.log(currentBg.bgLink);
         setSelectedBg(currentBg);
       }
     }
 
     return () => {};
-  }, [allBg]);
+    // eslint-disable-next-line
+  }, [allBg, userStatus]);
 
   return (
     <>
@@ -99,7 +95,7 @@ const RootLayout = () => {
                   >
                     <div className="h-6 w-6 bg-[#FAD5CC] rounded-full"></div>
                     <p className="text-base font-medium text-white pr-2">
-                      {JSON.parse(sessionStorage.getItem("user")).username}
+                      {user.username}
                     </p>
                   </div>
                   <div
@@ -111,6 +107,7 @@ const RootLayout = () => {
                       onClick={() => {
                         navigate("/login");
                         sessionStorage.clear();
+                        window.location.reload();
                       }}
                     >
                       <p className="text-grey200 font-inter font-medium text-sm">

@@ -118,7 +118,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
         .slice(0, 2)
         .join("-");
       filterOperation = filterOperation.filter(
-        (transaction) => transaction.date >= fromDate
+        (transaction) => transaction.updatedAt >= fromDate
       );
     }
 

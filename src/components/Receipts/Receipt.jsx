@@ -27,7 +27,7 @@ export const ReceiptHeader = ({
 }) => {
   const [allBg, setAllBg] = useState(null);
   const [selectedBg, setSelectedBg] = useState(null);
-
+  const user = useSelector((state) => state.user.user);
   const bgDataFetch = async () => {
     const response = await GetAllBackgrounds();
     console.log(response);
@@ -40,9 +40,7 @@ export const ReceiptHeader = ({
 
   useEffect(() => {
     if (allBg) {
-      const preferredBg = JSON.parse(
-        sessionStorage.getItem("user")
-      ).preferredBg;
+      const preferredBg = user.preferredBg;
 
       const currentBg = allBg.find((item) => {
         return item.name === preferredBg;
@@ -54,8 +52,8 @@ export const ReceiptHeader = ({
         setSelectedBg(currentBg);
       }
     }
-
     return () => {};
+    // eslint-disable-next-line
   }, [allBg]);
 
   return (

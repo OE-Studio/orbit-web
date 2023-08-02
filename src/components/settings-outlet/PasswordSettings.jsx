@@ -10,15 +10,16 @@ import UpdateSuccess from "./UpdateSuccess";
 const PasswordSettings = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   // Visibility State
-  const [passwordVisible, setPasswordVisible] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [error, setError] = useState("");
-
+  
   const [passwordConfirmed, setPasswordConfirmed] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  
   // Toggle Visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const toggleVisibility = (inputId) => {
     let x = document.getElementById(inputId);
     if (x.type === "password") {

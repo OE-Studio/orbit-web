@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 // import bgData from "../../data/backgroundData";
 import { GetAllBackgrounds, SetPreferredBg } from "./SettingsApi";
 import { Spinner } from "../Spinner";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserProfile } from "../../features/profile/userAction";
 
 const AppearanceItem = ({ url, bg, selectedBg, setSelectedBg }) => {
   console.log(url);
@@ -26,6 +28,8 @@ const AppearanceItem = ({ url, bg, selectedBg, setSelectedBg }) => {
 };
 
 const AppearanceSettings = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
   const [allBg, setAllBg] = useState(null);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [selectedBg, setSelectedBg] = useState();
@@ -41,10 +45,8 @@ const AppearanceSettings = () => {
 
   useEffect(() => {
     if (allBg) {
-      const preferredBg = JSON.parse(
-        sessionStorage.getItem("user")
-      ).preferredBg;
-      console.log(preferredBg)
+      const preferredBg = user.preferredBg;
+      console.log(preferredBg);
       const currentBg = allBg.find((item) => {
         return item.name === preferredBg;
       });
@@ -142,6 +144,7 @@ const AppearanceSettings = () => {
               setUpdateLoading(false);
               if (response.success) {
                 console.log(response);
+                dispatch(getUserProfile());
               } else {
                 console.log(response);
               }

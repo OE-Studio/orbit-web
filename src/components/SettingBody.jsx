@@ -8,10 +8,10 @@ import {
   ChatBubbleLeftRightIcon,
   TrashIcon,
 } from "@heroicons/react/24/solid";
-import React from "react";
+import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import Container from "./Container";
-import { Switch } from "react-switch-input";
+import SwitchInput from "./Inputs/SwitchInput";
 
 const generalMenu = [
   {
@@ -67,7 +67,7 @@ const helpMenu = [
     iconBg: "bg-purple25",
     icon: <ChatBubbleLeftRightIcon className="h-6 text-purple300" />,
     leading: <ChevronRightIcon className="h-6 text-[#1C1B1F] self-center" />,
-    to: "/settings/pin",
+    to: "#",
   },
   {
     title: "Delete account",
@@ -75,13 +75,13 @@ const helpMenu = [
     iconBg: "bg-red50",
     icon: <TrashIcon className="h-6 text-red500" />,
     leading: <ChevronRightIcon className="h-6 text-[#1C1B1F] self-center" />,
-    to: "/settings/password",
+    to: "/settings/delete",
   },
 ];
 
 const MenuItem = ({ iconBg, icon, title, description, leading, to }) => {
   return (
-    <Link to={to}>
+    <Link to={to ? to : "#"}>
       <div className="border-t border-neutral100 py-4 flex gap-4 ">
         <div
           className={`w-[42px] h-[42px] rounded-full ${iconBg} flex items-center justify-center`}
@@ -103,6 +103,8 @@ const MenuItem = ({ iconBg, icon, title, description, leading, to }) => {
 };
 
 const SettingBody = () => {
+  const [notification, setNotification] = useState(true);
+
   return (
     <Container>
       <div className="h-[42px]" />
@@ -150,33 +152,24 @@ const SettingBody = () => {
             Notification
           </p>
           <div className="h-[16px] w-full" />
-          <MenuItem
-            title="Notifications"
-            description="Allow push notifications"
-            icon={<BellIcon className="h-6 text-blue25" />}
-            iconBg="bg-blue50"
-            leading={
-              <Switch
-                name="notification"
-                theme={"two"}
-                styles={{
-                  track: {
-                    backgroundColor: "blue",
-                  },
-                  trackChecked: {
-                    backgroundColor: "red",
-                  },
-                  button: {
-                    backgroundColor: "yellow",
-                  },
-                  buttonChecked: {
-                    backgroundColor: "blue",
-                  },
-                }}
-              />
-            }
-            to=""
-          />
+          <div>
+            <div className="border-t border-neutral100 py-4 flex gap-4 ">
+              <div
+                className={`w-[42px] h-[42px] rounded-full bg-blue50 flex items-center justify-center`}
+              >
+                <BellIcon className="h-6 text-blue25" />
+              </div>
+              <div className="flex-1">
+                <p className="text-base font-medium leading-tight text-grey400">
+                  Notifications
+                </p>
+                <p className="text-xs font-medium leading-tight text-neutral300 mt-1">
+                  Allow push notifications
+                </p>
+              </div>
+              <SwitchInput value={notification} setValue={setNotification} />
+            </div>
+          </div>
 
           <div className="h-[42px] w-full" />
           <p className="text-base font-medium font-inter text-neutral300">

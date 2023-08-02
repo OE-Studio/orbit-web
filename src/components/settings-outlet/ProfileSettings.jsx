@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 export const CustomInput = ({ name, id, value, disabled }) => {
   return (
@@ -19,6 +20,7 @@ export const CustomInput = ({ name, id, value, disabled }) => {
 };
 
 const ProfileSettings = () => {
+  const user = useSelector((state) => state.user.user);
   return (
     <div className="w-[556px] space-y-8">
       <p className="text-base font-medium leading-tight text-gray-400">
@@ -32,25 +34,26 @@ const ProfileSettings = () => {
       <CustomInput
         id="name"
         name="Name"
-        value={`${JSON.parse(sessionStorage.getItem("user"))?.firstName} ${
-          JSON.parse(sessionStorage.getItem("user"))?.lastName
-        } `}
+        value={`${user?.firstName} ${user?.lastName} `}
       />
       <CustomInput
         id="username"
         name="username"
-        value={`@ ${JSON.parse(sessionStorage.getItem("user"))?.username}`}
+        value={`@ ${user?.username}`}
         disabled={true}
       />
       <CustomInput
         id="email"
         name="Email"
         disabled={true}
-        value={`${JSON.parse(sessionStorage.getItem("user"))?.email}`}
+        value={`${user?.email}`}
       />
-      <CustomInput id="phone-no" name="Phone Number" 
-      disabled={true}
-      value={`${JSON.parse(sessionStorage.getItem("user"))?.phoneNumber || "No phone number yet"}`} />
+      <CustomInput
+        id="phone-no"
+        name="Phone Number"
+        disabled={true}
+        value={`${user?.phoneNumber || "No phone number yet"}`}
+      />
       <button className="rounded-full bg-green700 py-2.5 px-8  text-white font-clash font-medium">
         Edit Details
       </button>

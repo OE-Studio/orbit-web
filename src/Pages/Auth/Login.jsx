@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
 import { loginUser } from "../../features/loginActions";
 import ErrorMsg from "../../components/generalUtility/ErrorMsg";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 const Login = () => {
   const [buttonState, setButtonState] = useState(true);
@@ -13,6 +14,19 @@ const Login = () => {
     identity: "",
     password: "",
   });
+
+  // Toggle Visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const toggleVisibility = (inputId) => {
+    let x = document.getElementById(inputId);
+    if (x.type === "password") {
+      x.type = "text";
+      setPasswordVisible(true);
+    } else {
+      x.type = "password";
+      setPasswordVisible(false);
+    }
+  };
 
   useEffect(() => {
     let state = Object.values(formDetails).filter((d) => d === "");
@@ -42,7 +56,7 @@ const Login = () => {
       if (payload.error) {
         return;
       } else {
-        let user = JSON.parse(sessionStorage.getItem("user"));
+        let user = JSON.parse(sessionStorage.getItem("loginToken"));
         if (user) {
           navigate("/");
         }
@@ -88,26 +102,44 @@ const Login = () => {
                     />
                   </div>
                   <div className="h-6" />
-                  <div className="focus-within:border-[#5DADEC] border-transparent border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA]">
-                    <label
-                      htmlFor="password"
-                      className="text-xs text-[#71879C] font-inter"
-                    >
-                      Password
-                    </label>
-                    <br />
-                    <div className="h-[2px]" />
-                    <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="* * * * * *"
-                      className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full placeholder:font-clash"
-                      onChange={(e) => {
-                        handleClick("password", e.target.value);
+                  <div className="focus-within:border-[#5DADEC] border-transparent border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA] flex items-center">
+                    <div className="flex-1 gap-2">
+                      <label
+                        htmlFor="password"
+                        className="text-xs text-[#71879C] font-inter"
+                      >
+                        Password
+                      </label>
+                      <br />
+                      <div className="h-[2px]" />
+                      <div className="flex items-center gap-2 ">
+                        <input
+                          type="password"
+                          name="password"
+                          value={formDetails.password}
+                          id="newpassword"
+                          placeholder="********"
+                          className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
+                          onChange={(e) => {
+                            handleClick("password", e.target.value);
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className=""
+                      onClick={() => {
+                        toggleVisibility("newpassword");
                       }}
-                    />
+                    >
+                      {passwordVisible ? (
+                        <EyeSlashIcon className="h-6 text-green600" />
+                      ) : (
+                        <EyeIcon className="h-6 text-green600" />
+                      )}
+                    </div>
                   </div>
+
                   <div className="h-6" />
                   <button
                     className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "

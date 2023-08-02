@@ -14,12 +14,15 @@ import TransactionChart from "./TransactionChart";
 
 const HomeHeader = () => {
   const [toggleReferral, setToggleReferral] = useState(false);
-
+  const virtualAccount = useSelector((state) => state.virtualAccount.data);
+  console.log(virtualAccount);
   const wallet = useSelector((state) => state.wallet);
 
   return (
     <>
-        <Referral setToggle={setToggleReferral} toggle={toggleReferral}/>
+      {toggleReferral ? (
+        <Referral setToggle={setToggleReferral} toggle={toggleReferral} />
+      ) : null}
       <HeaderCardLayout>
         {/* buttons */}
         <div className="flex justify-between">
@@ -59,13 +62,13 @@ const HomeHeader = () => {
                 Referral bonus:{" "}
               </p>
               <p className="text-base font-medium leading-normal text-blue-400">
-                ₦50000
+                ₦0.00
               </p>
             </div>
           </div>
           {/* Graph */}
           <div className="w-[575px]">
-            <TransactionChart/>
+            <TransactionChart />
           </div>
         </div>
 
@@ -111,16 +114,14 @@ const HomeHeader = () => {
               <ChevronRightIcon className="h-5 w-5 " />
             </div>
             <p class="text-base font-medium leading-normal text-neutral300">
-              6109719828
+              {virtualAccount.data && virtualAccount.data.accountNumber}
             </p>
             <p class="text-base font-medium leading-normal text-neutral300">
-              Rolex Microfinance Bank
+              {virtualAccount.data && virtualAccount.data.bank_name}
             </p>
           </div>
 
-          <div
-            className="inline-flex space-x-4 items-start justify-start"
-          >
+          <div className="inline-flex space-x-4 items-start justify-start">
             <div className="flex space-x-4 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200">
               <p className="text-sm font-medium leading-normal text-blue25">
                 Referral link
@@ -133,9 +134,12 @@ const HomeHeader = () => {
               </p>
               <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
             </div>
-            <div className="flex space-x-2 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200" onClick={()=>{
-              setToggleReferral(!toggleReferral)
-            }}>
+            <div
+              className="flex space-x-2 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200"
+              onClick={() => {
+                setToggleReferral(!toggleReferral);
+              }}
+            >
               <p className="text-sm font-medium leading-normal text-grey400">
                 See referrals
               </p>

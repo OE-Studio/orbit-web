@@ -8,10 +8,12 @@ import {
 import React, { useState } from "react";
 import HeaderCardLayout from "./HeaderCardLayout";
 import Referral from "./overlays/Referral";
+import { useSelector } from "react-redux";
 
 const SettingsHeader = () => {
   const [toggleReferral, setToggleReferral] = useState(false);
-
+  const user = useSelector((state) => state.user.user);
+  const virtualAccount = useSelector((state) => state.virtualAccount.data);
   return (
     <>
       <Referral setToggle={setToggleReferral} toggle={toggleReferral} />
@@ -26,12 +28,11 @@ const SettingsHeader = () => {
 
               <div>
                 <p className="text-2xl font-semibold font-clash">
-                  {JSON.parse(sessionStorage.getItem("user"))?.firstName}{" "}
-                  {JSON.parse(sessionStorage.getItem("user"))?.lastName}
+                  {user?.firstName} {user?.lastName}
                 </p>
                 <div className="flex gap-2 items-center">
                   <p className="text-xl font-semibold font-inter">
-                    {JSON.parse(sessionStorage.getItem("user")).username}
+                    {user.username}
                   </p>
                   <CheckBadgeIcon className="h-5 text-green700" />
                 </div>
@@ -87,10 +88,10 @@ const SettingsHeader = () => {
               <ChevronRightIcon className="h-5 w-5 " />
             </div>
             <p class="text-base font-medium leading-normal text-neutral300">
-              6109719828
+              {virtualAccount.data && virtualAccount.data.accountNumber}
             </p>
             <p class="text-base font-medium leading-normal text-neutral300">
-              Rolex Microfinance Bank
+              {virtualAccount.data && virtualAccount.data.bank_name}
             </p>
           </div>
 
