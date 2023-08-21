@@ -18,6 +18,12 @@ const HomeHeader = () => {
   console.log(virtualAccount);
   const wallet = useSelector((state) => state.wallet);
 
+  const [balanceVisibility, setBalanceVisibility] = useState(false);
+
+  const toggleBalanceVisibility = () => {
+    setBalanceVisibility(!balanceVisibility);
+  };
+
   return (
     <>
       {toggleReferral ? (
@@ -27,11 +33,14 @@ const HomeHeader = () => {
         {/* buttons */}
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
-            <div className="flex space-x-2 items-center px-3 py-1 border rounded-full border-neutral200">
+            <button
+              className="flex space-x-2 items-center px-3 py-1 border rounded-full border-neutral200 cursor-pointer"
+              onClick={toggleBalanceVisibility}
+            >
               <p className="text-sm font-medium text-grey200">Wallet balance</p>
 
               <EyeSlashIcon class=" h-[20px] text-blue25" />
-            </div>
+            </button>
             <div className="flex space-x-2 items-center px-3 py-1 border rounded-full border-neutral200">
               <p className="text-sm font-medium text-grey200">Smart user</p>
 
@@ -53,9 +62,13 @@ const HomeHeader = () => {
               <p className="text-4xl font-semibold text-gray-900 font-clash">
                 ₦
               </p>
-              <p className="font-semibold text-gray-900 font-clash text-4xl">
-                {wallet?.data?.data?.balance.toFixed(2)}
-              </p>
+              {
+                <p className="font-semibold text-gray-900 font-clash text-4xl">
+                  {!balanceVisibility
+                    ? wallet?.data?.data?.balance.toFixed(2)
+                    : "***"}
+                </p>
+              }
             </div>
             <div className="inline-flex space-x-2.5 items-start justify-start">
               <p className="text-base font-medium leading-normal text-gray-400">

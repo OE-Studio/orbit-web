@@ -8,7 +8,6 @@ import {
   ExclamationTriangleIcon,
   GiftIcon,
   PaperAirplaneIcon,
-  UserGroupIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
@@ -20,6 +19,7 @@ import SuccessPage from "../TransactionStatus/TransactionSuccess";
 import TransactionFailed from "../TransactionStatus/TransactionFailed";
 import Receipt from "../Receipts/Receipt";
 import { fetchTransactions } from "../../features/TransactionsSlice";
+import { PaperPlaneTilt } from "phosphor-react";
 
 const TransfertoFriends = ({ toggle, setToggle }) => {
   const [step, setStep] = useState(0);
@@ -115,14 +115,16 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
         {step === 0 ? (
           <div className="flex justify-between items-center">
             <div className="flex gap-2">
+              <PaperPlaneTilt weight="fill" className=" h-[20px] text-blue25" />
               <p className="text-sm font-medium leading-normal text-grey400">
-                Purchase Data
+                Transfer to friends
               </p>
-              <UserGroupIcon className=" h-[20px] text-blue25" />
             </div>
             <div
               className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
               onClick={() => {
+                console.log("close");
+                console.log(toggle);
                 setToggle(!toggle);
               }}
             >

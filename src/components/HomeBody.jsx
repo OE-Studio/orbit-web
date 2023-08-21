@@ -77,12 +77,12 @@ const HomeBody = () => {
         toggle={toggleElectricity}
       />
 
-      <CableSubscription
-        setToggle={setToggleCable}
-        toggle={toggleCable}
-      />
+      <CableSubscription setToggle={setToggleCable} toggle={toggleCable} />
 
-      <TransfertoFriends setToggle={setToggleElectricity} toggle={toggleTransfer} />
+      <TransfertoFriends
+        setToggle={setToggleTransfer}
+        toggle={toggleTransfer}
+      />
 
       <Container>
         <div className="h-[24px]" />
@@ -155,7 +155,9 @@ const HomeBody = () => {
                         iconBg="bg-orange50"
                         icon={<img src={airtel} alt="" />}
                         tag="corporate"
-                        title="080 4615 7180"
+                        title={
+                          <span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>
+                        }
                         product="Airtel"
                         desc="10gb"
                       />
@@ -165,7 +167,9 @@ const HomeBody = () => {
                         iconBg="bg-green50"
                         icon={<img src={glo} alt="" />}
                         tag="SME"
-                        title="080 4615 7180"
+                        title={
+                          <span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>
+                        }
                         product="Glo"
                         desc="40gb"
                       />
@@ -215,7 +219,9 @@ const HomeBody = () => {
                         iconBg="bg-[#E3EFDC]"
                         icon={<img src={etisalat} alt="" />}
                         tag="corporate"
-                        title="080 4615 7180"
+                        title={
+                          <span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>
+                        }
                         product="9mobile"
                         desc="₦5000"
                       />
@@ -225,7 +231,9 @@ const HomeBody = () => {
                         iconBg="bg-[#FEBB01]"
                         icon={<img src={mtn} alt="" />}
                         tag="SME"
-                        title="081 3615 3100"
+                        title={
+                          <span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>
+                        }
                         product="Glo"
                         desc="₦3000"
                       />
@@ -318,7 +326,9 @@ const HomeBody = () => {
                         iconBg="bg-purple25"
                         icon={<MdAccountBalance className="text-purple300" />}
                         tag="Successful"
-                        title="0159955102"
+                        title={
+                          <span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>
+                        }
                         product="₦100,000"
                         desc={<span className="text-[#EF9645]">GTB</span>}
                       />
@@ -328,7 +338,9 @@ const HomeBody = () => {
                         iconBg="bg-purple25"
                         icon={<MdAccountBalance className="text-purple300" />}
                         tag="Successful"
-                        title="2120039012"
+                        title={
+                          <span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>
+                        }
                         product="₦100,000"
                         desc={<span className="text-[#EF9645]">UBA</span>}
                       />
@@ -406,7 +418,7 @@ const HomeBody = () => {
                           </svg>
                         }
                         tag="Jinja"
-                        title="117654328"
+                        title={<span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>}
                         product="GoTV"
                         desc="₦5000"
                       />
@@ -429,7 +441,7 @@ const HomeBody = () => {
                           </svg>
                         }
                         tag="Compact plus"
-                        title="117654328"
+                        title={<span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>}
                         product="DsTV"
                         desc="₦3500"
                       />

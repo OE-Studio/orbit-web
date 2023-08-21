@@ -378,7 +378,7 @@ const KycWrapper = ({ toggle, setToggle }) => {
       <div className="flex justify-between items-center">
         <div className="flex gap-2">
           <p className="text-sm font-medium leading-normal text-grey400">
-            Purchase Data
+          Verification
           </p>
           <UserGroupIcon className=" h-[20px] text-blue25" />
         </div>

@@ -46,7 +46,8 @@ const NavBar = () => {
         })}
       </div>
 
-      <div className="flex items-center font-inter font-medium gap-2 py-2.5 px-[18px] bg-green600 rounded-full">
+{/* Feature not Working Yet */}
+      {/* <div className="flex items-center font-inter font-medium gap-2 py-2.5 px-[18px] bg-green600 rounded-full">
         <svg
           width="24"
           height="25"
@@ -61,7 +62,7 @@ const NavBar = () => {
         </svg>
 
         <p className="text-[#001428]"> Fund Wallet</p>
-      </div>
+      </div> */}
     </div>
   );
 };

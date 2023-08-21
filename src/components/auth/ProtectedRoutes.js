@@ -55,7 +55,8 @@ const ProtectedRoutes = () => {
     // fetchProduct
     useEffect(() => {
         if (productsStatus === "idle") {
-            dispatch(fetchProducts()).then((payload) => { });
+            dispatch(fetchProducts())
+            console.log(productsStatus)
         }
         return () => { };
         // eslint-disable-next-line

@@ -100,7 +100,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
 
   const wallet = useSelector((state) => state.wallet);
 
-  let data_product = products.filter((item) => {
+  let data_product = products?.filter((item) => {
     return item.product === "Cable Plan";
   });
 

@@ -19,7 +19,6 @@ import { GetAllBackgrounds } from "../settings-outlet/SettingsApi";
 // import html2pdf from "html2pdf.js";
 
 export const ReceiptHeader = ({
-  bgImg,
   topLabel,
   topDesc,
   bottomLabel,
@@ -28,31 +27,27 @@ export const ReceiptHeader = ({
   const [allBg, setAllBg] = useState(null);
   const [selectedBg, setSelectedBg] = useState(null);
   const user = useSelector((state) => state.user.user);
-  const bgDataFetch = async () => {
-    const response = await GetAllBackgrounds();
-    console.log(response);
-    setAllBg(response.allImages);
-  };
 
   useEffect(() => {
+    const bgDataFetch = async () => {
+      const response = await GetAllBackgrounds();
+      setAllBg(response.allImages);
+    };
+
     bgDataFetch();
-  }, []);
 
-  useEffect(() => {
     if (allBg) {
       const preferredBg = user.preferredBg;
 
       const currentBg = allBg.find((item) => {
         return item.name === preferredBg;
       });
-      console.log(currentBg);
 
       if (currentBg) {
-        console.log(currentBg.bgLink);
         setSelectedBg(currentBg);
       }
     }
-    return () => {};
+
     // eslint-disable-next-line
   }, [allBg]);
 

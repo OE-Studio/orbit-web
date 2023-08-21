@@ -6,6 +6,7 @@ import { Spinner } from "../Spinner";
 import Toaster from "../Inputs/Toasters";
 import { ChangePassword } from "./SettingsApi";
 import UpdateSuccess from "./UpdateSuccess";
+import { useSelector } from "react-redux";
 
 const PasswordSettings = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -13,11 +14,11 @@ const PasswordSettings = () => {
   const [loginLoading, setLoginLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [error, setError] = useState("");
-  
+
   const [passwordConfirmed, setPasswordConfirmed] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  
+
   // Toggle Visibility
   const [passwordVisible, setPasswordVisible] = useState(false);
   const toggleVisibility = (inputId) => {
@@ -32,12 +33,13 @@ const PasswordSettings = () => {
   };
 
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
 
   const loginUserFunc = async () => {
     setLoginLoading(true);
     setError("");
     const userInput = {
-      identity: JSON.parse(sessionStorage.getItem("user")).username,
+      identity: user?.username,
       password: currentPassword,
     };
     await dispatch(loginUser(userInput)).then((payload) => {

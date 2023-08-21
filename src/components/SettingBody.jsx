@@ -1,7 +1,6 @@
 import {
   BellIcon,
   ChevronRightIcon,
-  CreditCardIcon,
   LockClosedIcon,
   PaintBrushIcon,
   UserIcon,
@@ -31,14 +30,14 @@ const generalMenu = [
     to: "/settings/appearance",
   },
 
-  {
-    title: "Bank and Cards",
-    description: "See your added bank & card details",
-    iconBg: "bg-orange50",
-    icon: <CreditCardIcon className="h-6 text-orange500" />,
-    leading: <ChevronRightIcon className="h-6 text-[#1C1B1F] self-center" />,
-    to: "/settings/bank",
-  },
+  // {
+  //   title: "Bank and Cards",
+  //   description: "See your added bank & card details",
+  //   iconBg: "bg-orange50",
+  //   icon: <CreditCardIcon className="h-6 text-orange500" />,
+  //   leading: <ChevronRightIcon className="h-6 text-[#1C1B1F] self-center" />,
+  //   to: "/settings/bank",
+  // },
 ];
 
 const settingsMenu = [
