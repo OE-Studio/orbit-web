@@ -31,7 +31,7 @@ const TransactionHeader = ({
 
   const transactionFilters = [
     "All Transactions",
-    "Transfers",
+    "Transfer",
     "Electricity",
     "Airtime",
     "Data",
@@ -52,13 +52,14 @@ const TransactionHeader = ({
           >
             <p className="text-sm font-medium text-grey200">{dateFilter}</p>
 
-            <CalendarIcon class=" h-[20px] text-blue25" />
+            <CalendarIcon className=" h-[20px] text-blue25" />
 
             {toggleOptions && (
               <div className="absolute left-full top-0 bg-white shadow-[10px_40px_100px_0px_#00000014] rounded-lg p-2 w-[180px] space-y-2">
-                {dateFilters.map((item) => {
+                {dateFilters.map((item, index) => {
                   return (
                     <div
+                    key={index}
                       className={`hover:bg-neutral100  flex space-x-3 items-center justify-between px-3 py-2 rounded-full w-full cursor-pointer ${
                         dateFilter === item ? "bg-neutral100" : ""
                       }`}
@@ -87,7 +88,7 @@ const TransactionHeader = ({
               placeholder="Search transaction"
             />
 
-            <MagnifyingGlassIcon class=" h-[20px] text-blue25" />
+            <MagnifyingGlassIcon className=" h-[20px] text-blue25" />
           </div>
         </div>
 
@@ -95,7 +96,7 @@ const TransactionHeader = ({
 
         <div className="flex items-center mt-8 justify-between">
           <div className="gap-2 flex items-center">
-            <FunnelIcon class=" h-[20px] text-[#7FBBF8]" />
+            <FunnelIcon className=" h-[20px] text-[#7FBBF8]" />
             <p className="text-sm font-medium leading-normal text-grey200">
               Filter search
             </p>

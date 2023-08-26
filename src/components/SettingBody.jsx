@@ -116,6 +116,7 @@ const SettingBody = () => {
           {generalMenu.map((menu, index) => {
             return (
               <MenuItem
+                key={index}
                 title={menu.title}
                 description={menu.description}
                 icon={menu.icon}

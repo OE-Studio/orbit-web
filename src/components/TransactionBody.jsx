@@ -32,7 +32,7 @@ export const IndividualTransaction = ({
       <div
         className="w-full flex font-inter border-t border-neutral100 py-4"
         onClick={() => {
-          setToggleReceipt(!toggleReceipt);
+          setToggleReceipt(true);
         }}
       >
         <div className="inline-flex gap-2 items-center w-[30%]">
@@ -80,17 +80,14 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
 
   useEffect(() => {
     let filterOperation = transactions;
-    console.log(dateFilter, transactionFilter, searchFilter);
 
     // Filter by date
     if (dateFilter === "Today") {
       const today = new Date().toISOString().split("T")[0];
       filterOperation = filterOperation.filter((transaction) => {
-        console.log(transaction.updatedAt, today);
         return transaction.updatedAt.split("T")[0] === today;
       });
     } else if (dateFilter === "Last 7 Days") {
-      console.log("7 Days");
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
       const fromDate = sevenDaysAgo.toISOString().split("T")[0];
@@ -122,20 +119,20 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
       );
     }
 
-    console.log(filterOperation);
-
     // Filter by transaction type
     if (transactionFilter !== "All Transactions") {
       filterOperation = filterOperation.filter((transaction) => {
-        return transaction.narration.startsWith(
-          transactionFilter.toLowerCase()
-        );
+        console.log(transactionFilter.toLowerCase());
+        return transaction.narration
+          .toLowerCase()
+          .includes(transactionFilter.toLowerCase());
       });
     }
 
     // Filter by search query
     if (searchFilter) {
       const query = searchFilter.toLowerCase();
+      console.log(query);
       filterOperation = filterOperation.filter((transaction) =>
         transaction.narration.toLowerCase().includes(query)
       );
@@ -176,9 +173,18 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
                 )}
                 <IndividualTransaction
                   type={transaction.narration.split(" ")[0]}
-                  title={`${convertToSentenceCase(
-                    transaction.narration.split(" ")[0]
-                  )} Purchase`}
+                  title={
+                    `${convertToSentenceCase(
+                      transaction.narration.split(" ")[0]
+                    )}` +
+                    `${
+                      transaction.narration.split(" ")[0] === "wallet"
+                        ? " funding"
+                        : transaction.narration.split(" ")[0] === "money"
+                        ? " transfer"
+                        : " purchase"
+                    }`
+                  }
                   description={truncateText(transaction.narration)}
                   price={`₦ ${transaction.amount}`}
                   transaction={transaction.transactionId}
@@ -195,12 +201,25 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
               <div className="h-4" />
               <IndividualTransaction
                 type={transaction.narration.split(" ")[0]}
-                title={`${convertToSentenceCase(
-                  transaction.narration.split(" ")[0]
-                )} Purchase`}
+                title={
+                  `${
+                    transaction.narration.split(" ")[0] === "money"
+                      ? transaction.recipient_name
+                      : convertToSentenceCase(
+                          transaction.narration.split(" ")[0]
+                        )
+                  }` +
+                  `${
+                    transaction.narration.split(" ")[0] === "wallet"
+                      ? " funding"
+                      : transaction.narration.split(" ")[0] === "money"
+                      ? ""
+                      : " purchase"
+                  }`
+                }
                 description={truncateText(transaction.narration)}
                 price={`₦ ${transaction.amount}`}
-                transaction={transaction}
+                transaction={transaction.transactionId}
               />
             </div>
           );

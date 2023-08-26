@@ -62,27 +62,37 @@ const HomeBody = () => {
 
   return (
     <>
-      <PurchaseData
-        setToggle={setTogglePurchaseData}
-        toggle={togglePurchaseData}
-      />
+      {togglePurchaseData ? (
+        <PurchaseData
+          setToggle={setTogglePurchaseData}
+          toggle={togglePurchaseData}
+        />
+      ) : null}
 
-      <PurchaseAirtime
-        setToggle={setTogglePurchaseAirtime}
-        toggle={togglePurchaseAirtime}
-      />
+      {togglePurchaseAirtime ? (
+        <PurchaseAirtime
+          setToggle={setTogglePurchaseAirtime}
+          toggle={togglePurchaseAirtime}
+        />
+      ) : null}
 
-      <Electricity
-        setToggle={setToggleElectricity}
-        toggle={toggleElectricity}
-      />
+      {toggleElectricity ? (
+        <Electricity
+          setToggle={setToggleElectricity}
+          toggle={toggleElectricity}
+        />
+      ) : null}
 
-      <CableSubscription setToggle={setToggleCable} toggle={toggleCable} />
+      {toggleCable ? (
+        <CableSubscription setToggle={setToggleCable} toggle={toggleCable} />
+      ) : null}
 
-      <TransfertoFriends
-        setToggle={setToggleTransfer}
-        toggle={toggleTransfer}
-      />
+      {toggleTransfer ? (
+        <TransfertoFriends
+          setToggle={setToggleTransfer}
+          toggle={toggleTransfer}
+        />
+      ) : null}
 
       <Container>
         <div className="h-[24px]" />
@@ -418,7 +428,9 @@ const HomeBody = () => {
                           </svg>
                         }
                         tag="Jinja"
-                        title={<span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>}
+                        title={
+                          <span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>
+                        }
                         product="GoTV"
                         desc="₦5000"
                       />
@@ -441,7 +453,9 @@ const HomeBody = () => {
                           </svg>
                         }
                         tag="Compact plus"
-                        title={<span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>}
+                        title={
+                          <span className="block w-12 rounded-full h-1.5 mb-2 bg-gray-100"></span>
+                        }
                         product="DsTV"
                         desc="₦3500"
                       />

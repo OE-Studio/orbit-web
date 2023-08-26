@@ -128,7 +128,6 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
       let selected = transactions.find((item) => {
         return item.transactionId === transaction;
       });
-      console.log(selected);
       setCurrent(selected);
     }
     // eslint-disable-next-line
@@ -559,7 +558,7 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
         <div
           className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
           onClick={() => {
-            setToggle(!toggle);
+            setToggle(false);
           }}
         >
           <XMarkIcon className=" w-6 h-6" />

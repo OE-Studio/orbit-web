@@ -3,12 +3,6 @@ import React from "react";
 // import BellIcon from './assets/bellIcon.svg'
 
 const SideBarWrapper = ({ toggle, children }) => {
-  React.useEffect(() => {
-    toggle
-      ? (document.body.style.overflow = "hidden")
-      : (document.body.style.overflow = "scroll");
-  }, [toggle]);
-
   const notificationClass = toggle
     ? " left-0 opacity-1"
     : " -right-0 opacity-0 hidden";

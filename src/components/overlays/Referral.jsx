@@ -80,39 +80,43 @@ const Referral = ({ toggle, setToggle }) => {
         <div className="mr-5">
           <div className="border border-[#E5ECF5] rounded-[8px] w-full overflow-hidden ">
             <table className="w-full ">
-              <tr className="bg-neutral100 w-full">
-                <th className="w-1/4 py-[17.5px] px-3 text-left font-medium text-grey400 text-sm">
+              <thead className="bg-neutral100 w-full">
+                <td className="w-1/4 py-[17.5px] px-3 text-left font-medium text-grey400 text-sm">
                   Username
-                </th>
-                <th className="w-1/2 py-[17.5px] px-3 text-left font-medium text-grey400 text-sm">
+                </td>
+                <td className="w-1/2 py-[17.5px] px-3 text-left font-medium text-grey400 text-sm">
                   Date Joined
-                </th>
-                <th className="w-1/4 py-[17.5px] px-3 text-right font-medium text-grey400 text-sm">
+                </td>
+                <td className="w-1/4 py-[17.5px] px-3 text-right font-medium text-grey400 text-sm">
                   Bonus
-                </th>
-              </tr>
-              {allReferrals}
-              {allReferrals && allReferrals.length > 0 ? (
-                referralsData.map((item, index) => {
-                  return (
-                    <tr className="text-grey200 text-sm">
-                      <td className="w-1/4 py-4 px-3 text-left">
-                        {item.username}
-                      </td>
-                      <td className="w-1/2 py-4 px-3 text-left">{item.date}</td>
-                      <td className="w-1/4 py-4 px-3 text-right">
-                        {item.bonus}
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr className="w-[100%] relative h-[350px]">
-                  <div className="absolute left-1/2 -translate-x-1/2 top-0 ">
-                    <EmptyReferrals />
-                  </div>
-                </tr>
-              )}
+                </td>
+              </thead>
+              <tbody>
+                {allReferrals}
+                {allReferrals && allReferrals.length > 0 ? (
+                  referralsData.map((item, index) => {
+                    return (
+                      <tr key={index} className="text-grey200 text-sm">
+                        <td className="w-1/4 py-4 px-3 text-left">
+                          {item.username}
+                        </td>
+                        <td className="w-1/2 py-4 px-3 text-left">
+                          {item.date}
+                        </td>
+                        <td className="w-1/4 py-4 px-3 text-right">
+                          {item.bonus}
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr className="w-[100%] relative h-[350px]">
+                    <div className="absolute left-1/2 -translate-x-1/2 top-0 ">
+                      <EmptyReferrals />
+                    </div>
+                  </tr>
+                )}
+              </tbody>
             </table>
           </div>
         </div>

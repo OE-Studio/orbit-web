@@ -124,8 +124,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
               className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
               onClick={() => {
                 console.log("close");
-                console.log(toggle);
-                setToggle(!toggle);
+                setToggle(false);
               }}
             >
               <XMarkIcon className=" w-6 h-6" />

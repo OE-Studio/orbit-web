@@ -36,6 +36,7 @@ const NavBar = () => {
         {navElements.map((item, index) => {
           return (
             <NavElement
+              key={index}
               label={item.label}
               icon={item.icon}
               activeIcons={item.activeIcon}
@@ -46,7 +47,7 @@ const NavBar = () => {
         })}
       </div>
 
-{/* Feature not Working Yet */}
+      {/* Feature not Working Yet */}
       {/* <div className="flex items-center font-inter font-medium gap-2 py-2.5 px-[18px] bg-green600 rounded-full">
         <svg
           width="24"
