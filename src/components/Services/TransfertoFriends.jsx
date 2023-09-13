@@ -6,7 +6,6 @@ import {
   CheckBadgeIcon,
   ChevronLeftIcon,
   ExclamationTriangleIcon,
-  GiftIcon,
   PaperAirplaneIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
@@ -236,10 +235,6 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
                           }}
                         />
                       </div>
-                    </div>
-                    <div className="flex items-center gap-1 text-primaryColor py-1 px-2 bg-white rounded-full">
-                      <p>2% Discount</p>
-                      <GiftIcon className="h-5" />
                     </div>
                   </div>
                   <div

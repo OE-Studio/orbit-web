@@ -1,5 +1,5 @@
 import HeaderCardLayout from "./HeaderCardLayout";
-import cards from "../assets/cards.svg";
+import cards from "../assets/images/cards.webp";
 
 const CardComingSoon = () => {
   return (
@@ -8,7 +8,7 @@ const CardComingSoon = () => {
         {/* Balance and Graph */}
         <div className="center justify-center mt-4">
           <div>
-            <img src={cards} alt="" />
+            <img src={cards} alt="" className="w-[430px]" />
             <p className="font-clash font-medium text-5xl text-center  pb-[20px]">
               Coming soon
             </p>
