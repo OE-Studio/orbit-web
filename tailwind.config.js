@@ -54,14 +54,24 @@ module.exports = {
         red600: "#C13737",
 
         green50: "#F1F7EE",
-        green100: "#E3EFDC",
-        green150: "#D5E7CB",
+        green100: "#CCFFE9",
+        green150: "#B2FFDE",
         green200: "#99FFD3",
         green300: "#ABD097",
         green400: "#8FC074",
         green500: "#73B051",
         green600: "#00CC74",
         green700: "#00AA61",
+
+        newGreen50: "#E5FFF4",
+        newGreen100: "#E3EFDC",
+        newGreen150: "#D5E7CB",
+        newGreen200: "#99FFD3",
+        newGreen300: "#66FFBD",
+        newGreen400: "#33FFA7",
+        newGreen500: "#00FF91",
+        newGreen600: "#00CC74",
+        newGreen700: "#00AA61",
 
 
         blue25: "#7FBBF8",

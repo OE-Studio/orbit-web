@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { WarningOctagon, X } from "phosphor-react";
+import { CheckCircle, X } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 
-const Toaster = ({ value, onClose, customStyle }) => {
+const SuccessToasters = ({ value, onClose, customStyle }) => {
   const [visible, setVisible] = useState(true);
   const handleClose = () => {
     setVisible(false);
@@ -29,10 +29,10 @@ const Toaster = ({ value, onClose, customStyle }) => {
         >
           <div className="absolute w-[20] h-0.5 bg-primary-300 bottom-0 left-0"></div>
           <div className="flex items-center gap-2">
-            <WarningOctagon
+            <CheckCircle
               size={20}
               weight="duotone"
-              className="text-red500"
+              className="text-green-500"
             />
             <p className="text-gray-500 text-xs md:text-sm font-medium">
               {value}
@@ -50,4 +50,4 @@ const Toaster = ({ value, onClose, customStyle }) => {
   );
 };
 
-export default Toaster;
+export default SuccessToasters;

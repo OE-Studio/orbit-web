@@ -2,9 +2,16 @@ import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import SecondaryButton from "../Inputs/SecondaryButton copy";
 import PrimaryButton from "../Inputs/PrimaryButton";
-import fail from '../../assets/fail.svg'
+import fail from "../../assets/fail.svg";
 
-const TransactionFailed = ({isOpen, onClose, onDone, onReset, failedMsg }) => {
+const TransactionFailed = ({
+  isOpen,
+  onClose,
+  onDone,
+  onReset,
+  failedMsg,
+  type = "Purchase",
+}) => {
   return (
     <>
       {isOpen ? (
@@ -29,14 +36,13 @@ const TransactionFailed = ({isOpen, onClose, onDone, onReset, failedMsg }) => {
                 <img src={fail} alt="" />
               </div>
               <div>
-
-              <p className="text-2xl font-medium text-[#001428] font-clash text-center">
-              Purchase failed
-              </p>
-              <div className="h-1 5"/>
-              <p className="w-[80%] text-base leading-snug text-center text-gray-600 mx-auto">
-              {failedMsg || "Something went wrong with the purchase."}
-              </p>
+                <p className="text-2xl font-medium text-[#001428] font-clash text-center">
+                  {type} failed
+                </p>
+                <div className="h-1 5" />
+                <p className="w-[80%] text-base leading-snug text-center text-gray-600 mx-auto">
+                  {failedMsg || "Something went wrong with the purchase."}
+                </p>
               </div>
 
               <div className="bg-neutral100 p-4 flex gap-4">

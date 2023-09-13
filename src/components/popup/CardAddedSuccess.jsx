@@ -73,7 +73,7 @@ const CardAddedSuccess = ({ toggle, setToggle }) => {
               rx="70.3237"
               fill="#EFF7FD"
             />
-            <g clip-path="url(#clip0_2393_205758)">
+            <g clipPath="url(#clip0_2393_205758)">
               <path
                 d="M151.374 131.009L104.43 145.592C102.386 146.222 100.481 144.316 101.111 142.272L115.693 95.3281L151.374 131.009Z"
                 fill="#5DADEC"
@@ -168,7 +168,7 @@ const CardAddedSuccess = ({ toggle, setToggle }) => {
         <div className="bg-neutral100 p-4">
           <button
             type="submit"
-            class="flex items-center px-4 py-2.5 bg-green700 text-white font-clash font-semibold rounded-full gap-3 w-full justify-center"
+            className="flex items-center px-4 py-2.5 bg-green700 text-white font-clash font-semibold rounded-full gap-3 w-full justify-center"
           >
             Done
           </button>

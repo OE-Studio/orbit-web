@@ -391,6 +391,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
 
       <TransactionFailed
         isOpen={isOpenFailed}
+        type="Transfer"
         onClose={() => {
           setIsOpenFailed(!isOpenFailed);
         }}

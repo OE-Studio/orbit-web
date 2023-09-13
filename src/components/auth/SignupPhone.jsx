@@ -3,24 +3,21 @@ import { useNavigate } from "react-router-dom";
 import PinInput from "react-pin-input";
 import axios from "../../api/axios";
 import { Spinner } from "../Spinner";
-
+import SuccessToasters from "../Inputs/SuccessToasters";
+import Toasters from "../Inputs/Toasters";
 
 const SignupPhone = () => {
   const navigate = useNavigate();
-  // eslint-disable-next-line
-  const [phoneNumber, setphoneNumber] = useState("");
 
+  const [phoneNumber, setphoneNumber] = useState("");
   const [inputSet, setInputSet] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  // eslint-disable-next-line
-  const [presentError, setPresentError] = useState(false);
-  // eslint-disable-next-line
-  const [errorMsg, setErrorMsg] = useState("");
-
-
-
+  const [resendLoading, setResendLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [presentError, setPresentError] = useState("");
   const [inputError, setInputError] = useState(false);
+  const [otp, setOtp] = useState("");
+
   useEffect(() => {
     const getData = setTimeout(() => {
       if (phoneNumber) {
@@ -33,6 +30,24 @@ const SignupPhone = () => {
 
   return (
     <>
+      {success ? (
+        <SuccessToasters
+          value={success}
+          onClose={() => {
+            setSuccess("");
+          }}
+          customStyle="absolute -top-14"
+        />
+      ) : null}
+      {presentError ? (
+        <Toasters
+          value={presentError}
+          onClose={() => {
+            setPresentError("");
+          }}
+          customStyle="absolute -top-14"
+        />
+      ) : null}
       <div
         className={` ${
           inputError
@@ -52,7 +67,7 @@ const SignupPhone = () => {
             type="tel"
             name="phoneNumber"
             id="phoneNumber"
-            placeholder="08136143995"
+            placeholder="Your phone number"
             className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
             onChange={(e) => {
               setphoneNumber(e.target.value);
@@ -70,32 +85,31 @@ const SignupPhone = () => {
 
       {!inputSet && (
         <button
-          disabled={inputError}
+          disabled={inputError || phoneNumber === ""}
           className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] flex items-center justify-center "
           onClick={async (e) => {
             e.preventDefault();
-            const parsedNumber = parseInt(phoneNumber)
-            console.log('+234'+parsedNumber)
+            const parsedNumber = parseInt(phoneNumber);
+            console.log("+234" + parsedNumber);
             setLoading(true);
             // eslint-disable-next-line
             const setPhoneNumber = await axios
               .patch(
-                `users/setPhoneNumber?token=${JSON.parse(
+                `/v1/users/setPhoneNumber?token=${JSON.parse(
                   sessionStorage.getItem("loginToken")
                 )}`,
-                { phoneNumber:'+234'+parsedNumber }
+                { phoneNumber: phoneNumber }
               )
               .then((res) => {
                 setLoading(false);
                 console.log(res);
-                if (res.data.success) {
-                  setSuccess(res.data.message);
-                  setTimeout(() => {
-                    setInputSet(true);
-                    setSuccess("");
-                    return;
-                  }, 3000);
-                }
+
+                setSuccess("Check your phone for the OTP");
+                setTimeout(() => {
+                  setInputSet(true);
+                  setSuccess("");
+                  return;
+                }, 3000);
               })
               .catch((err) => {
                 console.log(err);
@@ -137,7 +151,8 @@ const SignupPhone = () => {
                 backgroundColor: "#F2F7FA",
               }}
               onComplete={(value, index) => {
-                navigate("/signup/password");
+                setOtp(value);
+                // navigate("/signup/password");
               }}
               autoSelect={true}
               regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
@@ -149,42 +164,78 @@ const SignupPhone = () => {
             <span
               className="text-[#5DADEC] cursor-pointer "
               onClick={async () => {
-                setLoading(true);
-                 await axios
-                  .put("/users/resendSMSotp", {
+                setResendLoading(true);
+                await axios
+                  .put("/v1/users/resendSMSotp", {
                     accountId: JSON.parse(sessionStorage.getItem("userInfo"))
                       .userId,
                   })
                   .then((res) => {
                     console.log(res);
                     console.log(res.data.success);
-                    setLoading(false);
-                    if (res.data.success) {
-                      setSuccess(res.data.message);
-                      setTimeout(() => {
-                        setSuccess("");
-                        return;
-                      }, 3000);
-                    }
+                    setResendLoading(false);
+
+                    setSuccess(res.data.message);
+                    setTimeout(() => {
+                      setSuccess("");
+                      return;
+                    }, 3000);
                   })
                   .catch((err) => {});
               }}
             >
-              {loading ? <Spinner /> : " Resend"}
+              {resendLoading ? <Spinner /> : " Resend"}
             </span>
           </div>
+          <div className="h-7" />
+          {loading ? (
+            <Spinner />
+          ) : (
+            <button
+              disabled={otp.length < 6 && loading}
+              className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
+              onClick={async (e) => {
+                setLoading(true);
+                await axios
+                  .put("/v1/users/verifyPhoneNumber", {
+                    otp: otp,
+                    phoneNumber: phoneNumber,
+                    accountId: JSON.parse(sessionStorage.getItem("userInfo"))
+                      .userId,
+                  })
+                  .then((res) => {
+                    setLoading(false);
+                    console.log(res);
+                    console.log(res.data.success);
+                    if (res.data.success) {
+                      setSuccess(res.data.message);
+                      setTimeout(() => {
+                        setSuccess("");
+                        navigate("/signup/pin");
+                        return;
+                      }, 1000);
+                    } else {
+                      setPresentError(res.data.message);
+                      setTimeout(() => {
+                        setPresentError("");
+                        return;
+                      }, 3000);
+                    }
+                  })
+                  .catch((err) => {
+                    setLoading(false);
+                    setPresentError(err.message);
+                    setTimeout(() => {
+                      setPresentError("");
+                      return;
+                    }, 3000);
+                  });
+              }}
+            >
+              Submit OTP
+            </button>
+          )}
         </div>
-      )}
-
-      {success && (
-        <p className="text-[#226523] rounded-lg mt-4 text-sm px-4 py-3 bg-[#c7ffc5]">
-          {success}
-        </p>
-      )}
-      {presentError && (
-        <p className="text-[#ff4646] rounded-lg mt-4 text-sm px-4 py-3 bg-[#ffc5c5]">
-          {errorMsg}
-        </p>
       )}
     </>
   );

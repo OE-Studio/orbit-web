@@ -24,6 +24,7 @@ import PurchaseAirtime from "./Services/PurchaseAirtime";
 import Electricity from "./Services/Electricity";
 import TransfertoFriends from "./Services/TransfertoFriends";
 import CableSubscription from "./Services/CableSubscription";
+import SendMoney from "./Services/SendMoney";
 
 const BgCard = ({ iconBg, icon, title, desc, product, tag }) => {
   return (
@@ -59,6 +60,7 @@ const HomeBody = () => {
   const [toggleElectricity, setToggleElectricity] = useState(false);
   const [toggleTransfer, setToggleTransfer] = useState(false);
   const [toggleCable, setToggleCable] = useState(false);
+  const [toggleSendMoney, setToggleSendMoney] = useState(false);
 
   return (
     <>
@@ -94,13 +96,19 @@ const HomeBody = () => {
         />
       ) : null}
 
+      {toggleSendMoney ? (
+        <SendMoney setToggle={setToggleSendMoney} toggle={toggleSendMoney} />
+      ) : null}
+
       <Container>
         <div className="h-[24px]" />
         <div className="flex w-full gap-6">
-          <div className="w-[42%] self-start bg-white border border-[#E5ECF5] rounded-[20px] p-7 space-y-6">
+          <div className="w-[42%] self-start">
+            <KycStatus />
+            <div className="h-6"></div>
+          <div className=" bg-white border border-[#E5ECF5] rounded-[20px] p-7 space-y-6">
             <p className="text-base font-medium leading-normal">Quick action</p>
 
-            <KycStatus />
 
             <div
               className="w-full bg-blue50 rounded-lg p-5 group cursor-pointer relative overflow-hidden"
@@ -197,9 +205,9 @@ const HomeBody = () => {
                     <path
                       d="M20.4437 12.0099C20.4437 14.2438 19.5563 16.3863 17.9766 17.9659C16.397 19.5455 14.2546 20.4329 12.0207 20.4329M20.4437 12.0099C20.4437 9.776 19.5563 7.63358 17.9766 6.05396C16.397 4.47434 14.2546 3.58691 12.0207 3.58691M20.4437 12.0099H3.59766M12.0207 20.4329C9.78674 20.4329 7.64432 19.5455 6.0647 17.9659C4.48508 16.3863 3.59766 14.2438 3.59766 12.0099M12.0207 20.4329C13.5714 20.4329 14.8283 16.6613 14.8283 12.0099C14.8283 7.35855 13.5714 3.58691 12.0207 3.58691M12.0207 20.4329C10.4699 20.4329 9.213 16.6613 9.213 12.0099C9.213 7.35855 10.4699 3.58691 12.0207 3.58691M3.59766 12.0099C3.59766 9.776 4.48508 7.63358 6.0647 6.05396C7.64432 4.47434 9.78674 3.58691 12.0207 3.58691"
                       stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </div>
@@ -322,7 +330,12 @@ const HomeBody = () => {
             {/* Second row */}
             <div className="flex w-full gap-5">
               {/* Send Money */}
-              <div className="flex-1 p-4 bg-[#ECF8F6] rounded-[6px] cursor-pointer relative group overflow-hidden">
+              <div
+                className="flex-1 p-4 bg-[#ECF8F6] rounded-[6px] cursor-pointer relative group overflow-hidden"
+                onClick={() => {
+                  setToggleSendMoney(true);
+                }}
+              >
                 <div
                   className="transition duration-500 ease-in-out
             flex opacity-0 group-hover:opacity-100 absolute w-full h-full bg-[#C7E9E5] left-0 top-0 justify-between items-center "
@@ -368,24 +381,24 @@ const HomeBody = () => {
                     <path
                       d="M18.25 12.4922V20.2422M5.75 20.2422V12.4922M9.75 20.2422V12.4922M14.25 20.2422V12.4922"
                       stroke="#F2F7FA"
-                      stroke-width="1.7"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.7"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     <path
                       d="M12.0012 3.46191L20.9243 11.4619H3.07812L12.0012 3.46191Z"
                       fill="#F2F7FA"
                       stroke="#F2F7FA"
-                      stroke-width="1.7"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.7"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     <path
                       d="M3.42969 20.2422H20.573"
                       stroke="#F2F7FA"
-                      stroke-width="1.7"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.7"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </div>
@@ -529,8 +542,8 @@ const HomeBody = () => {
                       fill="white"
                     />
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M1.69531 5.86719C1.69531 4.83119 2.53531 3.99219 3.57031 3.99219H20.8203C21.8553 3.99219 22.6953 4.83219 22.6953 5.86719V15.6172C22.6953 16.6532 21.8553 17.4922 20.8203 17.4922H3.57031C3.32408 17.4922 3.08027 17.4437 2.85278 17.3495C2.6253 17.2552 2.4186 17.1171 2.24449 16.943C2.07038 16.7689 1.93227 16.5622 1.83804 16.3347C1.74381 16.1072 1.69531 15.8634 1.69531 15.6172V5.86719ZM8.44531 10.7422C8.44531 9.74763 8.8404 8.7938 9.54366 8.09054C10.2469 7.38728 11.2008 6.99219 12.1953 6.99219C13.1899 6.99219 14.1437 7.38728 14.847 8.09054C15.5502 8.7938 15.9453 9.74763 15.9453 10.7422C15.9453 11.7367 15.5502 12.6906 14.847 13.3938C14.1437 14.0971 13.1899 14.4922 12.1953 14.4922C11.2008 14.4922 10.2469 14.0971 9.54366 13.3938C8.8404 12.6906 8.44531 11.7367 8.44531 10.7422ZM18.9453 9.99219C18.7464 9.99219 18.5556 10.0712 18.415 10.2119C18.2743 10.3525 18.1953 10.5433 18.1953 10.7422V10.7502C18.1953 11.1642 18.5313 11.5002 18.9453 11.5002H18.9533C19.1522 11.5002 19.343 11.4212 19.4836 11.2805C19.6243 11.1399 19.7033 10.9491 19.7033 10.7502V10.7422C19.7033 10.5433 19.6243 10.3525 19.4836 10.2119C19.343 10.0712 19.1522 9.99219 18.9533 9.99219H18.9453ZM4.69531 10.7422C4.69531 10.5433 4.77433 10.3525 4.91498 10.2119C5.05563 10.0712 5.2464 9.99219 5.44531 9.99219H5.45331C5.65222 9.99219 5.84299 10.0712 5.98364 10.2119C6.12429 10.3525 6.20331 10.5433 6.20331 10.7422V10.7502C6.20331 10.9491 6.12429 11.1399 5.98364 11.2805C5.84299 11.4212 5.65222 11.5002 5.45331 11.5002H5.44531C5.2464 11.5002 5.05563 11.4212 4.91498 11.2805C4.77433 11.1399 4.69531 10.9491 4.69531 10.7502V10.7422Z"
                       fill="white"
                     />
@@ -549,6 +562,7 @@ const HomeBody = () => {
                 </div>
               </div>
             </div>
+          </div>
           </div>
 
           <RecentTransactions />

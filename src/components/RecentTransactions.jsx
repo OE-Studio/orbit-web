@@ -62,7 +62,7 @@ const RecentTransactions = () => {
             </p>
           </div>
           <p className="text-lg font-medium leading-normal text-[#001428] font-clash">
-            1,020,000,000
+            0.00
           </p>
         </div>
         <div className="w-[1px] h-[45px] bg-neutral200" />
@@ -74,7 +74,7 @@ const RecentTransactions = () => {
             </p>
           </div>
           <p className="text-lg font-medium leading-normal text-[#001428] font-clash">
-            1,020,000,000
+            00.00
           </p>
         </div>
       </div>

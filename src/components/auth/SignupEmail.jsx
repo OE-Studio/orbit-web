@@ -128,7 +128,7 @@ const SignupEmail = () => {
             type="password"
             name="password"
             id="password"
-            placeholder="08136143995"
+            placeholder="*********"
             className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
             onChange={(e) => {
               setPassword(e.target.value);
@@ -200,7 +200,7 @@ const SignupEmail = () => {
       <button
         disabled={
           !validationLength ||
-          (!validationUpperCase && !validationSpecialCharacter) ||
+          (!validationUpperCase || !validationSpecialCharacter) ||
           !email
         }
         className="w-full flex items-center justify-center bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "

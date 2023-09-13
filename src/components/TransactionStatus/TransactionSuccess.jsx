@@ -2,9 +2,15 @@ import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import SecondaryButton from "../Inputs/SecondaryButton copy";
 import PrimaryButton from "../Inputs/PrimaryButton";
-import success from '../../assets/success.svg'
+import success from "../../assets/success.svg";
 
-const SuccessPage = ({isOpen, onClose, onDone, onReceipt }) => {
+const SuccessPage = ({
+  isOpen,
+  onClose,
+  onDone,
+  onReceipt,
+  type = "Purchase",
+}) => {
   return (
     <>
       {isOpen ? (
@@ -29,14 +35,13 @@ const SuccessPage = ({isOpen, onClose, onDone, onReceipt }) => {
                 <img src={success} alt="" />
               </div>
               <div>
-
-              <p className="text-2xl font-medium text-[#001428] font-clash text-center">
-                Purchase successful
-              </p>
-              <div className="h-1 5"/>
-              <p className="w-[80%] text-base leading-snug text-center text-gray-600 mx-auto">
-                You have successfully Completed your purchase
-              </p>
+                <p className="text-2xl font-medium text-[#001428] font-clash text-center">
+                  {type} successful
+                </p>
+                <div className="h-1 5" />
+                <p className="w-[80%] text-base leading-snug text-center text-gray-600 mx-auto">
+                  You have successfully Completed your purchase
+                </p>
               </div>
 
               <div className="bg-neutral100 p-4 flex gap-4">

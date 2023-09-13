@@ -80,4 +80,8 @@ input[type=number] {
   .lift{
     @apply shadow-[10px_40px_100px_0px_rgba(0,_0,_0,_0.08)]
   }
+
+  .inputText{
+    @apply text-grey500 placeholder:text-neutral300
+  }
 }

@@ -42,7 +42,7 @@ const SettingsHeader = () => {
           <div className="flex space-x-2 items-center px-3 py-1 border rounded-full border-neutral200 self-start">
             <p className="text-sm font-medium text-grey200">Smart user</p>
 
-            <GiftTopIcon class=" h-[20px] text-blue25" />
+            <GiftTopIcon className=" h-[20px] text-blue25" />
           </div>
         </div>
 
@@ -87,10 +87,10 @@ const SettingsHeader = () => {
 
               <ChevronRightIcon className="h-5 w-5 " />
             </div>
-            <p class="text-base font-medium leading-normal text-neutral300">
+            <p className="text-base font-medium leading-normal text-neutral300">
               {virtualAccount.data && virtualAccount.data.accountNumber}
             </p>
-            <p class="text-base font-medium leading-normal text-neutral300">
+            <p className="text-base font-medium leading-normal text-neutral300">
               {virtualAccount.data && virtualAccount.data.bank_name}
             </p>
           </div>

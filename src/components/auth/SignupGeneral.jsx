@@ -100,7 +100,7 @@ const SignupGeneral = () => {
         <div className="h-[2px]" />
         <input
           type="text"
-          placeholder="Oluwatobi"
+          placeholder="First Name"
           name="firstName"
           id="firstName"
           value={formDetails?.firstName}
@@ -122,7 +122,7 @@ const SignupGeneral = () => {
           name="lastName"
           id="lastName"
           value={formDetails?.lastName}
-          placeholder="Bamigbade"
+          placeholder="Last Name"
           className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
           onChange={(e) => {
             handleClick("lastName", e.target.value);
@@ -152,7 +152,7 @@ const SignupGeneral = () => {
               name="username"
               id="username"
               value={formDetails?.username}
-              placeholder="leyeconnect"
+              placeholder="username"
               className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
               onChange={(e) => {
                 handleClick("username", e.target.value);
@@ -197,7 +197,6 @@ const SignupGeneral = () => {
             name="dob"
             id="dob"
             value={formDetails?.d_o_b}
-            placeholder="Bamigbade"
             className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
             onChange={(e) => {
               handleClick("d_o_b", e.target.value);

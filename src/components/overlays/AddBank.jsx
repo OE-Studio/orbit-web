@@ -81,7 +81,7 @@ const AddBank = ({ toggle, setToggle }) => {
           {/* Button */}
           <button
             type="submit"
-            class="flex items-center px-8 py-2.5 bg-green700 text-white font-clash rounded-full gap-3 font-medium"
+            className="flex items-center px-8 py-2.5 bg-green700 text-white font-clash rounded-full gap-3 font-medium"
           >
             Add bank
           </button>

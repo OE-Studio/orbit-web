@@ -29,7 +29,7 @@ const CardHeader = () => {
         <div className="flex flex-col">
           <div className="flex space-x-2 items-center px-3 py-1 self-end border rounded-full border-neutral200">
             <p className="text-sm font-medium text-grey200 ">Daily Spend</p>
-            <CalendarIcon class=" h-[20px] text-blue25" />
+            <CalendarIcon className=" h-[20px] text-blue25" />
           </div>
           <img src={graph} alt="" />
         </div>

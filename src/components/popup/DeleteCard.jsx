@@ -23,7 +23,7 @@ const DeleteCard = ({toggle, setToggle}) => {
           <div className="bg-neutral100 p-4">
           <button
           type="submit"
-          class="flex items-center px-4 py-2.5 bg-red500 text-white font-clash font-semibold rounded-full gap-3 w-full justify-center"
+          className="flex items-center px-4 py-2.5 bg-red500 text-white font-clash font-semibold rounded-full gap-3 w-full justify-center"
         >
           
           Remove

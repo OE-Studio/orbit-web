@@ -98,7 +98,7 @@ const RootLayout = () => {
                       {user.username}
                     </p>
                   </div>
-                  <div
+                  <button
                     id="logoutDiv"
                     className="transition-all duration-300 absolute w-[146px] bg-white p-2 rounded-lg top-full right-0 mt-3 hidden"
                   >
@@ -115,7 +115,7 @@ const RootLayout = () => {
                       </p>
                       <MdLogout />
                     </div>
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>

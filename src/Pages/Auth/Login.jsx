@@ -91,8 +91,9 @@ const Login = () => {
                     <br />
                     <div className="h-[2px]" />
                     <input
+                      autoFocus
                       type="text"
-                      placeholder="ogunsleye123@gmail.com"
+                      placeholder="email or username"
                       name="username"
                       id="username"
                       className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"

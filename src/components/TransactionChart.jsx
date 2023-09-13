@@ -71,26 +71,7 @@ const TransactionChart = () => {
       options: {
         responsive: true,
         scales: {
-          xAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: "Volunteer Hours",
-              },
-              gridLines: {
-                display: false,
-                drawBorder: false, //<- set this
-              },
-            },
-          ],
-          yAxes: [
-            {
-              gridLines: {
-                display: false,
-                drawBorder: false, //<- set this
-              },
-            },
-          ],
+         
           y: {
             beginAtZero: true,
           },

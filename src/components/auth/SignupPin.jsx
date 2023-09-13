@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PinInput from "react-pin-input";
 import axios from "../../api/axios";
+import SuccessToasters from "../Inputs/SuccessToasters";
+import Toasters from "../Inputs/Toasters";
+import { Spinner } from "../Spinner";
 
 const SignupPin = () => {
   const navigate = useNavigate();
@@ -12,13 +15,31 @@ const SignupPin = () => {
   const [confirmPin, setConfirmPin] = useState("");
   const [displayConfirmPin, setDisplayConfirmPin] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [presentError, setPresentError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [presentError, setPresentError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // const [inputSet, setInputSet] = useState(false);
 
   return (
     <>
+      {success ? (
+        <SuccessToasters
+          value={success}
+          onClose={() => {
+            setSuccess("");
+          }}
+          customStyle="absolute -top-14"
+        />
+      ) : null}
+      {presentError ? (
+        <Toasters
+          value={presentError}
+          onClose={() => {
+            setPresentError("");
+          }}
+          customStyle="absolute -top-14"
+        />
+      ) : null}
       <div>
         <div className="h-6" />
         {!displayConfirmPin && (
@@ -48,12 +69,21 @@ const SignupPin = () => {
                 }}
                 onComplete={(value, index) => {
                   setPin(value);
-                  setDisplayConfirmPin(true);
                 }}
                 autoSelect={true}
                 regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
               />
             </div>
+            <div className="h-7"></div>
+            <button
+              disabled={pin.length < 6}
+              className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
+              onClick={(e) => {
+                setDisplayConfirmPin(true);
+              }}
+            >
+              Continue
+            </button>
           </div>
         )}
         {displayConfirmPin && (
@@ -84,64 +114,68 @@ const SignupPin = () => {
                 }}
                 onComplete={async (value, index) => {
                   setConfirmPin((prev) => value);
-
-                  if (pin !== value) {
-                    setPresentError(true);
-                    setErrorMsg(
+                }}
+                autoSelect={true}
+                regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
+              />
+            </div>
+            <div className="h-7"></div>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <button
+                disabled={confirmPin.length < 6}
+                className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
+                onClick={async (e) => {
+                  setLoading(true);
+                  setPresentError("");
+                  if (pin !== confirmPin) {
+                    setPresentError(
                       "The pin entered do not match, please try again."
                     );
+                    setLoading(false);
                     return;
                   }
 
-                  await axios(
-                    {
-
-                      url:`v1/users/setPin?token=${JSON.parse(
-                        sessionStorage.getItem("loginToken")
-                      )}`,
-                      method:'PUT',
-                      data:
-                      { pin: pin }
-                    }
-                    )
+                  await axios({
+                    url: `v1/users/setPin?token=${JSON.parse(
+                      sessionStorage.getItem("loginToken")
+                    )}`,
+                    method: "PUT",
+                    data: { pin: pin },
+                  })
                     .then((res) => {
+                      setLoading(false);
                       console.log(res);
                       if (res.data.success) {
                         setSuccess(res.data.message);
                         setTimeout(() => {
                           setSuccess("");
-                          navigate("/login");
+                          sessionStorage.removeItem("userInfo");
+                          sessionStorage.removeItem("userInput");
+                          localStorage.clear();
+                          navigate("/signup/referral");
                           return;
-                        }, 3000);
+                        }, 1000);
                       } else {
-                        setErrorMsg(res.data.message);
-                        setPresentError(true);
+                        setPresentError(res.data.message);
                         setTimeout(() => {
-                          setPresentError(false);
-                          setErrorMsg("");
+                          setPresentError("");
+
                           return;
                         }, 3000);
                       }
                     })
                     .catch((err) => {
                       console.log(err);
+                      setLoading(false);
                     });
                 }}
-                autoSelect={true}
-                regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
-              />
-            </div>
+              >
+                Continue
+              </button>
+            )}
           </div>
-        )}
-        {success && (
-          <p className="text-[#226523] rounded-lg mt-4 text-sm px-4 py-3 bg-[#c7ffc5]">
-            {success}
-          </p>
-        )}
-        {presentError && (
-          <p className="text-red400 text-[13px] rounded-lg mt-4 text-sm px-4 py-3  font-dmsans">
-            {errorMsg}
-          </p>
         )}
 
         <div></div>

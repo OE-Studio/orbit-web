@@ -70,7 +70,7 @@ const Electricity = ({ toggle, setToggle }) => {
   const [provider, setProvider] = useState(null);
   const [currentProducts, setCurrentProducts] = useState(null);
   const [meter_number, setMeter_number] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [step, setStep] = useState(0);
   const [mobile_number, setMobile_number] = useState("");
 

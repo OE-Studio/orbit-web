@@ -3,11 +3,12 @@ import {
   UserGroupIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
-import referralsData from "../../data/ReferralData";
 import SideBarWrapper from "../SideBarWrapper";
 import empty from "../../assets/empty-state/emptyReferrals.svg";
 import { useEffect, useState } from "react";
 import { GetAllReferrals } from "../settings-outlet/SettingsApi";
+import { useSelector } from "react-redux";
+import { copyText } from "../../utils/copyText";
 
 export const EmptyReferrals = () => {
   return (
@@ -21,6 +22,7 @@ export const EmptyReferrals = () => {
 
 const Referral = ({ toggle, setToggle }) => {
   const [allReferrals, setAllReferrals] = useState(null);
+  const user = useSelector((state) => state.user.user);
 
   const getAllRefferrals = async () => {
     const response = await GetAllReferrals();
@@ -65,15 +67,28 @@ const Referral = ({ toggle, setToggle }) => {
         {/* Referral Link */}
         <div className="inline-flex space-x-4 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200">
           <p className="text-sm font-medium leading-normal text-blue25">
-            Referral link
+            Referral Code
           </p>
           <p className="text-base font-medium leading-normal text-neutral200">
             |
           </p>
           <p className="text-sm font-medium leading-normal text-grey500">
-            www.egcmart.com/ref/1YGH2456
+            {user.referralCode ? (
+              user.referralCode
+            ) : (
+              <span className="text-grey100">no referral code</span>
+            )}
           </p>
-          <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
+          <div
+            className="cursor-pointer"
+            onClick={() => {
+              let referralCode =
+                user.referralCode !== null ? user.referralCode : "";
+              copyText(referralCode);
+            }}
+          >
+            <DocumentDuplicateIcon className=" h-[20px] text-blue25 hover:text-green-500" />
+          </div>
         </div>
         <div className="h-[42px]" />
         {/* Table */}
@@ -92,16 +107,16 @@ const Referral = ({ toggle, setToggle }) => {
                 </td>
               </thead>
               <tbody>
-                {allReferrals}
                 {allReferrals && allReferrals.length > 0 ? (
-                  referralsData.map((item, index) => {
+                  allReferrals.map((item, index) => {
+                    console.log(item);
                     return (
                       <tr key={index} className="text-grey200 text-sm">
                         <td className="w-1/4 py-4 px-3 text-left">
                           {item.username}
                         </td>
                         <td className="w-1/2 py-4 px-3 text-left">
-                          {item.date}
+                          {item.date_joined}
                         </td>
                         <td className="w-1/4 py-4 px-3 text-right">
                           {item.bonus}

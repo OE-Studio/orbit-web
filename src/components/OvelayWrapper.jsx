@@ -1,10 +1,7 @@
 import React from "react";
 // import BellIcon from './assets/bellIcon.svg'
 
-const OverlayWrapper = ({
-  toggle,
-  children,
-}) => {
+const OverlayWrapper = ({ toggle, children, customStyle }) => {
   React.useEffect(() => {
     toggle
       ? (document.body.style.overflow = "hidden")
@@ -15,10 +12,11 @@ const OverlayWrapper = ({
 
   return (
     <div
-      className={`transition duration-1000 ease-in-out ${notificationClass} z-[60] fixed  w-full  bg-[#0014284D] h-screen top-0 font-inter flex items-center justify-center`}
+      className={`transition duration-1000 ease-in-out ${notificationClass} z-[60] fixed  w-full  bg-[#0014284D] h-screen top-0 font-inter flex items-center justify-center `}
     >
-      <div className="absolute  w-[393px] bg-white rounded-2xl overflow-hidden">
-
+      <div
+        className={`absolute  w-[438px] ${customStyle} bg-white rounded-2xl overflow-hidden`}
+      >
         {children}
       </div>
     </div>

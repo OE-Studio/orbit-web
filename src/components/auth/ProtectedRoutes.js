@@ -12,6 +12,7 @@ import { fetchTransactions } from "../../features/TransactionsSlice";
 import logo from '../../assets/loadaer.svg'
 import { getUserProfile } from "../../features/profile/userAction";
 import { fetchVirtualAccount } from "../../features/getVirtualAccountSlice";
+import { fetchBankList } from "../../features/getBankList";
 
 
 
@@ -34,6 +35,7 @@ const ProtectedRoutes = () => {
     const walletStatus = useSelector((state) => state.wallet.status);
     const transactionStatus = useSelector((state) => state.transactions.status);
     const virtualAccountStatus = useSelector((state) => state.virtualAccount.status);
+    const bankListStatus = useSelector((state) => state.bankList.status);
 
 
     // getUser
@@ -43,6 +45,15 @@ const ProtectedRoutes = () => {
         }
         // eslint-disable-next-line
     }, [userStatus]);
+
+    // getBankList
+    useEffect(() => {
+        if (bankListStatus === "idle") {
+            dispatch(fetchBankList())
+            
+        }
+        // eslint-disable-next-line
+    }, [bankListStatus]);
 
     // getVirtualAccount
     useEffect(() => {
@@ -87,6 +98,7 @@ const ProtectedRoutes = () => {
             walletStatus === "fulfilled"
             && transactionStatus === "fulfilled"
             && userStatus === "fulfilled"
+            && bankListStatus === "fulfilled"
 
         ) {
             if (firstLoad) {
@@ -105,7 +117,7 @@ const ProtectedRoutes = () => {
         productsStatus,
         walletStatus,
         transactionStatus,
-        userStatus
+        userStatus, bankListStatus
     ]);
 
 

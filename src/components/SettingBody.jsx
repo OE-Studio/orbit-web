@@ -66,7 +66,7 @@ const helpMenu = [
     iconBg: "bg-purple25",
     icon: <ChatBubbleLeftRightIcon className="h-6 text-purple300" />,
     leading: <ChevronRightIcon className="h-6 text-[#1C1B1F] self-center" />,
-    to: "#",
+    to: "/settings/contact",
   },
   {
     title: "Delete account",

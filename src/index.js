@@ -35,6 +35,8 @@ import ForgotPasswordEmail from './Pages/Auth/ForgotPassword/ForgotPasswordEmail
 import ForgotPasswordOtp from './Pages/Auth/ForgotPassword/ForgotPasswordOtp';
 import UpdatePassword from './Pages/Auth/ForgotPassword/UpdatePassword';
 import UpdateSuccess from './Pages/Auth/ForgotPassword/UpdateSuccess';
+import ContactUs from './components/settings-outlet/ContactUs';
+import SignupReferral from './components/auth/SignupReferral';
 
 
 
@@ -84,6 +86,10 @@ const router = createBrowserRouter([
             path: "/settings/delete",
             element: <DeleteAccount />
           },
+          {
+            path: "/settings/contact",
+            element: <ContactUs />
+          },
         ]
       }
     ]
@@ -111,6 +117,10 @@ const router = createBrowserRouter([
       {
         path: "/signup/pin",
         element: <SignupPin />,
+      },
+      {
+        path: "/signup/referral",
+        element: <SignupReferral />,
       },
     ]
   },

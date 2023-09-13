@@ -1,16 +1,15 @@
-import CardBody from '../components/CardBody'
-import CardHeader from '../components/CardHeader'
-
+// import CardBody from "../components/CardBody";
+import CardComingSoon from "../components/CardComingSoon";
+// import CardHeader from "../components/CardHeader";
 
 const Card = () => {
-  
   return (
     <>
-    
-    <CardHeader/>
-    <CardBody />
+      <CardComingSoon />
+      {/* <CardHeader/> */}
+      {/* <CardBody /> */}
     </>
-  )
-}
+  );
+};
 
-export default Card
+export default Card;

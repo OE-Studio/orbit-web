@@ -6,6 +6,7 @@ import walletReducer from "../features/getWalletSlice"
 import transactionsReducer from "../features/TransactionsSlice"
 import userReducer from '../features/profile/userSlice'
 import virtualAccountReducer from '../features/getVirtualAccountSlice'
+import bankListReducer from '../features/getBankList'
 
 const store = configureStore({
     reducer: {
@@ -16,9 +17,12 @@ const store = configureStore({
         transactions: transactionsReducer,
         user: userReducer,
         virtualAccount: virtualAccountReducer,
+        bankList: bankListReducer,
 
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat()
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false
+    }).concat()
 })
 
 

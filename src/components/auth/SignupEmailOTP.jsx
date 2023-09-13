@@ -3,17 +3,20 @@ import { useNavigate } from "react-router-dom";
 import PinInput from "react-pin-input";
 import { Spinner } from "../Spinner";
 import axios from "../../api/axios";
+import SuccessToasters from "../Inputs/SuccessToasters";
+import Toasters from "../Inputs/Toasters";
 
 const SignupEmailOTP = () => {
   const navigate = useNavigate();
   // eslint-disable-next-line
   const [email, setEmail] = useState("");
 
-  // const [inputSet, setInputSet] = useState(false);
+  
+  const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [presentError, setPresentError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [success, setSuccess] = useState("");
+  const [presentError, setPresentError] = useState("false");
+  const [otp, setOtp] = useState("");
 
   useEffect(() => {
     const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
@@ -24,6 +27,24 @@ const SignupEmailOTP = () => {
 
   return (
     <>
+      {success ? (
+        <SuccessToasters
+          value={success}
+          onClose={() => {
+            setSuccess("");
+          }}
+          customStyle="absolute -top-14"
+        />
+      ) : null}
+      {presentError ? (
+        <Toasters
+          value={presentError}
+          onClose={() => {
+            setPresentError("");
+          }}
+          customStyle="absolute -top-14"
+        />
+      ) : null}
       <div className="focus-within:border-['transparent'] border-transparent border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA]">
         <label htmlFor="phoneNo" className="text-xs text-[#71879C] font-inter">
           Email
@@ -75,42 +96,7 @@ const SignupEmailOTP = () => {
               backgroundColor: "#F2F7FA",
             }}
             onComplete={async (value, index) => {
-              console.log(value);
-               await axios
-                .put("/v1/users/verifyEmail", {
-                  otp: value,
-                  accountId: JSON.parse(sessionStorage.getItem("userInfo"))
-                    .userId,
-                })
-                .then((res) => {
-                  console.log(res);
-                  console.log(res.data.success);
-                  if (res.data.success) {
-                    setSuccess(res.data.message);
-                    setTimeout(() => {
-                      setSuccess("");
-                      navigate("/signup/pin");
-                      return;
-                    }, 2000);
-                  } else {
-                    setErrorMsg(res.data.message);
-                    setPresentError(true);
-                    setTimeout(() => {
-                      setPresentError(false);
-                      setErrorMsg("");
-                      return;
-                    }, 3000);
-                  }
-                })
-                .catch((err) => {
-                  setErrorMsg(err.message);
-                  setPresentError(true);
-                  setTimeout(() => {
-                    setPresentError(false);
-                    setErrorMsg("");
-                    return;
-                  }, 3000);
-                });
+              setOtp(value);
             }}
             autoSelect={true}
             regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
@@ -123,7 +109,7 @@ const SignupEmailOTP = () => {
             className="text-[#5DADEC] cursor-pointer "
             onClick={async () => {
               setResendLoading(true);
-               await axios
+              await axios
                 .put("/v1/users/resendEmailOTP", {
                   accountId: JSON.parse(sessionStorage.getItem("userInfo"))
                     .userId,
@@ -146,17 +132,55 @@ const SignupEmailOTP = () => {
             {resendLoading ? <Spinner /> : " Resend"}
           </span>
         </div>
+
+        <div className="h-7" />
+        {loading ? (
+          <Spinner />
+        ) : (
+          <button
+            disabled={otp.length < 6 && loading}
+            className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
+            onClick={async (e) => {
+              setLoading(true);
+              await axios
+                .put("/v1/users/verifyEmail", {
+                  otp: otp,
+                  accountId: JSON.parse(sessionStorage.getItem("userInfo"))
+                    .userId,
+                })
+                .then((res) => {
+                  setLoading(false);
+                  console.log(res);
+                  console.log(res.data.success);
+                  if (res.data.success) {
+                    setSuccess(res.data.message);
+                    setTimeout(() => {
+                      setSuccess("");
+                      navigate("/signup/phone-no");
+                      return;
+                    }, 1000);
+                  } else {
+                    setPresentError(res.data.message);
+                    setTimeout(() => {
+                      setPresentError("");
+                      return;
+                    }, 3000);
+                  }
+                })
+                .catch((err) => {
+                  setLoading(false);
+                  setPresentError(err.message);
+                  setTimeout(() => {
+                    setPresentError("");
+                    return;
+                  }, 3000);
+                });
+            }}
+          >
+            Submit OTP
+          </button>
+        )}
       </div>
-      {success && (
-        <p className="text-[#226523] rounded-lg mt-4 text-sm px-4 py-3">
-          {success}
-        </p>
-      )}
-      {presentError && (
-        <p className="text-[#ff4646] rounded-lg mt-4 text-sm px-4 py-3">
-          {errorMsg}
-        </p>
-      )}
     </>
   );
 };

@@ -3,7 +3,6 @@ import {
   ChevronRightIcon,
   DocumentDuplicateIcon,
   EyeSlashIcon,
-  GiftTopIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
@@ -12,16 +11,18 @@ import Referral from "./overlays/Referral";
 import { useSelector } from "react-redux";
 import TransactionChart from "./TransactionChart";
 import { copyText } from "../utils/copyText";
+import AccountDetails from "./overlays/AccountDetails";
+import convertToSentenceCase from "../utils/convertToSentence";
+import { UserCircle } from "phosphor-react";
 
 const HomeHeader = () => {
   const [toggleReferral, setToggleReferral] = useState(false);
   const virtualAccount = useSelector((state) => state.virtualAccount.data);
-  console.log(virtualAccount);
   const wallet = useSelector((state) => state.wallet);
   const user = useSelector((state) => state.user.user);
 
   const [balanceVisibility, setBalanceVisibility] = useState(false);
-
+  const [banks, setBanks] = useState(false);
   const toggleBalanceVisibility = () => {
     setBalanceVisibility(!balanceVisibility);
   };
@@ -31,6 +32,7 @@ const HomeHeader = () => {
       {toggleReferral ? (
         <Referral setToggle={setToggleReferral} toggle={toggleReferral} />
       ) : null}
+      <AccountDetails toggle={banks} setToggle={setBanks} />
       <HeaderCardLayout>
         {/* buttons */}
         <div className="flex justify-between">
@@ -41,18 +43,19 @@ const HomeHeader = () => {
             >
               <p className="text-sm font-medium text-grey200">Wallet balance</p>
 
-              <EyeSlashIcon class=" h-[20px] text-blue25" />
+              <EyeSlashIcon className=" h-[20px] text-blue25" />
             </button>
             <div className="flex space-x-2 items-center px-3 py-1 border rounded-full border-neutral200">
-              <p className="text-sm font-medium text-grey200">Smart user</p>
-
-              <GiftTopIcon class=" h-[20px] text-blue25" />
+              <p className="text-sm font-medium text-grey200">
+                {convertToSentenceCase(user?.title)}
+              </p>
+              <UserCircle weight="fill" className="text-xl text-blue25" />
             </div>
           </div>
           <div className="flex space-x-2 items-center px-3 py-1 border rounded-full border-neutral200">
             <p className="text-sm font-medium text-grey200">Daily Spend</p>
 
-            <CalendarIcon class=" h-[20px] text-blue25" />
+            <CalendarIcon className=" h-[20px] text-blue25" />
           </div>
         </div>
 
@@ -90,7 +93,12 @@ const HomeHeader = () => {
         {/* Final Breadcrumb */}
         <div className="flex items-center mt-8 justify-between">
           <div className="flex gap-4 font-inter items-center">
-            <div className="text-blue25 gap-1.5 flex items-center">
+            <div
+              className="text-blue25 gap-1.5 flex items-center cursor-pointer"
+              onClick={() => {
+                setBanks(true);
+              }}
+            >
               <svg
                 width="19"
                 height="19"
@@ -122,16 +130,16 @@ const HomeHeader = () => {
                 </g>
               </svg>
 
-              <p className="text-base font-medium font-inter ">
+              <button className="text-base font-medium font-inter ">
                 Account details
-              </p>
+              </button>
 
               <ChevronRightIcon className="h-5 w-5 " />
             </div>
-            <p class="text-base font-medium leading-normal text-neutral300">
+            <p className="text-base font-medium leading-normal text-neutral300">
               {virtualAccount.data && virtualAccount.data.accountNumber}
             </p>
-            <p class="text-base font-medium leading-normal text-neutral300">
+            <p className="text-base font-medium leading-normal text-neutral300">
               {virtualAccount.data && virtualAccount.data.bank_name}
             </p>
           </div>

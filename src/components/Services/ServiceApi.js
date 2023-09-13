@@ -25,6 +25,7 @@ export const purchaseData = async (userInput, pin) => {
                 pin: pin
             }
         })
+        console.log(response)
 
         return response.data
     } catch (error) {
@@ -162,6 +163,41 @@ export const getVirtualAccount = async () => {
 
         })
 
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+}
+
+
+// Fetch Account Details
+
+export const fetchAccountName = async (userInput) => {
+    try {
+        const response = await axios({
+            method: 'POST',
+            url: `v1/nubanlookup`,
+            data: userInput,
+        })
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+}
+
+
+export const BankTransfer = async (userInput, pin) => {
+    const token = JSON.parse(sessionStorage.getItem('loginToken'))
+    console.log(token)
+    try {
+        const response = await axios({
+            method: 'POST',
+            url: `v1/users/bankTransfer?token=${token}`,
+            data: userInput,
+            headers: {
+                pin: pin
+            }
+        })
         return response.data
     } catch (error) {
         return error.response.data

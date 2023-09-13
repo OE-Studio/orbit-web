@@ -16,7 +16,7 @@ const SignupForm = () => {
         <div className="flex-1 h-[4px]  bg-[#E5ECF5] rounded-full"></div>
       </div>
       <div className="border border-[#E5ECF5] rounded-[8px] py-[64px] h-[534px]">
-        <div className="max-w-[353px] mx-auto">
+        <div className="max-w-[353px] mx-auto relative">
           <Outlet />
         </div>
       </div>

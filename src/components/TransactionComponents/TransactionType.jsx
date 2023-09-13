@@ -172,24 +172,24 @@ const TransactionType = ({ type }) => {
             <path
               d="M16.7474 11.0342V18.1383M5.28906 18.1383V11.0342M8.95573 18.1383V11.0342M13.0807 18.1383V11.0342"
               stroke="#CA66FF"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M11.0193 2.75586L19.1988 10.0892H2.83984L11.0193 2.75586Z"
               fill="#CA66FF"
               stroke="#CA66FF"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M3.16016 18.1377H18.8748"
               stroke="#CA66FF"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </div>

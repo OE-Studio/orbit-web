@@ -59,7 +59,9 @@ const ProfileSettings = () => {
         value={`${user?.phoneNumber || "No phone number yet"}`}
         readOnly={"readOnly"}
       />
-      <button className="rounded-full bg-green700 py-2.5 px-8  text-white font-clash font-medium">
+      <button
+      disabled
+      className="disabled:bg-grey300 rounded-full bg-green700 py-2.5 px-8  text-white font-clash font-medium">
         Edit Details
       </button>
     </div>

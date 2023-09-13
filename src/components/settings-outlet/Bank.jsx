@@ -19,25 +19,16 @@ const BankSettings = () => {
 
   return (
     <>
-      <DeleteCard
-      toggle={toggleDelete}
-      setToggle={setToggleDelete}
-      />
+      <DeleteCard toggle={toggleDelete} setToggle={setToggleDelete} />
       <CardAddedSuccess
-      toggle={toggleCardSuccess}
-      setToggle={setToggleCardSuccess}
+        toggle={toggleCardSuccess}
+        setToggle={setToggleCardSuccess}
       />
 
-      <AddCard
-      toggle={toggleAddCard}
-      setToggle={setToggleAddCard}
-      />
+      <AddCard toggle={toggleAddCard} setToggle={setToggleAddCard} />
 
-      <AddBank
-      toggle={toggleAddBank}
-      setToggle={setToggleAddBank}
-      />
-      
+      <AddBank toggle={toggleAddBank} setToggle={setToggleAddBank} />
+
       <div className="w-[556px] space-y-8">
         <p className="text-base font-medium leading-tight text-gray-400">
           Card Information
@@ -46,10 +37,11 @@ const BankSettings = () => {
         {/* Cards Section */}
         <div className="space-y-4">
           {/* Master Card */}
-          <div className="w-[353px] h-[173px] rounded-[16px] p-3 border border-neutral200"
-          onClick={()=>{
-            setToggleDelete(true)
-          }}
+          <div
+            className="w-[353px] h-[173px] rounded-[16px] p-3 border border-neutral200"
+            onClick={() => {
+              setToggleDelete(true);
+            }}
           >
             <div className="flex w-full justify-between items-center mb-3">
               <div className="flex gap-3 items-center">
@@ -61,7 +53,7 @@ const BankSettings = () => {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clip-path="url(#clip0_2370_407615)">
+                    <g clipPath="url(#clip0_2370_407615)">
                       <path
                         d="M18.5392 9.393V9.17969H18.4836L18.4193 9.32608L18.3554 9.17969H18.2997V9.393H18.3392V9.23231L18.3993 9.37096H18.4401L18.5002 9.23195V9.393H18.5393H18.5392ZM18.1867 9.393V9.21622H18.2578V9.18022H18.0762V9.21622H18.1473V9.393H18.1864H18.1867Z"
                         fill="#F79410"
@@ -117,10 +109,11 @@ const BankSettings = () => {
           </div>
 
           {/* Visa Card */}
-          <div className="w-[353px] h-[173px] rounded-[16px] p-3 border border-neutral200"
-          onClick={()=>{
-            setToggleDelete(true)
-          }}
+          <div
+            className="w-[353px] h-[173px] rounded-[16px] p-3 border border-neutral200"
+            onClick={() => {
+              setToggleDelete(true);
+            }}
           >
             <div className="flex w-full justify-between items-center mb-3">
               <div className="flex gap-3 items-center">
@@ -167,12 +160,12 @@ const BankSettings = () => {
         {/* Button */}
         <button
           type="submit"
-          class="flex items-center px-4 py-2.5 bg-green700 text-white font-clash rounded-full gap-3"
-          onClick={()=>{
-            setToggleAddCard(true)
+          className="flex items-center px-4 py-2.5 bg-green700 text-white font-clash rounded-full gap-3"
+          onClick={() => {
+            setToggleAddCard(true);
           }}
         >
-          <PlusIcon class="h-[20px]" />
+          <PlusIcon className="h-[20px]" />
           <p>Add Card</p>
         </button>
 
@@ -186,8 +179,7 @@ const BankSettings = () => {
         {/* Banks Section */}
         <div className="space-y-4">
           {/* GtBank Account*/}
-          <div className="w-[353px] h-[173px] rounded-[16px] p-3 border border-neutral200"
-          >
+          <div className="w-[353px] h-[173px] rounded-[16px] p-3 border border-neutral200">
             <div className="flex w-full justify-between items-center mb-3">
               <div className="flex gap-3 items-center">
                 <div className="px-1 py-2 rounded-[6px] bg-neutral200 h-7 w-7 flex items-center justify-center">
@@ -198,22 +190,22 @@ const BankSettings = () => {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clip-path="url(#clip0_2370_407688)">
+                    <g clipPath="url(#clip0_2370_407688)">
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M0.201172 1.82048C0.201172 1.10846 0.77838 0.53125 1.4904 0.53125H15.6325C16.3445 0.53125 16.9217 1.10846 16.9217 1.82048V16.164C16.9217 16.876 16.3445 17.4532 15.6325 17.4532H1.4904C0.77838 17.4532 0.201172 16.876 0.201172 16.164V1.82048Z"
                         fill="#D94F00"
                       />
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M9.71383 3.8125H14.0002V8.10746H9.71383V3.8125ZM4.5319 10.28V10.7002H5.27065V12.923H5.78004V10.6832H6.46785V10.263L4.5319 10.2803V10.28ZM4.15144 10.8009V10.3807C3.74278 10.1959 3.27282 10.1401 2.79164 10.3807C2.00252 10.7335 1.97432 12.4807 2.76372 12.8223C3.21699 13.052 4.16238 12.9455 4.25763 12.7437V11.3606H3.31772V11.7247H3.73156V12.4528C2.37175 13.1136 2.11994 9.93838 4.15144 10.8009ZM7.2964 11.7022H7.78305C8.18595 11.7192 8.29244 12.4807 7.76636 12.4749H7.2964V11.7022ZM7.2964 10.6328H7.78305C8.18595 10.7056 8.04062 11.3048 7.76636 11.3215H7.2964V10.6328ZM6.79277 10.2242V12.9006H8.13012C8.81276 12.6542 8.84096 11.596 8.13012 11.4838C8.78484 11.4113 8.81851 10.2072 7.68808 10.2072L6.79277 10.2242ZM9.15408 10.9744V11.3719C9.51209 11.2711 10.29 10.9911 10.2172 11.5848C9.53453 11.5399 9.07004 11.6631 8.99176 12.0884C8.86312 13.0071 9.84794 13.0966 10.2621 12.643V12.8614H10.732V11.2487C10.6146 10.7278 9.837 10.6607 9.15408 10.9744ZM9.55123 12.0105C9.65771 11.8703 9.99903 11.8758 10.2284 11.9431V12.2959C9.85369 12.6988 9.24934 12.5144 9.55151 12.0102L9.55123 12.0105ZM11.7059 11.4504C11.8291 11.316 12.4838 11.0639 12.5845 11.4504V12.8727H13.1103V11.3664C12.9984 10.739 12.3995 10.6271 11.6722 11.0527V10.8176H11.1744V12.8839H11.7001L11.7059 11.4504ZM14.7611 10.7951L14.073 11.7189L14.8005 12.8557L15.4328 12.839L14.6327 11.7471L15.3545 10.8118L14.7614 10.7951H14.7611ZM13.5023 10.1174H14.0226V12.8557H13.502V10.1177L13.5023 10.1174Z"
                         fill="white"
                       />
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M9.71484 3.8125H14.0012V8.10746H9.71484V3.8125Z"
                         fill="white"
                       />
@@ -267,7 +259,7 @@ const BankSettings = () => {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clip-path="url(#clip0_2370_407717)">
+                    <g clipPath="url(#clip0_2370_407717)">
                       <path
                         d="M18.2837 10.5319L8.4549 0.703125V2.21173L16.7751 10.5319L16.7783 10.5351L9.57137 17.742L9.56269 17.7333L2.36052 10.5319L2.35421 10.5256L5.8898 6.99003H4.35516L0.816406 10.5288L0.819562 10.5319L9.55953 19.2719L9.56269 19.2688L18.2916 10.5398L18.2837 10.5319Z"
                         fill="#FE6309"
@@ -322,16 +314,16 @@ const BankSettings = () => {
         {/* Button */}
         <button
           type="submit"
-          class="flex items-center px-4 py-2.5 bg-green700 text-white font-clash rounded-full gap-3"
-          onClick={()=>{
-            setToggleAddBank(true)
+          className="flex items-center px-4 py-2.5 bg-green700 text-white font-clash rounded-full gap-3"
+          onClick={() => {
+            setToggleAddBank(true);
           }}
         >
-          <PlusIcon class="h-[20px]" />
+          <PlusIcon className="h-[20px]" />
           <p>Add Bank</p>
         </button>
 
-        <div class="h-20" />
+        <div className="h-20" />
       </div>
     </>
   );
