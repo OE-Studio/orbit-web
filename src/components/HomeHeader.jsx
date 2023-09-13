@@ -145,7 +145,14 @@ const HomeHeader = () => {
           </div>
 
           <div className="inline-flex space-x-4 items-start justify-start">
-            <div className="flex space-x-4 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200">
+            <div
+              className="flex space-x-4 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200 cursor-pointer"
+              onClick={() => {
+                let referralCode =
+                  user.referralCode !== null ? user.referralCode : "";
+                copyText(referralCode);
+              }}
+            >
               <p className="text-sm font-medium leading-normal text-blue25">
                 Referral Code
               </p>
@@ -159,19 +166,12 @@ const HomeHeader = () => {
                   <span className="text-grey100">no referral code</span>
                 )}
               </p>
-              <div
-                className="cursor-pointer"
-                onClick={() => {
-                  let referralCode =
-                    user.referralCode !== null ? user.referralCode : "";
-                  copyText(referralCode);
-                }}
-              >
+              <div className="cursor-pointer">
                 <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
               </div>
             </div>
             <div
-              className="flex space-x-2 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200"
+              className="flex space-x-2 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200 cursor-pointer"
               onClick={() => {
                 setToggleReferral(!toggleReferral);
               }}

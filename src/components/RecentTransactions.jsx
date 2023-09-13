@@ -7,6 +7,7 @@ import { EmptyTransaction } from "./TransactionBody";
 import convertToSentenceCase from "../utils/convertToSentence";
 import { truncateText } from "../utils/TruncateText";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 const TransactionCard = ({ type, title, desc, product, price }) => {
   return (
@@ -34,6 +35,7 @@ const TransactionCard = ({ type, title, desc, product, price }) => {
 
 const RecentTransactions = () => {
   let currentDate = null;
+  const navigate = useNavigate();
 
   const { transactions } = useSelector((state) => state.transactions);
 
@@ -46,7 +48,12 @@ const RecentTransactions = () => {
       <div className="flex justify-between items-center">
         <p className=" font-medium leading-normal">Recent transactions</p>
 
-        <div className="flex items-center gap-2">
+        <div
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => {
+            navigate("/transactions");
+          }}
+        >
           <p className=" font-medium leading-tight text-grey150">See all </p>
           <ChevronRightIcon className="h-4 text-green600" />
         </div>

@@ -136,7 +136,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                 {/* Balance USSD */}
                 <div className="relative">
                   <div
-                    className="bg-neutral100 flex px-2.5 py-[14px] rounded-lg justify-between items-center"
+                    className="bg-neutral100 flex px-2.5 py-[14px] rounded-lg justify-between items-center cursor-pointer"
                     onClick={() => {
                       setBalanceCheckDrop(!balanceCheckDrop);
                     }}
@@ -153,7 +153,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                     </div>
                   </div>
                   {balanceCheckDrop && (
-                    <div className="absolute top-full mt-1 p-2 space-y-2 bg-white w-full rounded-lg z-10">
+                    <div className="absolute top-full mt-1 p-2 space-y-2 bg-white w-full rounded-lg z-10 lift max-h-[350px]">
                       <div
                         className="flex rounded-full px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
                         onClick={() => {
@@ -185,7 +185,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                 {/* Network */}
                 <div className="relative">
                   <div
-                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center"
+                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center cursor-pointer"
                     onClick={() => {
                       setNetworkDrop(!networkDrop);
                     }}
@@ -205,7 +205,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                     </div>
                   </div>
                   {networkDrop && (
-                    <div className="absolute top-full mt-1 p-2 space-y-2 bg-white w-full rounded-lg z-10">
+                    <div className="absolute top-full mt-1 p-2 space-y-2 bg-white w-full rounded-lg z-10  lift max-h-[350px]">
                       {dataProvider?.map((networkItem, index) => {
                         return (
                           <div
@@ -258,7 +258,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                 {/* PlanType */}
                 <div className="relative">
                   <div
-                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center"
+                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center cursor-pointer"
                     onClick={() => {
                       setPlanTypeDrop(!planTypeDrop);
                     }}
@@ -278,7 +278,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                     </div>
                   </div>
                   {planTypeDrop && (
-                    <div className="absolute top-full mt-1 p-2 space-y-4 bg-white w-full rounded-lg z-10 max-h-[350px] overflow-y-scroll">
+                    <div className="absolute top-full mt-1 p-2 space-y-4 bg-white w-full rounded-lg z-10 lift max-h-[350px] overflow-y-scroll">
                       {network &&
                         planTypes.map((item, index) => {
                           return (
@@ -311,7 +311,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                 {/* Plan */}
                 <div className="relative">
                   <div
-                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center"
+                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center cursor-pointer"
                     onClick={() => {
                       setPlanDrop(!planDrop);
                     }}
@@ -331,7 +331,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                     </div>
                   </div>
                   {planDrop && (
-                    <div className="absolute top-full mt-1 p-2 space-y-4 bg-white w-full rounded-lg z-[5] max-h-[350px] overflow-y-scroll">
+                    <div className="absolute top-full mt-1 p-2 space-y-4 bg-white w-full rounded-lg z-[5] max-h-[200px] overflow-y-scroll lift">
                       {network &&
                         data_product
                           .filter((item) => {
