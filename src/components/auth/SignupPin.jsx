@@ -151,9 +151,9 @@ const SignupPin = () => {
                         setSuccess(res.data.message);
                         setTimeout(() => {
                           setSuccess("");
-                          sessionStorage.removeItem("userInfo");
-                          sessionStorage.removeItem("userInput");
-                          localStorage.clear();
+                          // sessionStorage.removeItem("userInfo");
+                          // sessionStorage.removeItem("userInput");
+                          // localStorage.clear();
                           navigate("/signup/referral");
                           return;
                         }, 1000);

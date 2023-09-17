@@ -89,8 +89,7 @@ const SignupPhone = () => {
           className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] flex items-center justify-center "
           onClick={async (e) => {
             e.preventDefault();
-            const parsedNumber = parseInt(phoneNumber);
-            console.log("+234" + parsedNumber);
+            console.log('continue')
             setLoading(true);
             // eslint-disable-next-line
             const setPhoneNumber = await axios
@@ -103,7 +102,6 @@ const SignupPhone = () => {
               .then((res) => {
                 setLoading(false);
                 console.log(res);
-
                 setSuccess("Check your phone for the OTP");
                 setTimeout(() => {
                   setInputSet(true);
@@ -195,6 +193,8 @@ const SignupPhone = () => {
               disabled={otp.length < 6 && loading}
               className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
               onClick={async (e) => {
+                e.preventDefault();
+                console.log('submit-otp')
                 setLoading(true);
                 await axios
                   .put("/v1/users/verifyPhoneNumber", {

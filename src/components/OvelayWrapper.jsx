@@ -2,11 +2,11 @@ import React from "react";
 // import BellIcon from './assets/bellIcon.svg'
 
 const OverlayWrapper = ({ toggle, children, customStyle }) => {
-  React.useEffect(() => {
-    toggle
-      ? (document.body.style.overflow = "hidden")
-      : (document.body.style.overflow = "scroll");
-  }, [toggle]);
+  // React.useEffect(() => {
+  //   toggle
+  //     ? (document.body.style.overflow = "hidden")
+  //     : (document.body.style.overflow = "scroll");
+  // }, [toggle]);
 
   const notificationClass = toggle ? " left-0" : " -right-0  hidden";
 

@@ -15,7 +15,7 @@ const SignupEmailOTP = () => {
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [success, setSuccess] = useState("");
-  const [presentError, setPresentError] = useState("false");
+  const [presentError, setPresentError] = useState("");
   const [otp, setOtp] = useState("");
 
   useEffect(() => {

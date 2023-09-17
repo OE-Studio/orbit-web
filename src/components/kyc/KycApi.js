@@ -1,51 +1,35 @@
 import axios from "../../api/axios";
 
-export const updateIdentity = async (BVN, NIN, setLoading, setError, setStep, documentType) => {
-    setLoading(true)
+export const updateIdentity = async (bvn) => {
+    console.log(bvn)
     let userToken = JSON.parse(
         sessionStorage.getItem("loginToken")
     );
 
-    let userInput = {}
-
-    if (documentType === 'NIN') {
-        userInput.nin = NIN
+    try {
+        const response = await axios
+            .put(`/v1/users/setIdentity?token=${userToken}`, { bvn, })
+        return response.data
+    } catch (err) {
+        console.log(err);
+        return err
     }
+}
 
-    if (documentType === 'BVN') {
-        userInput.nin = BVN
+export const verifyBVN = async (bvn, otp) => {
+    console.log(bvn)
+    let userToken = JSON.parse(
+        sessionStorage.getItem("loginToken")
+    );
+
+    try {
+        const response = await axios
+            .put(`/v1/users/verifyBVN?token=${userToken}`, { bvn, otp })
+        return response.data
+    } catch (err) {
+        console.log(err);
+        return err
     }
-
-    await axios
-        .put(`/v1/users/setIdentity?token=${userToken}`, userInput)
-        .then((response) => {
-            if (response.data.success === false) {
-                setLoading(false)
-                console.log(response.data)
-                let errors = {}
-                errors.bvn = response.data.message
-                setError({ ...errors })
-
-            }
-
-            if (response.data.success === true) {
-                setLoading(false)
-                setStep(3)
-                console.log(response.data)
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-            let errors = {}
-            if (documentType === 'BVN') {
-                errors.bvn = err.response.data.message
-            }
-            if (documentType === 'NIN') {
-                errors.nin = err.response.data.message
-            }
-            setError({ ...errors })
-            setLoading(false)
-        });
 }
 
 

@@ -5,6 +5,7 @@ import { getUserProfile } from './userAction';
 
 const initialState = {
   user: {},
+  cashFlow: {},
   isLoading: false,
   error: null,
   status: 'idle',
@@ -22,7 +23,9 @@ const user = createSlice({
         state.status = "pending"
       })
       .addCase(getUserProfile.fulfilled, (state, action) => {
-        state.user = { ...action.payload.data };
+        console.log(action.payload.data)
+        state.user = { ...action.payload.data.user };
+        state.cashFlow = { ...action.payload.data.totalFunding, ...action.payload.data.totalSpending };
         state.isLoading = false;
         state.error = null;
         state.status = "fulfilled"

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import KycWrapper from "./KycWrapper";
+
 import { useSelector } from "react-redux";
 import { CaretRight, UserCircle } from "phosphor-react";
 import AccountUpgrade from "../overlays/AccountUpgrade";
@@ -127,13 +127,13 @@ export const Tier3Card = () => {
 };
 
 const KycStatus = () => {
-  const [toggleKycFrame, setToggleKycFrame] = useState(false);
+  
   const [upgrade, setUpgrade] = useState(false);
   const user = useSelector((state) => state.user.user);
 
   return (
     <>
-      <KycWrapper setToggle={setToggleKycFrame} toggle={toggleKycFrame} />
+      
       <AccountUpgrade toggle={upgrade} setToggle={setUpgrade} />
       <div
         className="cursor-pointer"
