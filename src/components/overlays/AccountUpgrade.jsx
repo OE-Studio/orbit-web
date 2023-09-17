@@ -3,7 +3,6 @@ import { X } from "phosphor-react";
 import { Tier1Card, Tier2Card, Tier3Card } from "../kyc/KycStatus";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import KycWrapper from "../kyc/KycWrapper";
 import Tier2Verification from "../kyc/Tier2Verification";
 
 const AccountUpgrade = ({ toggle, setToggle }) => {
