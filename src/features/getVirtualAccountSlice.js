@@ -40,7 +40,7 @@ const virtualAccount = createSlice({
       })
       .addCase(fetchVirtualAccount.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        state.data = action.payload.mySageWallet;
         state.status = 'fulfilled';
         state.error = null;
       })

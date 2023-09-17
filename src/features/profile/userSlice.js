@@ -23,7 +23,7 @@ const user = createSlice({
         state.status = "pending"
       })
       .addCase(getUserProfile.fulfilled, (state, action) => {
-        console.log(action.payload.data)
+        
         state.user = { ...action.payload.data.user };
         state.cashFlow = { ...action.payload.data.totalFunding, ...action.payload.data.totalSpending };
         state.isLoading = false;

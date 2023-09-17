@@ -13,8 +13,6 @@ export const getUserProfile = createAsyncThunk(
                     sessionStorage.getItem("loginToken")
                 )}`
             )
-
-            console.log(response)
             return response
 
 

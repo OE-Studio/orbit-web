@@ -6,8 +6,14 @@ import {
 import OverlayWrapper from "../OvelayWrapper";
 import { X } from "phosphor-react";
 import { copyText } from "../../utils/copyText";
+import { useSelector } from "react-redux";
 
-const BankCard = () => {
+const BankCard = ({
+  accountName,
+  accountNumber,
+  deposit_charges,
+  bankName,
+}) => {
   // const virtualAccount = useSelector((state) => state.virtualAccount.data);
 
   return (
@@ -18,11 +24,11 @@ const BankCard = () => {
             Bank Name
           </p>
           <div className="flex justify-between items-center">
-            <p className="text-lg font-inter text-grey-600">Wema Bank</p>
+            <p className=" font-inter text-grey-600">{bankName}</p>
             <div
               className="cursor-pointer"
               onClick={() => {
-                copyText("");
+                copyText(bankName);
               }}
             >
               <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
@@ -34,11 +40,11 @@ const BankCard = () => {
             Account number
           </p>
           <div className="flex justify-between items-center">
-            <p className="text-lg font-inter text-grey-600">0159955102</p>
+            <p className="text-lg font-inter text-grey-600">{accountNumber}</p>
             <div
               className="cursor-pointer"
               onClick={() => {
-                copyText("");
+                copyText(accountNumber);
               }}
             >
               <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
@@ -47,14 +53,14 @@ const BankCard = () => {
         </div>
         <div className="space-y-1">
           <p className="text-sm font-medium text-neutral300 font-inter">
-            Bank Name
+            Account Name
           </p>
           <div className="flex justify-between items-center">
-            <p className="text-lg font-inter text-grey-600">Leye Ogunsanya</p>
+            <p className="text-lg font-inter text-grey-600">{accountName}</p>
             <div
               className="cursor-pointer"
               onClick={() => {
-                copyText("");
+                copyText(accountName);
               }}
             >
               <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
@@ -64,13 +70,14 @@ const BankCard = () => {
       </div>
       <div className="p-2 flex text-orange500 gap-3">
         <InformationCircleIcon className="h-5" />
-        <p>Transaction fee of ₦5</p>
+        <p>Transaction fee of {deposit_charges}</p>
       </div>
     </div>
   );
 };
 
 const AccountDetails = ({ toggle, setToggle }) => {
+  const virtualAccount = useSelector((state) => state.virtualAccount.data);
   return (
     <OverlayWrapper toggle={toggle}>
       {/* Header */}
@@ -92,9 +99,17 @@ const AccountDetails = ({ toggle, setToggle }) => {
           </div>
         </div>
         <div className="h-full overflow-y-scroll max-h-[600px] space-y-6">
-          <BankCard />
-          <BankCard />
-          <BankCard />
+          {virtualAccount.map((item, index) => {
+            return (
+              <BankCard
+                accountName={item.account_name}
+                accountNumber={item.accountNumber}
+                deposit_charges={item.deposit_charges}
+                bankName={item.bank_name}
+                key={index}
+              />
+            );
+          })}
         </div>
       </div>
     </OverlayWrapper>

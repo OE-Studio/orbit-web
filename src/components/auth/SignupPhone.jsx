@@ -89,7 +89,7 @@ const SignupPhone = () => {
           className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] flex items-center justify-center "
           onClick={async (e) => {
             e.preventDefault();
-            console.log('continue')
+            console.log("continue");
             setLoading(true);
             // eslint-disable-next-line
             const setPhoneNumber = await axios
@@ -194,16 +194,21 @@ const SignupPhone = () => {
               className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
               onClick={async (e) => {
                 e.preventDefault();
-                console.log('submit-otp')
+                console.log("submit-otp");
                 setLoading(true);
-                await axios
-                  .put("/v1/users/verifyPhoneNumber", {
+                console.log(
+                  JSON.parse(sessionStorage.getItem("userInfo")).userId
+                );
+                
+                await axios.put(
+                  `/v1/users/verifyPhoneNumber?token=${JSON.parse(
+                    sessionStorage.getItem("loginToken")
+                  )}`,
+                  {
                     otp: otp,
                     phoneNumber: phoneNumber,
-                    accountId: JSON.parse(sessionStorage.getItem("userInfo"))
-                      .userId,
-                  })
-                  .then((res) => {
+                  }
+                ).then((res) => {
                     setLoading(false);
                     console.log(res);
                     console.log(res.data.success);
@@ -217,6 +222,7 @@ const SignupPhone = () => {
                     } else {
                       setPresentError(res.data.message);
                       setTimeout(() => {
+                        setLoading(false);
                         setPresentError("");
                         return;
                       }, 3000);

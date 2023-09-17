@@ -8,7 +8,6 @@ import Tier2Verification from "../kyc/Tier2Verification";
 const AccountUpgrade = ({ toggle, setToggle }) => {
   const [toggleTier2Verification, setToggleTier2Verification] = useState(false);
   const user = useSelector((state) => state.user.user);
-
   const level = user.title;
 
   return (
@@ -51,8 +50,10 @@ const AccountUpgrade = ({ toggle, setToggle }) => {
                   level === "tier1" ? "cursor-pointer" : "cursor-not-allowed"
                 }`}
                 onClick={() => {
-                  setToggleTier2Verification(true);
-                  setToggle(!toggle);
+                  if (level === "tier1") {
+                    setToggleTier2Verification(true);
+                    setToggle(!toggle);
+                  }
                 }}
               >
                 <Tier2Card />

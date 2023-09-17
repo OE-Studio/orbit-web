@@ -19,6 +19,7 @@ const HomeHeader = () => {
   const [toggleReferral, setToggleReferral] = useState(false);
   const virtualAccount = useSelector((state) => state.virtualAccount.data);
   const wallet = useSelector((state) => state.wallet);
+  
   const user = useSelector((state) => state.user.user);
 
   const [balanceVisibility, setBalanceVisibility] = useState(false);
@@ -137,10 +138,10 @@ const HomeHeader = () => {
               <ChevronRightIcon className="h-5 w-5 " />
             </div>
             <p className="text-base font-medium leading-normal text-neutral300">
-              {virtualAccount.data && virtualAccount.data.accountNumber}
+              {virtualAccount && virtualAccount[0].accountNumber}
             </p>
             <p className="text-base font-medium leading-normal text-neutral300">
-              {virtualAccount.data && virtualAccount.data.bank_name}
+              {virtualAccount && virtualAccount[0].bank_name}
             </p>
           </div>
 
