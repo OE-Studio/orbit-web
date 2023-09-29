@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import HeaderCardLayout from "./HeaderCardLayout";
 import Referral from "./overlays/Referral";
 import { useSelector } from "react-redux";
+import { copyText } from "../utils/copyText";
 
 const SettingsHeader = () => {
   const [toggleReferral, setToggleReferral] = useState(false);
@@ -96,17 +97,30 @@ const SettingsHeader = () => {
           </div>
 
           <div className="inline-flex space-x-4 items-start justify-start">
-            <div className="flex space-x-4 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200">
+          <div
+              className="flex space-x-4 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200 cursor-pointer"
+              onClick={() => {
+                let referralCode =
+                  user.referralCode !== null ? user.referralCode : "";
+                copyText(referralCode);
+              }}
+            >
               <p className="text-sm font-medium leading-normal text-blue25">
-                Referral link
+                Referral Code
               </p>
               <p className="text-base font-medium leading-normal text-neutral200">
                 |
               </p>
               <p className="text-sm font-medium leading-normal text-grey500">
-                www.egcmart.com/ref/1YGH2456
+                {user.referralCode ? (
+                  user.referralCode
+                ) : (
+                  <span className="text-grey100">no referral code</span>
+                )}
               </p>
-              <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
+              <div className="cursor-pointer">
+                <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
+              </div>
             </div>
             <div
               className="flex space-x-2 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200"
