@@ -38,6 +38,8 @@ const RecentTransactions = () => {
   const navigate = useNavigate();
 
   const { transactions } = useSelector((state) => state.transactions);
+  const { cashFlow } = useSelector((state) => state.user);
+
 
   let recentTransactions = [...transactions]
     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
@@ -69,7 +71,7 @@ const RecentTransactions = () => {
             </p>
           </div>
           <p className="text-lg font-medium leading-normal text-[#001428] font-clash">
-            0.00
+            {cashFlow?.totalFunding.toFixed(2)}
           </p>
         </div>
         <div className="w-[1px] h-[45px] bg-neutral200" />
@@ -81,7 +83,7 @@ const RecentTransactions = () => {
             </p>
           </div>
           <p className="text-lg font-medium leading-normal text-[#001428] font-clash">
-            00.00
+            {cashFlow?.totalSpending.toFixed(2)}
           </p>
         </div>
       </div>

@@ -220,7 +220,7 @@ const SendMoney = ({ toggle, setToggle }) => {
                     <div className="space-y-2">
                       <p className="text-[11px] text-text100">Account number</p>
                       <input
-                        type="numeric"
+                        type="number"
                         value={accountNumber}
                         placeholder="000 0000 0000"
                         className="inputText focus:outline-none w-full bg-transparent"
@@ -271,7 +271,7 @@ const SendMoney = ({ toggle, setToggle }) => {
                       <div className="flex">
                         <p className="text-[16px] text-neutral300 mr-1">₦</p>
                         <input
-                          type="numeric"
+                          type="number"
                           value={amount}
                           placeholder="0"
                           className="inputText focus:outline-none w-full bg-transparent flex-1"

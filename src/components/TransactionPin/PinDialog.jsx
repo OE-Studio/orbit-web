@@ -2,7 +2,15 @@ import React from "react";
 import PinInput from "react-pin-input";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-const PinDialog = ({ pin, setPin, onClick, isOpen, onClose, pinError, setPinError }) => {
+const PinDialog = ({
+  pin,
+  setPin,
+  onClick,
+  isOpen,
+  onClose,
+  pinError,
+  setPinError,
+}) => {
   return (
     <>
       {isOpen ? (
@@ -28,7 +36,13 @@ const PinDialog = ({ pin, setPin, onClick, isOpen, onClose, pinError, setPinErro
               </div>
 
               <p className="w-80 text-base leading-snug text-center text-gray-600 mx-auto">
-                {pinError ? <span className="text-red500">Invalid transaction pin, kindly try again</span>:"Enter your current pin to continue."}
+                {pinError ? (
+                  <span className="text-red500">
+                    Invalid transaction pin, kindly try again
+                  </span>
+                ) : (
+                  "Enter your current pin to continue."
+                )}
               </p>
 
               <div className="flex center">
@@ -47,7 +61,7 @@ const PinDialog = ({ pin, setPin, onClick, isOpen, onClose, pinError, setPinErro
                   inputStyle={{
                     backgroundColor: "#F2F7FA",
                     borderWidth: 2,
-                    borderColor: pinError?"#ff9c9c":"transparent",
+                    borderColor: pinError ? "#ff9c9c" : "transparent",
                     borderRadius: "5px",
                     fontFamily: "Clash Display",
                     fontWeight: 500,
@@ -57,7 +71,7 @@ const PinDialog = ({ pin, setPin, onClick, isOpen, onClose, pinError, setPinErro
                     backgroundColor: "#F2F7FA",
                   }}
                   onComplete={(value, index) => {
-setPinError(false)
+                    setPinError(false);
                   }}
                   autoSelect={true}
                   regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}

@@ -242,7 +242,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                     <div className="space-y-2">
                       <p className="text-[11px] text-text100">Mobile number</p>
                       <input
-                        type="numeric"
+                        type="number"
                         value={mobile_number}
                         placeholder="000 0000 0000"
                         className="text-neutral300 focus:outline-none w-full bg-transparent"

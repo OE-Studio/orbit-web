@@ -130,10 +130,14 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                             onClick={async (e) => {
                               e.preventDefault();
                               setLoading(true);
+                              setPresentError("");
+                              setSuccess("");
                               try {
                                 const result = await updateIdentity(BVN);
                                 setLoading(false);
-                                console.log(result);
+                                if (!result.success) {
+                                  setPresentError(result.message);
+                                }
                                 if (result.success) {
                                   setSuccess(
                                     "An OTP has been sent to your bvn phone number"
@@ -234,9 +238,12 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                             setPresentError("");
                             setSuccess("");
                             const result = await verifyBVN(BVN, otp);
-                            console.log(result);
+
                             if (!result.success) {
                               setPresentError(result.message);
+                              setTimeout(() => {
+                                setPresentError("");
+                              }, 1000);
                             }
                             if (result.success) {
                               setSuccess(result.message);
@@ -244,7 +251,7 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                                 setSuccess("");
                                 setOtpSent(false);
                                 setToggle(false);
-                                dispatch(getUserProfile);
+                                dispatch(getUserProfile());
                               }, 1000);
                             }
                           }}

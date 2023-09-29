@@ -70,7 +70,53 @@ export const uploadSelfie = async (imageDataUrl, setStep, setLoading) => {
     formData.append('selfieId', blob, 'image.png')
 
 
-    await axios.put(`/v1users/uploadKYC?token=${userToken}`, formData).then((payload) => {
+    await axios.put(`/v1/users/uploadKYCselfie?token=${userToken}`, formData).then((payload) => {
+        setLoading(false)
+        console.log(payload)
+        if (payload.data.success === true) {
+            setStep(3)
+        }
+
+    }).catch(err => {
+        setLoading(false)
+        console.log(err)
+    })
+
+}
+export const uploadGovtDocId = async (selectedFile, setStep, setLoading) => {
+    setLoading(true)
+    let userToken = JSON.parse(
+        sessionStorage.getItem("loginToken")
+    );
+    const formData = new FormData();
+
+
+    formData.append('govtDocId', selectedFile)
+
+    await axios.put(`/v1/users/uploadKYCgovtId?token=${userToken}`, formData).then((payload) => {
+        setLoading(false)
+        console.log(payload)
+        if (payload.data.success === true) {
+            setStep(4)
+        }
+
+    }).catch(err => {
+        setLoading(false)
+        console.log(err)
+    })
+
+}
+export const uploadUtilityDoc = async (selectedFile, setStep, setLoading) => {
+    setLoading(true)
+    let userToken = JSON.parse(
+        sessionStorage.getItem("loginToken")
+    );
+    const formData = new FormData();
+
+
+    formData.append('utilityDocId', selectedFile)
+
+    await axios.put(`/v1/users/uploadKYCutility?token=${userToken}`, formData).then((payload) => {
         setLoading(false)
         console.log(payload)
         if (payload.data.success === true) {

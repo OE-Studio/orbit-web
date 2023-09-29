@@ -320,7 +320,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                           Mobile number
                         </p>
                         <input
-                          type="numeric"
+                          type="number"
                           value={mobile_number}
                           placeholder="000 0000 0000"
                           className="text-neutral300 focus:outline-none w-full bg-transparent"
@@ -414,7 +414,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                     <div className="space-y-2">
                       <p className="text-[11px] text-text100">Coupon Code</p>
                       <input
-                        type="numeric"
+                        type="number"
                         placeholder="000000"
                         className="text-neutral300 focus:outline-none w-full bg-transparent"
                         onChange={(e) => {}}
@@ -560,7 +560,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
           window.location.reload();
         }}
         onReceipt={() => {
-          console.log(transaction)
+          console.log(transaction);
           setToggle(false);
           setIsOpenSuccess(!isOpenSuccess);
           setToggleReceipt(true);

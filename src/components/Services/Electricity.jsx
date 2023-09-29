@@ -391,7 +391,7 @@ const Electricity = ({ toggle, setToggle }) => {
                         Electricity Meter Number
                       </p>
                       <input
-                        type="numeric"
+                        type="number"
                         value={meter_number}
                         placeholder="000 0000 0000"
                         className="text-neutral300 focus:outline-none w-full bg-transparent"
@@ -465,7 +465,7 @@ const Electricity = ({ toggle, setToggle }) => {
                       <div className="flex">
                         <p className="text-[16px] text-neutral300 mr-1">₦</p>
                         <input
-                          type="numeric"
+                          type="number"
                           value={amount}
                           placeholder="0"
                           className="text-neutral300 focus:outline-none w-full bg-transparent flex-1"

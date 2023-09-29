@@ -8,16 +8,27 @@ const SelfieCapture = ({ imageDataUrl, setImageDataUrl, setStep }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [stream, setStream] = useState(null);
 
   const startCamera = () => {
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
         videoRef.current.srcObject = stream;
+        setStream(stream); // Store the stream object in state
       })
       .catch((error) => {
         console.error("Error accessing webcam:", error);
       });
+  };
+
+  const stopCamera = () => {
+    if (stream) {
+      const tracks = stream.getTracks();
+      tracks.forEach((track) => {
+        track.stop(); // Stop each track in the stream
+      });
+    }
   };
 
   const captureImage = () => {
@@ -33,6 +44,11 @@ const SelfieCapture = ({ imageDataUrl, setImageDataUrl, setStep }) => {
 
   useEffect(() => {
     startCamera();
+    // Cleanup when the component unmounts
+    return () => {
+      stopCamera();
+    };
+    // eslint-disable-next-line
   }, []);
 
   return (

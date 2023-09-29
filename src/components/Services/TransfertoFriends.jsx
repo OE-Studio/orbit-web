@@ -226,7 +226,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
                       <div className="flex">
                         <p className="text-[16px] text-neutral300 mr-1">₦</p>
                         <input
-                          type="numeric"
+                          type="number"
                           value={amount}
                           placeholder="0"
                           className="text-neutral300 focus:outline-none w-full bg-transparent flex-1"

@@ -4,9 +4,11 @@ import { Tier1Card, Tier2Card, Tier3Card } from "../kyc/KycStatus";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import Tier2Verification from "../kyc/Tier2Verification";
+import Tier3Verification from "../kyc/Tier3Verification";
 
 const AccountUpgrade = ({ toggle, setToggle }) => {
   const [toggleTier2Verification, setToggleTier2Verification] = useState(false);
+  const [toggleTier3Verification, setToggleTier3Verification] = useState(false);
   const user = useSelector((state) => state.user.user);
   const level = user.title;
 
@@ -16,6 +18,12 @@ const AccountUpgrade = ({ toggle, setToggle }) => {
         <Tier2Verification
           setToggle={setToggleTier2Verification}
           toggle={toggleTier2Verification}
+        />
+      )}
+      {toggleTier3Verification && (
+        <Tier3Verification
+          setToggle={setToggleTier3Verification}
+          toggle={toggleTier3Verification}
         />
       )}
 
@@ -42,7 +50,7 @@ const AccountUpgrade = ({ toggle, setToggle }) => {
               </div>
             </div>
             <div className="h-full overflow-y-scroll max-h-[600px] space-y-6">
-              <div className={`${level === "tier1" && "opacity-50"}   `}>
+              <div className={`${(level === "tier1" || level === "tier2") && "opacity-50"}   `}>
                 <Tier1Card />
               </div>
               <div
@@ -62,6 +70,13 @@ const AccountUpgrade = ({ toggle, setToggle }) => {
                 className={`${level === "tier3" && "opacity-50"} ${
                   level === "tier2" ? "cursor-pointer" : "cursor-not-allowed"
                 }`}
+
+                onClick={() => {
+                  if (level === "tier2") {
+                    setToggleTier3Verification(true);
+                    setToggle(!toggle);
+                  }
+                }}
               >
                 <Tier3Card />
               </div>
