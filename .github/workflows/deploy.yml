@@ -32,6 +32,8 @@ jobs:
 
       - name: Deploy to DigitalOcean
         run: |
+          echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
+          chmod 600 $HOME/.ssh/id_rsa
           ssh -i $HOME/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.WEB_APP_SSH_USERNAME }}@${{ secrets.WEB_APP_SSH_HOST }} 'bash -s' <<'ENDSSH'
             # Replace with your deployment steps, e.g., stop the existing service, copy new files, and start the service.
             cd /orbit-web
@@ -41,3 +43,5 @@ jobs:
             # Restart your web server, e.g., Nginx or Apache
             sudo systemctl restart nginx
           ENDSSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.YOUR_SSH_PRIVATE_KEY }}
