@@ -10,9 +10,9 @@ import SuccessToasters from "../../components/Inputs/SuccessToasters";
 import Toasters from "../../components/Inputs/Toasters";
 import PrimaryButton from "../../components/Inputs/PrimaryButton";
 import SecondaryButton from "../../components/Inputs/SecondaryButton";
-import authImg from "../../assets/authImg.png";
-import orangeBlur from "../../assets/orangeBlur.png";
-import greenBlur from "../../assets/greenBlur.png";
+import authImg from "../../assets/authImg.webp";
+import orangeBlur from "../../assets/orangeBlur.webp";
+import greenBlur from "../../assets/greenBlur.webp";
 
 export const SideCard = () => {
   return (

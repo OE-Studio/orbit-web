@@ -67,7 +67,9 @@ const Electricity = ({ toggle, setToggle }) => {
   const [planDrop, setPlanDrop] = useState(false);
   const [balanceCheckDrop, setBalanceCheckDrop] = useState(false);
 
+  // eslint-disable-next-line
   const [provider, setProvider] = useState(null);
+// eslint-disable-next-line
   const [currentProducts, setCurrentProducts] = useState(null);
   const [meter_number, setMeter_number] = useState("");
   const [amount, setAmount] = useState(0);

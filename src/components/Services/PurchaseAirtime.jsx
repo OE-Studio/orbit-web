@@ -30,7 +30,9 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
   const planRef = useRef(null);
   const [planDrop, setPlanDrop] = useState(false);
 
+  // eslint-disable-next-line
   const [provider, setProvider] = useState(null);
+  // eslint-disable-next-line
   const [currentProducts, setCurrentProducts] = useState(null);
   const [mobile_number, setMobile_number] = useState("");
   const [amount, setAmount] = useState("");

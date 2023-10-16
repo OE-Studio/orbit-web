@@ -30,7 +30,9 @@ const PurchaseData = ({ toggle, setToggle }) => {
   const [planType, setPlanType] = useState("");
   const [balanceCheckDrop, setBalanceCheckDrop] = useState(false);
 
+  // eslint-disable-next-line
   const [dataProvider, setDataProvider] = useState(null);
+  // eslint-disable-next-line
   const [dataProducts, setDataProducts] = useState(null);
   const [mobile_number, setMobile_number] = useState("");
   const [step, setStep] = useState(0);

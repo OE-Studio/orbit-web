@@ -16,7 +16,7 @@ import transactionImg from "../../assets/empty-state/emptyTransaction.svg";
 import cut from "../../assets/receipt/bottom.svg";
 import html2canvas from "html2canvas";
 import { GetAllBackgrounds } from "../settings-outlet/SettingsApi";
-import { HourglassHigh, HourglassMedium } from "phosphor-react";
+import { HourglassHigh } from "phosphor-react";
 // import html2pdf from "html2pdf.js";
 
 export const ReceiptHeader = ({
