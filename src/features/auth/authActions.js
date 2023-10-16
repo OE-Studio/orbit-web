@@ -20,7 +20,7 @@ export const registerUser = createAsyncThunk(
             )
 
             if(!response.data.success){
-                console.log(response.data.message)
+                
                 return rejectWithValue(response.data.message)
             }
             return response

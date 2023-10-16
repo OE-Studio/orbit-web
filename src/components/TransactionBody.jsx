@@ -72,7 +72,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
   const [filteredTransactions, setFilteredTransactions] = useState(null);
 
   const { transactions, status } = useSelector((state) => state.transactions);
-  console.log(transactions);
+  
 
   useEffect(() => {
     if (status === "fulfilled") {
@@ -97,7 +97,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
       const fromDate = sevenDaysAgo.toISOString().split("T")[0];
       filterOperation = filterOperation.filter((transaction) => {
-        console.log(transaction.updatedAt >= fromDate);
+        
         return transaction.updatedAt >= fromDate;
       });
     } else if (dateFilter === "This Month") {
@@ -107,7 +107,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
         .slice(0, 2)
         .join("-");
 
-      console.log(currentMonth);
+      
       filterOperation = filterOperation.filter((transaction) =>
         transaction.updatedAt.startsWith(currentMonth)
       );
@@ -127,7 +127,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
     // Filter by transaction type
     if (transactionFilter !== "All Transactions") {
       filterOperation = filterOperation.filter((transaction) => {
-        console.log(transactionFilter.toLowerCase());
+        
         return transaction.narration
           .toLowerCase()
           .includes(transactionFilter.toLowerCase());
@@ -137,7 +137,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
     // Filter by search query
     if (searchFilter) {
       const query = searchFilter.toLowerCase();
-      console.log(query);
+      
       filterOperation = filterOperation.filter((transaction) =>
         transaction.narration.toLowerCase().includes(query)
       );

@@ -107,7 +107,7 @@ const SignupReferral = () => {
                   }
                 }
                 if (res.data.success) {
-                  console.log(res.data);
+                  
                   setSuccess(res.data.message);
                   setTimeout(() => {
                     setSuccess("");
@@ -117,7 +117,7 @@ const SignupReferral = () => {
                 }
               })
               .catch((err) => {
-                console.log(err);
+                
               });
           }}
           label={loading ? <Spinner /> : " Continue"}

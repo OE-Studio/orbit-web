@@ -434,15 +434,15 @@ const SendMoney = ({ toggle, setToggle }) => {
             narration: narrations,
             reference: "",
           };
-          console.log(userInput);
+          
 
           try {
             const response = await BankTransfer(userInput, pin);
-            console.log(response);
+            
             setLoading(false);
 
             if (response && response.success) {
-              console.log(response.trxDetails.transactionId);
+              
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -464,7 +464,7 @@ const SendMoney = ({ toggle, setToggle }) => {
 
               // Invalid Number
               if (response.message === "invalid network selection") {
-                console.log("Incorrect pin");
+                
                 setStep(0);
                 setError("Invalid network selection");
                 return;
@@ -475,7 +475,7 @@ const SendMoney = ({ toggle, setToggle }) => {
               return;
             }
           } catch (error) {
-            console.log(error.response);
+            
           }
         }}
       />

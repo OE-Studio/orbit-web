@@ -166,7 +166,7 @@ const App = () => {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const mobileMediaQuery = window.matchMedia('(max-width: 768px)'); // Adjust the breakpoint as needed
-    console.log(mobileMediaQuery)
+    
 
     // Function to update the state based on the media query
     const handleResize = () => {

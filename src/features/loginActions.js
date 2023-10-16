@@ -21,7 +21,7 @@ export const loginUser = createAsyncThunk(
 
 
             if (response.data.success === false) {
-                console.log(response)
+                
                 return rejectWithValue(response.data.message)
             }
 
@@ -32,7 +32,7 @@ export const loginUser = createAsyncThunk(
             if (error.response && error.response.data.message) {
                 return rejectWithValue(error.response.data.message)
             } else {
-                console.log(error)
+                
                 return rejectWithValue(error.message)
             }
         }

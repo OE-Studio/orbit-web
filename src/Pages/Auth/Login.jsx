@@ -186,7 +186,7 @@ const Login = () => {
                       <div
                         className="cursor-pointer"
                         onClick={() => {
-                          console.log("login");
+                          
                           toggleVisibility("newpassword");
                         }}
                       >

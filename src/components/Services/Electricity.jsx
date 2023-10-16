@@ -109,7 +109,7 @@ const Electricity = ({ toggle, setToggle }) => {
       }
 
       setMeterLoading(false);
-      console.log(response.data);
+      
     } catch (error) {}
   };
 
@@ -636,14 +636,14 @@ const Electricity = ({ toggle, setToggle }) => {
             validated_address: meterDetail.customerAddress,
             amount: amount,
           };
-          console.log(userInput);
+          
 
           try {
             const response = await purchaseElectricity(userInput, pin);
-            console.log(response);
+            
 
             if (response && response.success) {
-              console.log(response.trxDetails.transactionId);
+              
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -664,7 +664,7 @@ const Electricity = ({ toggle, setToggle }) => {
 
               // Invalid Number
               if (response.message === "invalid network selection") {
-                console.log("Incorrect pin");
+                
                 setStep(0);
                 setError("Invalid network selection");
                 return;
@@ -675,7 +675,7 @@ const Electricity = ({ toggle, setToggle }) => {
               return;
             }
           } catch (error) {
-            console.log(error);
+            
           }
         }}
       />
@@ -690,7 +690,7 @@ const Electricity = ({ toggle, setToggle }) => {
           window.location.reload();
         }}
         onReceipt={() => {
-          console.log(transaction);
+          
           setIsOpenSuccess(!isOpenSuccess);
           setToggleReceipt(true);
         }}

@@ -27,7 +27,7 @@ export const fetchProducts = createAsyncThunk(
             // } else {
             //     return rejectWithValue(error.message)
             // }
-            console.log(error)
+            
         }
     }
 )

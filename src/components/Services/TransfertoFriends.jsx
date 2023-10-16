@@ -71,7 +71,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
         axios
           .post(`/v1/users/checkUsername`, { username: username.toLowerCase() })
           .then((response) => {
-            console.log(response);
+            
             if (response.data.success) {
               if (
                 response.data.message.trim() ===
@@ -122,7 +122,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
             <div
               className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
               onClick={() => {
-                console.log("close");
+                
                 setToggle(false);
               }}
             >
@@ -331,15 +331,15 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
             amount: amount,
             receiverIdentity: username,
           };
-          console.log(userInput);
+          
 
           try {
             const response = await transfertoFriends(userInput, pin);
-            console.log(response);
+            
             setLoading(false);
 
             if (response && response.success) {
-              console.log(response.recordTransaction.transactionId);
+              
               setTransaction(response.recordTransaction.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -364,7 +364,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
               return;
             }
           } catch (error) {
-            console.log(error.response);
+            
           }
         }}
       />

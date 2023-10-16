@@ -117,8 +117,6 @@ const SignupEmailOTP = () => {
                     .userId,
                 })
                 .then((res) => {
-                  console.log(res);
-                  console.log(res.data.success);
                   setResendLoading(false);
                   if (res.data.success) {
                     setSuccess(res.data.message);
@@ -154,8 +152,6 @@ const SignupEmailOTP = () => {
                     })
                     .then((res) => {
                       setLoading(false);
-                      console.log(res);
-                      console.log(res.data.success);
                       if (res.data.success) {
                         setSuccess(res.data.message);
                         setTimeout(() => {

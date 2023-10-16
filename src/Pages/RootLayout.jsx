@@ -111,7 +111,7 @@ const RootLayout = () => {
                       className="flex justify-between items-center py-[5px] px-3 rounded-full hover:bg-neutral100"
                       onClick={async () => {
                         const response = await logOut();
-                        console.log(response);
+                        
                         if (response.success) {
                           navigate("/login");
                           sessionStorage.clear();

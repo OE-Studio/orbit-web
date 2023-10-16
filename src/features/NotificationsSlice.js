@@ -15,7 +15,7 @@ export const fetchNotifications = createAsyncThunk(
       return response.data;
     } catch (error) {
       // Handle any errors and return with rejectWithValue
-      console.log(error)
+      
       return rejectWithValue(error.response.data);
     }
   }

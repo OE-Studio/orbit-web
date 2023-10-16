@@ -144,13 +144,13 @@ const PinSettings = () => {
                     currentPin: currentPin,
                     newPin: newPin,
                   });
-                  console.log("here");
-                  console.log(response);
+                  
+                  
                   if (response.success) {
                     setIsOpenSuccess(true);
                   } else {
                     setError("Invalid Credentials");
-                    console.log(response);
+                    
                   }
                 }}
               >

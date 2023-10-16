@@ -31,10 +31,8 @@ const SignupGeneral = () => {
   React.useEffect(() => {
     const getData = setTimeout(() => {
       if (username) {
-        console.log(username);
         axios.post(`/v1/users/checkUsername`, { username }).then((response) => {
           if (response.data.success) {
-            console.log(response.data.success);
             setUsernameError(false);
             setUsernameAvailable(true);
           } else {

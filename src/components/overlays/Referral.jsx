@@ -26,7 +26,7 @@ const Referral = ({ toggle, setToggle }) => {
 
   const getAllRefferrals = async () => {
     const response = await GetAllReferrals();
-    console.log(response.myReferrals);
+    
     setAllReferrals(response.myReferrals);
   };
 
@@ -109,7 +109,7 @@ const Referral = ({ toggle, setToggle }) => {
               <tbody>
                 {allReferrals && allReferrals.length > 0 ? (
                   allReferrals.map((item, index) => {
-                    console.log(item);
+                    
                     return (
                       <tr key={index} className="text-grey200 text-sm">
                         <td className="w-1/4 py-4 px-3 text-left">

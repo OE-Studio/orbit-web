@@ -45,10 +45,10 @@ const PasswordSettings = () => {
     await dispatch(loginUser(userInput)).then((payload) => {
       setLoginLoading(false);
       if (payload.error) {
-        console.log(payload.error);
+        
         setError("Invalid Credential");
       } else {
-        console.log(payload.payload);
+        
         setPasswordConfirmed(true);
       }
     });
@@ -235,7 +235,7 @@ const PasswordSettings = () => {
                 className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 w-[129px]"
                 onClick={async (e) => {
                   e.preventDefault();
-                  console.log("here");
+                  
                   setUpdateLoading(true);
                   let response = await ChangePassword({
                     currentPassword: currentPassword,
@@ -245,7 +245,7 @@ const PasswordSettings = () => {
                   if (response.success) {
                     setIsOpenSuccess(true);
                   } else {
-                    console.log(response);
+                    
                   }
                 }}
               >

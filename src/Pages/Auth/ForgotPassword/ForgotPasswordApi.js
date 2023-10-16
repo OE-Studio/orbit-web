@@ -9,7 +9,7 @@ export const getCode = async (email, setError, navigate, setLoading) => {
     await axios.put('/v1/users/passwordReset/request', {
         email
     }).then(response => {
-        console.log(response)
+
         if (response.data.success === false) {
             setError(response.data.message)
             setLoading(false)
@@ -20,7 +20,7 @@ export const getCode = async (email, setError, navigate, setLoading) => {
             navigate('/forgot-password/otp')
         }
     }).catch(err => {
-        console.log(err)
+
     })
 }
 
@@ -33,7 +33,7 @@ export const confirmPin = async (email, otp, setError, navigate, setLoading) => 
     await axios.put('/v1/users/passwordReset/verify', {
         email, otp
     }).then(response => {
-        console.log(response)
+
         if (response.data.success === false) {
             setError(response.data.message)
 
@@ -46,16 +46,16 @@ export const confirmPin = async (email, otp, setError, navigate, setLoading) => 
             navigate('/forgot-password/update')
         }
     }).catch(err => {
-        console.log(err)
+
     })
 }
 
 
-export const updatePassword = async(newPassword,setLoading, setError, navigate)=>{
+export const updatePassword = async (newPassword, setLoading, setError, navigate) => {
     await axios.put('/v1/users/passwordReset/reset', {
-        newPassword, userId:JSON.parse(sessionStorage.getItem('userId'))
+        newPassword, userId: JSON.parse(sessionStorage.getItem('userId'))
     }).then(response => {
-        console.log(response)
+
         if (response.data.success === false) {
             setError(response.data.message)
 
@@ -68,6 +68,6 @@ export const updatePassword = async(newPassword,setLoading, setError, navigate)=
             navigate('/forgot-password/update-success')
         }
     }).catch(err => {
-        console.log(err)
+
     })
 }

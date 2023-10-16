@@ -53,7 +53,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
   const [meterLoading, setMeterLoading] = useState(false);
 
   const validMeter = async () => {
-    console.log(plan);
+    
     setMeterLoading(true);
     setMeterDetail("");
     try {
@@ -63,7 +63,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
       });
       setMeterLoading(false);
       setMeterDetail(response.data.customer_name);
-      console.log(response.data);
+      
     } catch (error) {}
   };
 
@@ -464,15 +464,15 @@ const CableSubscription = ({ toggle, setToggle }) => {
             cable_plan_api_id: plan.provider_id,
             validated_customer_name: meterDetail,
           };
-          console.log(userInput);
+          
 
           try {
             const response = await purchaseData(userInput, pin);
-            console.log(response);
+            
             setLoading(false);
 
             if (response && response.success) {
-              console.log(response.trxDetails.transactionId);
+              
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -494,7 +494,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
 
               // Invalid Number
               if (response.message === "invalid network selection") {
-                console.log("Incorrect pin");
+                
                 setStep(0);
                 setError("Invalid network selection");
                 return;
@@ -505,7 +505,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
               return;
             }
           } catch (error) {
-            console.log(error.response);
+            
           }
         }}
       />

@@ -563,10 +563,10 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
 
           try {
             const response = await purchaseAirtime(userInput, pin);
-            console.log(response);
+            
             setLoading(false);
             if (response && response.success) {
-              console.log(response.trxDetails.transactionId);
+              
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -587,7 +587,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
 
               // Invalid Number
               if (response.message === "invalid network selection") {
-                console.log("Incorrect pin");
+                
                 setStep(0);
                 setError("Invalid network selection");
                 return;
@@ -598,7 +598,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
               return;
             }
           } catch (error) {
-            console.log(error.response);
+            
           }
         }}
       />

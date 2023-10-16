@@ -211,7 +211,6 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                               setLoading(false);
                               setPresentError("");
                               setSuccess("");
-                              console.log(result);
                               if (result.success) {
                                 setSuccess(
                                   "An OTP has been sent to your bvn phone number"

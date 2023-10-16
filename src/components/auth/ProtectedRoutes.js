@@ -41,7 +41,7 @@ const ProtectedRoutes = () => {
     const bankListStatus = useSelector((state) => state.bankList.status);
     const notificationStatus = useSelector((state) => state.notifications.status);
     const bgStatus = useSelector((state) => state.backgrounds.status);
-    console.log(bgStatus)
+    
 
 
 
@@ -50,7 +50,6 @@ const ProtectedRoutes = () => {
     //     // alert("You're leavin and you'll be logged out")
     //     try {
     //         const response = await logOut();
-    //         console.log(response);
     //         if (response.success) {
     //             navigate("/login");
     //             sessionStorage.clear();
@@ -145,7 +144,7 @@ const ProtectedRoutes = () => {
         ) {
             if (firstLoad) {
                 setTimeout(() => {
-                    console.log("all loaded");
+                    
                     setRender(true);
                     setFirstLoad(false); // Mark first load as completed
                     localStorage.setItem("firstLoad", JSON.stringify(false)); // Store firstLoad in local storage

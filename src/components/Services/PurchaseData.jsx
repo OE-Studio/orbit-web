@@ -547,16 +547,16 @@ const PurchaseData = ({ toggle, setToggle }) => {
             network_api_id: plan.provider_id,
             data_api_id: plan.product_id,
           };
-          console.log(userInput);
+          
 
           try {
             const response = await purchaseData(userInput, pin);
-            console.log(response);
+            
             setLoading(false);
 
             if (response && response.success) {
               setLoading(false);
-              console.log(response.trxDetails.transactionId);
+              
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -578,7 +578,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
 
               // Invalid Number
               if (response.message === "invalid network selection") {
-                console.log("Incorrect pin");
+                
                 setStep(0);
                 setError("Invalid network selection");
                 return;
@@ -589,7 +589,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
               return;
             }
           } catch (error) {
-            console.log(error.response);
+            
           }
         }}
       />

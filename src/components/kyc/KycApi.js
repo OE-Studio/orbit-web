@@ -1,7 +1,7 @@
 import axios from "../../api/axios";
 
 export const updateIdentity = async (bvn) => {
-    console.log(bvn)
+    
     let userToken = JSON.parse(
         sessionStorage.getItem("loginToken")
     );
@@ -11,13 +11,13 @@ export const updateIdentity = async (bvn) => {
             .put(`/v1/users/setIdentity?token=${userToken}`, { bvn, })
         return response.data
     } catch (err) {
-        console.log(err);
+        
         return err
     }
 }
 
 export const verifyBVN = async (bvn, otp) => {
-    console.log(bvn)
+    
     let userToken = JSON.parse(
         sessionStorage.getItem("loginToken")
     );
@@ -27,7 +27,7 @@ export const verifyBVN = async (bvn, otp) => {
             .put(`/v1/users/verifyBVN?token=${userToken}`, { bvn, otp })
         return response.data
     } catch (err) {
-        console.log(err);
+        
         return err
     }
 }
@@ -62,7 +62,7 @@ export const uploadSelfie = async (imageDataUrl, setStep, setLoading) => {
         }
 
         var blob = new Blob(byteArrays, { type: contentType });
-        console.log(blob)
+        
         return blob;
     }
 
@@ -72,14 +72,14 @@ export const uploadSelfie = async (imageDataUrl, setStep, setLoading) => {
 
     await axios.put(`/v1/users/uploadKYCselfie?token=${userToken}`, formData).then((payload) => {
         setLoading(false)
-        console.log(payload)
+        
         if (payload.data.success === true) {
             setStep(3)
         }
 
     }).catch(err => {
         setLoading(false)
-        console.log(err)
+        
     })
 
 }
@@ -95,14 +95,14 @@ export const uploadGovtDocId = async (selectedFile, setStep, setLoading) => {
 
     await axios.put(`/v1/users/uploadKYCgovtId?token=${userToken}`, formData).then((payload) => {
         setLoading(false)
-        console.log(payload)
+        
         if (payload.data.success === true) {
             setStep(4)
         }
 
     }).catch(err => {
         setLoading(false)
-        console.log(err)
+        
     })
 
 }
@@ -118,14 +118,14 @@ export const uploadUtilityDoc = async (selectedFile, setStep, setLoading) => {
 
     await axios.put(`/v1/users/uploadKYCutility?token=${userToken}`, formData).then((payload) => {
         setLoading(false)
-        console.log(payload)
+        
         if (payload.data.success === true) {
             setStep(5)
         }
 
     }).catch(err => {
         setLoading(false)
-        console.log(err)
+        
     })
 
 }

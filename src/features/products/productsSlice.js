@@ -21,7 +21,7 @@ const productsSlice = createSlice({
         state.status = "pending"
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        // console.log(action.payload)
+        
         state.products = action.payload.data;
 
         state.isLoading = false;

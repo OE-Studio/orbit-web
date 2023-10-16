@@ -81,7 +81,7 @@ const SignupPin = () => {
                 disabled={pin.length < 6}
                 className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
                 onClick={(e) => {
-                  console.log("here");
+                  
                   setDisplayConfirmPin(true);
                 }}
                 label={"Continue"}
@@ -148,7 +148,7 @@ const SignupPin = () => {
                     })
                       .then((res) => {
                         setLoading(false);
-                        console.log(res);
+                        
                         if (res.data.success) {
                           setSuccess(res.data.message);
                           setTimeout(() => {
@@ -169,7 +169,7 @@ const SignupPin = () => {
                         }
                       })
                       .catch((err) => {
-                        console.log(err);
+                        
                         setLoading(false);
                       });
                   }}
