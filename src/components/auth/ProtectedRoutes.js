@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import RootLayout from '../../Pages/RootLayout'
 import { AnimatePresence } from 'framer-motion'
 // import PinDialog from '../TransactionPin/PinDialog'
@@ -13,7 +13,7 @@ import logo from '../../assets/loadaer.svg'
 import { getUserProfile } from "../../features/profile/userAction";
 import { fetchVirtualAccount } from "../../features/getVirtualAccountSlice";
 import { fetchBankList } from "../../features/getBankList";
-import { logOut } from "../settings-outlet/SettingsApi";
+
 import { fetchNotifications } from "../../features/NotificationsSlice";
 
 
@@ -40,7 +40,7 @@ const ProtectedRoutes = () => {
     const bankListStatus = useSelector((state) => state.bankList.status);
     const notificationStatus = useSelector((state) => state.notifications.status);
 
-    const navigate = useNavigate();
+    
 
     // window.addEventListener('beforeunload', async (event) => {
     //     event.preventDefault();

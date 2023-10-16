@@ -155,7 +155,7 @@ const router = createBrowserRouter([
 ]);
 
 
-const isMobileOrTablet = window.innerWidth <= 768; // You can adjust this threshold as needed
+// const isMobileOrTablet = window.innerWidth <= 768; // You can adjust this threshold as needed
 
 
 
