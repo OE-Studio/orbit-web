@@ -92,7 +92,7 @@ const Electricity = ({ toggle, setToggle }) => {
     try {
       const response = await validateMeter({
         metre_number: meter_number,
-        electricity_plan_api_id: plan.id,
+        electricity_plan_api_id: plan.product_id,
       });
 
       if (response.data.success) {
@@ -141,9 +141,8 @@ const Electricity = ({ toggle, setToggle }) => {
 
   const wallet = useSelector((state) => state.wallet);
 
-  let data_product = products.filter((item) => {
-    return item.product === "Electricity";
-  });
+  let data_product = products.electricity;
+  const meterTypes = [...new Set(data_product.map((item) => item.meter_type))];
   const [toggleReceipt, setToggleReceipt] = useState(false);
   const [transaction, setTransaction] = useState("");
   const dispatch = useDispatch();
@@ -198,7 +197,7 @@ const Electricity = ({ toggle, setToggle }) => {
         <div className="h-9" />
         <div className="h-full overflow-y-scroll pb-14 font-inter ">
           {/* box */}
-          <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-10">
+          <div className="bg-white rounded-[8px] p-10">
             {step === 0 && (
               <div className="mx-auto w-[353px] space-y-6">
                 {/* Support */}
@@ -271,7 +270,7 @@ const Electricity = ({ toggle, setToggle }) => {
                         Electricity Meter type
                       </p>
                       <p className="text-[16px] text-neutral300">
-                        {network?.name || "Select"}
+                        {network?.toUpperCase() || "Select"}
                       </p>
                     </div>
                     <div className="flex items-center justify-center h-6 w-6 ">
@@ -284,7 +283,7 @@ const Electricity = ({ toggle, setToggle }) => {
                   </div>
                   {networkDrop && (
                     <div className="absolute top-full mt-1 p-2 space-y-2 bg-white w-full rounded-lg z-10">
-                      {provider?.map((networkItem, index) => {
+                      {meterTypes?.map((networkItem, index) => {
                         return (
                           <div
                             className="flex rounded-full px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
@@ -295,7 +294,7 @@ const Electricity = ({ toggle, setToggle }) => {
                             }}
                           >
                             <p className="text-grey200 text-[14px] font-medium">
-                              {networkItem.name}
+                              {networkItem?.toUpperCase()}
                             </p>
 
                             <div className="h-4 w-4 border border-[B8C0CC] rounded-full center">
@@ -339,15 +338,10 @@ const Electricity = ({ toggle, setToggle }) => {
                       {network &&
                         data_product
                           .filter((item) => {
-                            return (
-                              item.product_provider ===
-                              network.name.toUpperCase()
-                            );
+                            return item.meter_type === network;
                           })
                           .map((networkItem, index) => {
-                            const currentProduct = currentProducts.find(
-                              (item) => item.id === networkItem.id
-                            );
+                            
 
                             return (
                               <div
@@ -356,14 +350,14 @@ const Electricity = ({ toggle, setToggle }) => {
                                 onClick={() => {
                                   setPlan({
                                     ...networkItem,
-                                    ...currentProduct,
+                                    
                                   });
                                   setPlanDrop(false);
                                 }}
                               >
                                 <div>
                                   <p className="text-grey400 text-[14px] font-medium">
-                                    {currentProduct?.description}
+                                    {networkItem?.description}
                                   </p>
                                 </div>
 
@@ -528,7 +522,8 @@ const Electricity = ({ toggle, setToggle }) => {
                       meter_number &&
                       meterDetail &&
                       meterDetail.customerAddress &&
-                      meterDetail.customerName && network &&
+                      meterDetail.customerName &&
+                      network &&
                       amount &&
                       amount < wallet?.data?.data.balance
                     )
@@ -635,7 +630,7 @@ const Electricity = ({ toggle, setToggle }) => {
           let userInput = {
             metre_number: meter_number.toString(),
             phone_number: mobile_number,
-            electricity_plan_api_id: plan.id,
+            electricity_plan_api_id: plan.product_id,
             validated_customer_name: meterDetail.customerName,
             validated_address: meterDetail.customerAddress,
             amount: amount,
@@ -695,7 +690,6 @@ const Electricity = ({ toggle, setToggle }) => {
         }}
         onReceipt={() => {
           console.log(transaction);
-          setToggle(false);
           setIsOpenSuccess(!isOpenSuccess);
           setToggleReceipt(true);
         }}

@@ -151,7 +151,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
         <div className="h-9" />
         <div className="h-full overflow-y-scroll pb-14 font-inter ">
           {/* box */}
-          <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-10">
+          <div className="bg-white  rounded-[8px] p-10">
             {step === 0 && (
               <div className="mx-auto w-[353px] space-y-6">
                 {/* Username */}
@@ -181,7 +181,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
                           name="username"
                           id="username"
                           value={username}
-                          placeholder="leyeconnect"
+                          placeholder="username"
                           className="text-[#5b5b5b] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
                           onChange={(e) => {
                             setUsername(e.target.value);
@@ -260,22 +260,23 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
                 </div>
 
                 <div />
-
-                <PrimaryButton
-                  disabled={
-                    !(
-                      username &&
-                      !usernameError &&
-                      amount &&
-                      amount < wallet?.data?.data.balance
-                    )
-                  }
-                  label={"Continue"}
-                  onClick={() => {
-                    setError("");
-                    setStep(1);
-                  }}
-                />
+                <div className="flex justify-end">
+                  <PrimaryButton
+                    disabled={
+                      !(
+                        username &&
+                        !usernameError &&
+                        amount &&
+                        amount < wallet?.data?.data.balance
+                      )
+                    }
+                    label={"Continue"}
+                    onClick={() => {
+                      setError("");
+                      setStep(1);
+                    }}
+                  />
+                </div>
               </div>
             )}
             {step === 1 && (

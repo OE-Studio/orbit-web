@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import RootLayout from '../../Pages/RootLayout'
 import { AnimatePresence } from 'framer-motion'
 // import PinDialog from '../TransactionPin/PinDialog'
@@ -13,6 +13,8 @@ import logo from '../../assets/loadaer.svg'
 import { getUserProfile } from "../../features/profile/userAction";
 import { fetchVirtualAccount } from "../../features/getVirtualAccountSlice";
 import { fetchBankList } from "../../features/getBankList";
+import { logOut } from "../settings-outlet/SettingsApi";
+import { fetchNotifications } from "../../features/NotificationsSlice";
 
 
 
@@ -36,7 +38,25 @@ const ProtectedRoutes = () => {
     const transactionStatus = useSelector((state) => state.transactions.status);
     const virtualAccountStatus = useSelector((state) => state.virtualAccount.status);
     const bankListStatus = useSelector((state) => state.bankList.status);
+    const notificationStatus = useSelector((state) => state.notifications.status);
 
+    const navigate = useNavigate();
+
+    // window.addEventListener('beforeunload', async (event) => {
+    //     event.preventDefault();
+    //     // alert("You're leavin and you'll be logged out")
+    //     try {
+    //         const response = await logOut();
+    //         console.log(response);
+    //         if (response.success) {
+    //             navigate("/login");
+    //             sessionStorage.clear();
+    //             window.location.reload()
+    //         }
+    //     } catch (error) {
+    //         console.error('Logout API call failed:', error);
+    //     }
+    // });
 
     // getUser
     useEffect(() => {
@@ -50,7 +70,7 @@ const ProtectedRoutes = () => {
     useEffect(() => {
         if (bankListStatus === "idle") {
             dispatch(fetchBankList())
-            
+
         }
         // eslint-disable-next-line
     }, [bankListStatus]);
@@ -67,7 +87,6 @@ const ProtectedRoutes = () => {
     useEffect(() => {
         if (productsStatus === "idle") {
             dispatch(fetchProducts())
-            console.log(productsStatus)
         }
         return () => { };
         // eslint-disable-next-line
@@ -92,11 +111,21 @@ const ProtectedRoutes = () => {
         // eslint-disable-next-line
     }, [transactionStatus]);
 
+    // fetchNotifications
+    useEffect(() => {
+        if (notificationStatus === "idle") {
+            dispatch(fetchNotifications());
+        }
+        return () => { };
+        // eslint-disable-next-line
+    }, [notificationStatus]);
+
     useEffect(() => {
         if (
             productsStatus === "fulfilled" &&
             walletStatus === "fulfilled"
             && transactionStatus === "fulfilled"
+            && notificationStatus === "fulfilled"
             && userStatus === "fulfilled"
             && bankListStatus === "fulfilled"
 
@@ -117,7 +146,7 @@ const ProtectedRoutes = () => {
         productsStatus,
         walletStatus,
         transactionStatus,
-        userStatus, bankListStatus
+        userStatus, bankListStatus, notificationStatus
     ]);
 
 

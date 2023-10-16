@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import axios from '../../api/axios'
+import axios from 'axios'
+
 
 
 
@@ -14,7 +15,7 @@ export const fetchProducts = createAsyncThunk(
                 },
             }
             let response = await axios.get(
-                `/v1/users/product_prices`,
+                `https://orbit-finance-api.herokuapp.com/admin/api/v1/products`,
                 config
             )
             return response

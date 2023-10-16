@@ -1,11 +1,9 @@
-import {
-
-  TrashIcon,
-  ChevronLeftIcon,
-} from "@heroicons/react/24/solid";
+import { TrashIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
-import notifications from "../../data/notifications";
+
 import { format } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchNotifications } from "../../features/NotificationsSlice";
 
 const Notification = ({
   toggle,
@@ -13,14 +11,18 @@ const Notification = ({
   setMainNotification,
   current_notification,
 }) => {
-  
+  const { notifications } = useSelector((state) => state.notifications);
+
+  const dispatch = useDispatch();
+
   return (
     <SideBarWrapper toggle={toggle}>
       {/* Header */}
       <div className="flex justify-between items-center">
         <div
           className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
-          onClick={() => {
+          onClick={async () => {
+            await dispatch(fetchNotifications());
             setToggle(false);
             setMainNotification(true);
           }}
@@ -43,7 +45,7 @@ const Notification = ({
         <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-6">
           <p className="text-neutral300 text-xs mb-6 uppercase">
             {format(
-              Date.parse(notifications[current_notification].date),
+              Date.parse(notifications[current_notification].createdAt),
               "dd MMM, yyy"
             )}
           </p>
@@ -51,7 +53,7 @@ const Notification = ({
             {notifications[current_notification].title}
           </p>
           <p className="text-neutral300 text-sm mt-1">
-            {notifications[current_notification].description}
+            {notifications[current_notification].message}
           </p>
         </div>
       </div>

@@ -9,7 +9,10 @@ import {
 import { useState } from "react";
 import SideBarWrapper from "../SideBarWrapper";
 import { format } from "date-fns";
-import notifications from "../../data/notifications";
+// import notifications from "../../data/notifications";
+import { useSelector } from "react-redux";
+import emptyTransaction from "../../assets/empty-state/emptyNotification.svg";
+import { MarkNotificationRead } from "./NotificationApi";
 
 const NotificationItem = ({
   read,
@@ -20,12 +23,14 @@ const NotificationItem = ({
   setTogglePage,
   setCurrent,
   index,
+  id,
 }) => {
   return (
     <div
       className="w-full flex gap-4 py-4 border-t border-neutral100  font-inter"
-      onClick={() => {
-        notifications[index].read = true;
+      onClick={async () => {
+        // notifications[index].read = true;
+        await MarkNotificationRead({ notificationId: id });
         setCurrent(index);
         setToggleNotification(false);
         setTogglePage(true);
@@ -52,6 +57,16 @@ const NotificationItem = ({
   );
 };
 
+export const EmptyTransaction = () => {
+  return (
+    <div className="center flex-col h-[350px] w-full">
+      <img src={emptyTransaction} alt="" />
+      <div className="h-4"></div>
+      <p className="text-neutral300">No notification at the moment</p>
+    </div>
+  );
+};
+
 const Notification = ({
   toggle,
   setToggle,
@@ -59,6 +74,8 @@ const Notification = ({
   set_current_notification,
 }) => {
   const [toggleOptions, setToggleOptions] = useState(false);
+
+  const { notifications } = useSelector((state) => state.notifications);
 
   return (
     <SideBarWrapper toggle={toggle}>
@@ -107,21 +124,26 @@ const Notification = ({
       </div>
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14">
-        {notifications.map((notification, index) => {
-          return (
-            <NotificationItem
-              setToggleNotification={setToggle}
-              setTogglePage={setTogglePage}
-              title={notification.title}
-              description={notification.description}
-              date={notification.date}
-              read={notification.read}
-              setCurrent={set_current_notification}
-              index={index}
-              key={index}
-            />
-          );
-        })}
+        {notifications.length > 0 ? (
+          notifications.map((notification, index) => {
+            return (
+              <NotificationItem
+                setToggleNotification={setToggle}
+                setTogglePage={setTogglePage}
+                title={notification.message}
+                // description={notification.message}
+                date={notification.createdAt}
+                id={notification.id}
+                read={notification.status === "read"}
+                setCurrent={set_current_notification}
+                index={index}
+                key={index}
+              />
+            );
+          })
+        ) : (
+          <EmptyTransaction />
+        )}
       </div>
     </SideBarWrapper>
   );

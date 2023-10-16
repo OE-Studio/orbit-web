@@ -4,6 +4,7 @@ import Slide2 from "../../assets/onboarding/2.png";
 import Slide3 from "../../assets/onboarding/3.png";
 import SignupForm from "./SignupForm";
 import Slides from "./Slides";
+import { SideCard } from "./Login";
 
 const onboardingSlides = [
   {
@@ -53,7 +54,7 @@ const SignUp = () => {
 
   return (
     <div className="flex h-[100vh]">
-      <section
+      {/* <section
         className="overflow-x-scroll w-[50vw] h-full bg-[#F2F7FA] overflow-y-hidden transition duration-500 ease-in-out disable-scrollbars"
         id="slideContainer"
       >
@@ -62,8 +63,9 @@ const SignUp = () => {
             return <Slides slide={slide} index={index} key={index} />;
           })}
         </div>
-      </section>
-      <section className="w-1/2">
+      </section> */}
+      <SideCard />
+      <section className="w-1/2 relative z-40">
         <div className="max-w-[609px] mx-auto mt-24">
           <SignupForm />
         </div>

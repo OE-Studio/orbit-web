@@ -4,6 +4,8 @@ import axios from "../../api/axios";
 import { Spinner } from "../Spinner";
 import SuccessToasters from "../Inputs/SuccessToasters";
 import Toasters from "../Inputs/Toasters";
+import PrimaryButton from "../Inputs/PrimaryButton";
+import SecondaryButton from "../Inputs/SecondaryButton";
 
 const SignupReferral = () => {
   const navigate = useNavigate();
@@ -63,19 +65,20 @@ const SignupReferral = () => {
 
       <div className="h-6" />
       <div className="flex gap-8">
-        <button
+        <SecondaryButton
           disabled={inputError}
           className="w-full border border-grey15 py-4 rounded-full font-clash font-medium text-grey600 text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] flex items-center justify-center "
           onClick={async (e) => {
             e.preventDefault();
             navigate("/");
           }}
-        >
-          {" "}
-          Skip
-        </button>
-        <button
+          label={"Skip"}
+          width="flex-1"
+        />
+
+        <PrimaryButton
           disabled={referralCode === ""}
+          width="flex-1"
           className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] flex items-center justify-center "
           onClick={async (e) => {
             e.preventDefault();
@@ -117,10 +120,8 @@ const SignupReferral = () => {
                 console.log(err);
               });
           }}
-        >
-          {" "}
-          {loading ? <Spinner /> : " Continue"}
-        </button>
+          label={loading ? <Spinner /> : " Continue"}
+        />
       </div>
     </>
   );

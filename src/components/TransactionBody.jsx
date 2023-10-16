@@ -8,7 +8,7 @@ import convertToSentenceCase from "../utils/convertToSentence";
 import { format } from "date-fns";
 
 import { truncateText } from "../utils/TruncateText";
-import Receipt from "./Receipts/Receipt";
+import Receipt, { StatusState } from "./Receipts/Receipt";
 
 export const IndividualTransaction = ({
   title,
@@ -17,6 +17,7 @@ export const IndividualTransaction = ({
   type,
   transaction,
   setCurrent,
+  status
 }) => {
   const [toggleReceipt, setToggleReceipt] = useState(false);
 
@@ -30,12 +31,12 @@ export const IndividualTransaction = ({
         />
       ) : null}
       <div
-        className="w-full flex font-inter border-t border-neutral100 py-4"
+        className="w-full flex font-inter border-t border-neutral100 py-4 cursor-pointer hover:bg-gray-50"
         onClick={() => {
           setToggleReceipt(true);
         }}
       >
-        <div className="inline-flex gap-2 items-center w-[30%]">
+        <div className="inline-flex gap-2 items-center w-[25%]">
           <TransactionType type={type.toLowerCase()} />
           <p className="text-[15px] font-medium text-grey400">{title}</p>
         </div>
@@ -45,7 +46,10 @@ export const IndividualTransaction = ({
             {description}
           </p>
         </div>
-        <div className="flex gap-4 items-center w-[20%] justify-end">
+        <div className="flex gap-4 items-center w-[10%] ">
+          <StatusState status={status}/>
+        </div>
+        <div className="flex gap-4 items-center w-[15%] justify-end">
           <p className="text-[15px]  text-neutral300 font-semibold">{price}</p>
           <ChevronRightIcon className="h-4" />
         </div>
@@ -68,6 +72,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
   const [filteredTransactions, setFilteredTransactions] = useState(null);
 
   const { transactions, status } = useSelector((state) => state.transactions);
+  console.log(transactions);
 
   useEffect(() => {
     if (status === "fulfilled") {
@@ -173,6 +178,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
                 )}
                 <IndividualTransaction
                   type={transaction.narration.split(" ")[0]}
+                  status={transaction.status}
                   title={
                     `${convertToSentenceCase(
                       transaction.narration.split(" ")[0]
@@ -198,9 +204,10 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
 
           return (
             <div key={index}>
-              <div className="h-4" />
+              {/* <div className="h-4" /> */}
               <IndividualTransaction
                 type={transaction.narration.split(" ")[0]}
+                status={transaction.status}
                 title={
                   `${
                     transaction.narration.split(" ")[0] === "money"

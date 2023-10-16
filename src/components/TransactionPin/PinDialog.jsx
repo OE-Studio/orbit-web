@@ -1,6 +1,7 @@
 import React from "react";
 import PinInput from "react-pin-input";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import PrimaryButton from "../Inputs/PrimaryButton";
 
 const PinDialog = ({
   pin,
@@ -78,15 +79,15 @@ const PinDialog = ({
                 />
               </div>
 
-              <div className="bg-neutral100 p-4">
-                <button
+              <div className="bg-neutral100 p-4 justify-center flex">
+                <PrimaryButton
                   type="submit"
                   className="flex items-center px-4 py-2.5 bg-green700 text-white font-clash font-semibold rounded-full gap-3 w-full justify-center disabled:bg-gray-200 disabled:cursor-not-allowed transition-all duration-500"
                   disabled={pin?.length < 6}
                   onClick={onClick}
+                  label={"Confirm"}
                 >
-                  Confirm
-                </button>
+                </PrimaryButton>
               </div>
             </div>
           </div>

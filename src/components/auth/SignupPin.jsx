@@ -5,6 +5,7 @@ import axios from "../../api/axios";
 import SuccessToasters from "../Inputs/SuccessToasters";
 import Toasters from "../Inputs/Toasters";
 import { Spinner } from "../Spinner";
+import PrimaryButton from "../Inputs/PrimaryButton";
 
 const SignupPin = () => {
   const navigate = useNavigate();
@@ -75,15 +76,17 @@ const SignupPin = () => {
               />
             </div>
             <div className="h-7"></div>
-            <button
-              disabled={pin.length < 6}
-              className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
-              onClick={(e) => {
-                setDisplayConfirmPin(true);
-              }}
-            >
-              Continue
-            </button>
+            <div className="flex justify-end">
+              <PrimaryButton
+                disabled={pin.length < 6}
+                className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
+                onClick={(e) => {
+                  console.log("here");
+                  setDisplayConfirmPin(true);
+                }}
+                label={"Continue"}
+              />
+            </div>
           </div>
         )}
         {displayConfirmPin && (
@@ -120,61 +123,60 @@ const SignupPin = () => {
               />
             </div>
             <div className="h-7"></div>
-            {loading ? (
-              <Spinner />
-            ) : (
-              <button
-                disabled={confirmPin.length < 6}
-                className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
-                onClick={async (e) => {
-                  setLoading(true);
-                  setPresentError("");
-                  if (pin !== confirmPin) {
-                    setPresentError(
-                      "The pin entered do not match, please try again."
-                    );
-                    setLoading(false);
-                    return;
-                  }
-
-                  await axios({
-                    url: `v1/users/setPin?token=${JSON.parse(
-                      sessionStorage.getItem("loginToken")
-                    )}`,
-                    method: "PUT",
-                    data: { pin: pin },
-                  })
-                    .then((res) => {
+            <div className="flex justify-end">
+              {loading ? (
+                <Spinner />
+              ) : (
+                <PrimaryButton
+                  disabled={confirmPin.length < 6}
+                  onClick={async (e) => {
+                    setLoading(true);
+                    setPresentError("");
+                    if (pin !== confirmPin) {
+                      setPresentError(
+                        "The pin entered do not match, please try again."
+                      );
                       setLoading(false);
-                      console.log(res);
-                      if (res.data.success) {
-                        setSuccess(res.data.message);
-                        setTimeout(() => {
-                          setSuccess("");
-                          // sessionStorage.removeItem("userInfo");
-                          // sessionStorage.removeItem("userInput");
-                          // localStorage.clear();
-                          navigate("/signup/referral");
-                          return;
-                        }, 1000);
-                      } else {
-                        setPresentError(res.data.message);
-                        setTimeout(() => {
-                          setPresentError("");
-
-                          return;
-                        }, 3000);
-                      }
+                      return;
+                    }
+                    await axios({
+                      url: `v1/users/setPin?token=${JSON.parse(
+                        sessionStorage.getItem("loginToken")
+                      )}`,
+                      method: "PUT",
+                      data: { pin: pin },
                     })
-                    .catch((err) => {
-                      console.log(err);
-                      setLoading(false);
-                    });
-                }}
-              >
-                Continue
-              </button>
-            )}
+                      .then((res) => {
+                        setLoading(false);
+                        console.log(res);
+                        if (res.data.success) {
+                          setSuccess(res.data.message);
+                          setTimeout(() => {
+                            setSuccess("");
+                            // sessionStorage.removeItem("userInfo");
+                            // sessionStorage.removeItem("userInput");
+                            // localStorage.clear();
+                            navigate("/signup/referral");
+                            return;
+                          }, 1000);
+                        } else {
+                          setPresentError(res.data.message);
+                          setTimeout(() => {
+                            setPresentError("");
+
+                            return;
+                          }, 3000);
+                        }
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        setLoading(false);
+                      });
+                  }}
+                  label={"Continue"}
+                />
+              )}
+            </div>
           </div>
         )}
 

@@ -143,7 +143,7 @@ const SendMoney = ({ toggle, setToggle }) => {
         <div className="h-9" />
         <div className="h-full overflow-y-scroll pb-14 font-inter ">
           {/* box */}
-          <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-10">
+          <div className="bg-white  rounded-[8px] p-10">
             {step === 0 && (
               <div className="mx-auto w-[353px] space-y-6">
                 {/* Select Bank */}
@@ -326,22 +326,23 @@ const SendMoney = ({ toggle, setToggle }) => {
                   </div>
                   {error && <p className="mt-2 text-red400 text-sm">{error}</p>}
                 </div>
-
-                <PrimaryButton
-                  disabled={
-                    !(
-                      accountName &&
-                      accountNumber &&
-                      network &&
-                      amount < wallet?.data?.data.balance
-                    )
-                  }
-                  label={"Continue"}
-                  onClick={() => {
-                    setError("");
-                    setStep(1);
-                  }}
-                />
+                <div className="flex justify-end">
+                  <PrimaryButton
+                    disabled={
+                      !(
+                        accountName &&
+                        accountNumber &&
+                        network &&
+                        amount < wallet?.data?.data.balance
+                      )
+                    }
+                    label={"Continue"}
+                    onClick={() => {
+                      setError("");
+                      setStep(1);
+                    }}
+                  />
+                </div>
               </div>
             )}
             {step === 1 && (

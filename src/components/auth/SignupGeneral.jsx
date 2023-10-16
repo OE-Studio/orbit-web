@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { updateUserInput } from "../../features/auth/authSlice";
+import PrimaryButton from "../Inputs/PrimaryButton";
 
 const SignupGeneral = () => {
   const dispatch = useDispatch();
@@ -205,7 +206,8 @@ const SignupGeneral = () => {
         </div>
       </div>
       <div className="h-6" />
-      <button
+      <div className="flex justify-end">
+      <PrimaryButton
         className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "
         disabled={usernameError || !buttonState}
         onClick={(e) => {
@@ -213,10 +215,10 @@ const SignupGeneral = () => {
           dispatch(updateUserInput(formDetails));
           navigate("/signup/email");
         }}
-      >
-        {" "}
-        Continue{" "}
-      </button>
+        label={"Continue"}
+      />
+       
+      </div>
     </form>
   );
 };

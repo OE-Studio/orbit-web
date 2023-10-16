@@ -79,3 +79,18 @@ export const GetAllReferrals = async () => {
         return error.response.data
     }
 }
+
+
+export const logOut = async () => {
+    const token = JSON.parse(sessionStorage.getItem('loginToken'))
+    try {
+        const response = await axios({
+            method: 'POST',
+            url: `v1/users/logout?token=${token}`,
+        })
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+
+}

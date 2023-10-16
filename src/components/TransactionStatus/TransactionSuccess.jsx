@@ -1,6 +1,6 @@
 import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import SecondaryButton from "../Inputs/SecondaryButton copy";
+import SecondaryButton from "../Inputs/SecondaryButton";
 import PrimaryButton from "../Inputs/PrimaryButton";
 import success from "../../assets/success.svg";
 
@@ -36,17 +36,17 @@ const SuccessPage = ({
               </div>
               <div>
                 <p className="text-2xl font-medium text-[#001428] font-clash text-center">
-                  {type} successful
+                  {type} processing
                 </p>
                 <div className="h-1 5" />
                 <p className="w-[80%] text-base leading-snug text-center text-gray-600 mx-auto">
-                  You have successfully Completed your purchase
+                  You purchase is being processed
                 </p>
               </div>
 
               <div className="bg-neutral100 p-4 flex gap-4">
-                <SecondaryButton label="Done" onClick={onDone} />
-                <PrimaryButton label="Receipt" onClick={onReceipt} />
+                <SecondaryButton width="flex-1" label="Done" onClick={onDone} />
+                <PrimaryButton width="flex-1" label="Receipt" onClick={onReceipt} />
               </div>
             </div>
           </div>

@@ -56,7 +56,7 @@ const Referral = ({ toggle, setToggle }) => {
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14 ">
         {/* box */}
-        <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-6">
+        <div className="bg-white  rounded-[8px] p-6">
           <p className="text-grey150">Total referral bonus earned: </p>
           <div className="inline-flex space-x-1 justify-start font-clash mt-2.5">
             <p className="text-4xl font-semibold text-gray-900 font-clash">₦</p>

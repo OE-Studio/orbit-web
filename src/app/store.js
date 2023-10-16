@@ -4,6 +4,7 @@ import productReducer from "../features/products/productsSlice";
 import loginReducer from "../features/loginSlice"
 import walletReducer from "../features/getWalletSlice"
 import transactionsReducer from "../features/TransactionsSlice"
+import notificationsReducer from "../features/NotificationsSlice"
 import userReducer from '../features/profile/userSlice'
 import virtualAccountReducer from '../features/getVirtualAccountSlice'
 import bankListReducer from '../features/getBankList'
@@ -15,6 +16,7 @@ const store = configureStore({
         product: productReducer,
         wallet: walletReducer,
         transactions: transactionsReducer,
+        notifications: notificationsReducer,
         user: userReducer,
         virtualAccount: virtualAccountReducer,
         bankList: bankListReducer,

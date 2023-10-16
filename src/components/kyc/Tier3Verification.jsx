@@ -529,7 +529,7 @@ const Tier3Verification = ({ toggle, setToggle }) => {
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14 font-inter ">
         {/* box */}
-        <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-10">
+        <div className="bg-white  rounded-[8px] p-10">
           <div className="mx-auto w-[353px] space-y-6">
             <AnimatePresence>
               {/* Selfie Instruction */}

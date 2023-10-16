@@ -6,13 +6,13 @@ import axios from "../../api/axios";
 
 import SuccessToasters from "../Inputs/SuccessToasters";
 import Toasters from "../Inputs/Toasters";
+import PrimaryButton from "../Inputs/PrimaryButton";
 
 const SignupEmailOTP = () => {
   const navigate = useNavigate();
   // eslint-disable-next-line
   const [email, setEmail] = useState("");
 
-  
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [success, setSuccess] = useState("");
@@ -20,9 +20,11 @@ const SignupEmailOTP = () => {
   const [otp, setOtp] = useState("");
 
   useEffect(() => {
-    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-    if (Object.keys(userInfo).length > 0) {
-      setEmail(userInfo.email);
+    if (sessionStorage.getItem("userInfo")) {
+      const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+      if (Object.keys(userInfo).length > 0) {
+        setEmail(userInfo.email);
+      }
     }
   }, []);
 
@@ -54,12 +56,11 @@ const SignupEmailOTP = () => {
         <div className="h-[2px]" />
         <div className="flex items-center gap-2 ">
           <input
-            value={email}
+            value={email || ""}
             readOnly="readonly"
             type="text"
             name="phoneNo"
             id="phoneNo"
-            placeholder="08136143995"
             className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -138,48 +139,53 @@ const SignupEmailOTP = () => {
         {loading ? (
           <Spinner />
         ) : (
-          <button
-            disabled={otp.length < 6 && loading}
-            className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
-            onClick={async (e) => {
-              setLoading(true);
-              await axios
-                .put("/v1/users/verifyEmail", {
-                  otp: otp,
-                  accountId: JSON.parse(sessionStorage.getItem("userInfo"))
-                    .userId,
-                })
-                .then((res) => {
-                  setLoading(false);
-                  console.log(res);
-                  console.log(res.data.success);
-                  if (res.data.success) {
-                    setSuccess(res.data.message);
-                    setTimeout(() => {
-                      setSuccess("");
-                      navigate("/signup/phone-no");
-                      return;
-                    }, 1000);
-                  } else {
-                    setPresentError(res.data.message);
-                    setTimeout(() => {
-                      setPresentError("");
-                      return;
-                    }, 3000);
-                  }
-                })
-                .catch((err) => {
-                  setLoading(false);
-                  setPresentError(err.message);
-                  setTimeout(() => {
-                    setPresentError("");
-                    return;
-                  }, 3000);
-                });
-            }}
-          >
-            Submit OTP
-          </button>
+          <div className="flex justify-end">
+            {!loading ? (
+              <PrimaryButton
+                disabled={otp.length < 6}
+                // className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
+                onClick={async (e) => {
+                  setLoading(true);
+                  await axios
+                    .put("/v1/users/verifyEmail", {
+                      otp: otp,
+                      accountId: JSON.parse(sessionStorage.getItem("userInfo"))
+                        .userId,
+                    })
+                    .then((res) => {
+                      setLoading(false);
+                      console.log(res);
+                      console.log(res.data.success);
+                      if (res.data.success) {
+                        setSuccess(res.data.message);
+                        setTimeout(() => {
+                          setSuccess("");
+                          navigate("/signup/phone-no");
+                          return;
+                        }, 1000);
+                      } else {
+                        setPresentError(res.data.message);
+                        setTimeout(() => {
+                          setPresentError("");
+                          return;
+                        }, 3000);
+                      }
+                    })
+                    .catch((err) => {
+                      setLoading(false);
+                      setPresentError(err.message);
+                      setTimeout(() => {
+                        setPresentError("");
+                        return;
+                      }, 3000);
+                    });
+                }}
+                label={"Submit OTP"}
+              />
+            ) : (
+              <Spinner />
+            )}
+          </div>
         )}
       </div>
     </>

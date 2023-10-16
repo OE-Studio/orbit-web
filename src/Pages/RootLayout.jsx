@@ -9,7 +9,10 @@ import Notification from "../components/overlays/Notification";
 import NotificationPage from "../components/overlays/NotificationPage";
 import { MdLogout } from "react-icons/md";
 import { useEffect } from "react";
-import { GetAllBackgrounds } from "../components/settings-outlet/SettingsApi";
+import {
+  GetAllBackgrounds,
+  logOut,
+} from "../components/settings-outlet/SettingsApi";
 import { useSelector } from "react-redux";
 
 const RootLayout = () => {
@@ -27,6 +30,11 @@ const RootLayout = () => {
   };
   const user = useSelector((state) => state.user.user);
   const userStatus = useSelector((state) => state.user.status);
+  const { notifications } = useSelector((state) => state.notifications);
+  const unreadNotifications = notifications.filter(
+    (item) => item.status !== "read"
+  ).length;
+
   useEffect(() => {
     bgDataFetch();
   }, []);
@@ -77,13 +85,19 @@ const RootLayout = () => {
               <img src={logo} alt="" />
               <div className="flex gap-6">
                 <div
-                  className=" h-10 w-10 rounded-full bg-blue400 items-center justify-center flex cursor-pointer"
+                  className=" h-10 w-10 rounded-full bg-blue400 items-center justify-center flex cursor-pointer relative"
                   onClick={() => {
-                    console.log(toggleNotification);
                     setToggleNotification(!toggleNotification);
                   }}
                 >
                   <BellIcon className="h-6 text-green200" />
+                  {unreadNotifications > 0 && (
+                    <div className="rounded-full aspect-square p-1 bg-red-500 text-white absolute -top-2 -right-2 h-6 w-6 center">
+                      <p className="text-sm font-semibold">
+                        {unreadNotifications}
+                      </p>
+                    </div>
+                  )}
                 </div>
                 <div className="relative">
                   <div
@@ -104,10 +118,14 @@ const RootLayout = () => {
                   >
                     <div
                       className="flex justify-between items-center py-[5px] px-3 rounded-full hover:bg-neutral100"
-                      onClick={() => {
-                        navigate("/login");
-                        sessionStorage.clear();
-                        window.location.reload();
+                      onClick={async () => {
+                        const response = await logOut();
+                        console.log(response);
+                        if (response.success) {
+                          navigate("/login");
+                          sessionStorage.clear();
+                          window.location.reload();
+                        }
                       }}
                     >
                       <p className="text-grey200 font-inter font-medium text-sm">

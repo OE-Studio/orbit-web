@@ -25,7 +25,7 @@ const FundCard = ({ toggle, setToggle }) => {
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14">
         {/* box */}
-        <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-6">
+        <div className="bg-white  rounded-[8px] p-6">
           <div className="w-[353px] mx-auto">
           <div className="bg-neutral100 rounded-[16px] space-y-5 pt-6 overflow-hidden">
             <div className="flex justify-center flex-1 text-3xl font-clash gap-2.5 mx-auto font-medium">

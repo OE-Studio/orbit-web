@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -22,10 +22,13 @@ import { fetchTransactions } from "../../features/TransactionsSlice";
 
 const PurchaseAirtime = ({ toggle, setToggle }) => {
   const [network, setNetwork] = useState(null);
-  const [networkDrop, setNetworkDrop] = useState(false);
   const [plan, setPlan] = useState({});
-  const [planDrop, setPlanDrop] = useState(false);
   const [balanceCheckDrop, setBalanceCheckDrop] = useState(false);
+
+  const networkRef = useRef(null);
+  const [networkDrop, setNetworkDrop] = useState(false);
+  const planRef = useRef(null);
+  const [planDrop, setPlanDrop] = useState(false);
 
   const [provider, setProvider] = useState(null);
   const [currentProducts, setCurrentProducts] = useState(null);
@@ -65,21 +68,68 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
 
   const wallet = useSelector((state) => state.wallet);
 
-  let data_product = products.filter((item) => {
-    return item.product === "Airtime";
-  });
+  // let data_product = products.filter((item) => {
+  //   return item.product === "Airtime";
+  // });
+
+  let data_product = products.airtime;
+
+  // const planTypes = [...new Set(data_product.map((item) => item.airtime_type))];
+  const providerNames = [
+    ...new Set(data_product.map((item) => item.provider_name)),
+  ];
+
   const [toggleReceipt, setToggleReceipt] = useState(false);
   const [transaction, setTransaction] = useState("");
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (networkRef.current && !networkRef.current.contains(event.target)) {
+        setNetworkDrop(false); // Clicked outside the modal, so close it
+      }
+    }
+    // Add the event listener when the modal is open
+    if (networkDrop) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+    return () => {
+      // Clean up the event listener when the component unmounts
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [networkDrop]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (planRef.current && !planRef.current.contains(event.target)) {
+        setPlanDrop(false); // Clicked outside the modal, so close it
+      }
+    }
+    // Add the event listener when the modal is open
+    if (planDrop) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+    return () => {
+      // Clean up the event listener when the component unmounts
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [planDrop]);
+
   return (
     <>
       {toggleReceipt ? (
-        <Receipt
-          transaction={transaction}
-          setToggle={setToggleReceipt}
-          toggle={toggleReceipt}
-        />
+        <div className="relative z-[70]">
+          <Receipt
+            transaction={transaction}
+            setToggle={setToggleReceipt}
+            toggle={toggleReceipt}
+            
+          />
+        </div>
       ) : null}
       <SideBarWrapper toggle={toggle}>
         {/* Header */}
@@ -122,7 +172,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
         <div className="h-9" />
         <div className="h-full overflow-y-scroll pb-14 font-inter ">
           {/* box */}
-          <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-10">
+          <div className="bg-white  rounded-[8px] p-10">
             {step === 0 && (
               <form
                 onSubmit={(e) => {
@@ -182,9 +232,9 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                 </div>
 
                 {/* Network */}
-                <div className="relative">
+                <div className="relative" ref={networkRef}>
                   <div
-                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center"
+                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center cursor-pointer"
                     onClick={() => {
                       setNetworkDrop(!networkDrop);
                     }}
@@ -192,7 +242,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                     <div className="space-y-2">
                       <p className="text-[11px] text-text100">Network</p>
                       <p className="text-[16px] text-neutral300">
-                        {network?.name || "Select"}
+                        {network || "Select"}
                       </p>
                     </div>
                     <div className="flex items-center justify-center h-6 w-6 ">
@@ -205,18 +255,19 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                   </div>
                   {networkDrop && (
                     <div className="absolute top-full mt-1 p-2 space-y-2 bg-white w-full rounded-lg z-[15]">
-                      {provider?.map((networkItem, index) => {
+                      {providerNames?.map((networkItem, index) => {
                         return (
                           <div
                             className="flex rounded-full px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
                             key={index}
                             onClick={() => {
                               setNetwork(networkItem);
+                              setPlan("");
                               setNetworkDrop(false);
                             }}
                           >
                             <p className="text-grey200 text-[14px] font-medium">
-                              {networkItem.name}
+                              {networkItem}
                             </p>
 
                             <div className="h-4 w-4 border border-[B8C0CC] rounded-full center">
@@ -232,7 +283,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                 </div>
 
                 {/* Airtime Type */}
-                <div className="relative">
+                <div className="relative" ref={planRef}>
                   <div
                     className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center"
                     onClick={() => {
@@ -262,15 +313,12 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                       {network &&
                         data_product
                           .filter((item) => {
-                            return (
-                              item.product_provider ===
-                              network.name.toUpperCase()
-                            );
+                            return item.provider_name === network;
                           })
                           .map((networkItem, index) => {
-                            const currentProduct = currentProducts.find(
-                              (item) => item.id === networkItem.id
-                            );
+                            // const currentProduct = currentProducts.find(
+                            //   (item) => item.id === networkItem.id
+                            // );
 
                             return (
                               <div
@@ -279,19 +327,19 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                                 onClick={() => {
                                   setPlan({
                                     ...networkItem,
-                                    ...currentProduct,
+                                    // ...currentProduct,
                                   });
                                   setPlanDrop(false);
                                 }}
                               >
                                 <div>
                                   <p className="text-grey400 text-[14px] font-medium">
-                                    {currentProduct?.description}{" "}
-                                    {currentProduct?.airtime_type.toUpperCase()}
+                                    {networkItem?.description}{" "}
+                                    {networkItem?.airtime_type.toUpperCase()}
                                   </p>
                                   <div className="h-2" />
                                   <p className="text-neutral-300 text-[14px] font-medium">
-                                    ₦{networkItem.price}
+                                    ₦{networkItem.selling_price}
                                   </p>
                                 </div>
 
@@ -373,7 +421,9 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                     <div className="space-y-2">
                       <p className="text-[11px] text-text100">Amount to pay</p>
                       <p className="text-[16px] text-neutral300">
-                        ₦ {(Number(plan?.price) * amount) / 100 || "Select"}
+                        ₦{" "}
+                        {(Number(plan?.selling_price) * amount) / 100 ||
+                          "Select a product type"}
                       </p>
                     </div>
                     {/* discount */}
@@ -385,13 +435,13 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                   <div
                     className={`p-2 
                   ${
-                    (Number(plan?.price) * amount) / 100 >
+                    (Number(plan?.selling_price) * amount) / 100 >
                     wallet?.data?.data.balance
                       ? "bg-red500"
                       : "bg-green700"
                   } flex items-center gap-2 text-white font-inter text-xs`}
                   >
-                    {(Number(plan?.price) * amount) / 100 >
+                    {(Number(plan?.selling_price) * amount) / 100 >
                     wallet?.data?.data.balance ? (
                       <p>You do not have sufficient balance</p>
                     ) : (
@@ -423,21 +473,22 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                   </div>
                 </div>
                 <div />
-
-                <PrimaryButton
-                  disabled={
-                    !(
-                      plan &&
-                      mobile_number &&
-                      network &&
-                      amount &&
-                      (Number(plan?.price) * amount) / 100 <
-                        wallet?.data?.data.balance
-                    )
-                  }
-                  type="submit"
-                  label={"Continue"}
-                />
+                <div className="flex justify-end">
+                  <PrimaryButton
+                    disabled={
+                      !(
+                        plan &&
+                        mobile_number &&
+                        network &&
+                        amount &&
+                        (Number(plan?.selling_price) * amount) / 100 <
+                          wallet?.data?.data.balance
+                      )
+                    }
+                    type="submit"
+                    label={"Continue"}
+                  />
+                </div>
               </form>
             )}
             {step === 1 && (
@@ -448,7 +499,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                   <div className=" flex p-2.5 justify-between items-center ">
                     <p className="text-[11px] text-text100 text-xs">Network</p>
                     <p className="text-[11px] text-neutral300 text-xs">
-                      {network?.name}
+                      {plan.provider_name} {plan.description}
                     </p>
                   </div>
 
@@ -469,19 +520,20 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                       Amount to pay
                     </p>
                     <p className="text-[11px] text-neutral300 text-xs">
-                      ₦ {plan?.price}
+                      ₦ {(Number(plan?.selling_price) * amount) / 100}
                     </p>
                   </div>
                 </div>
                 <div />
-
-                {loading ? (
-                  <div className="w-full rounded-full bg-[#00AA61] py-4 flex center">
-                    <Spinner />
-                  </div>
-                ) : (
-                  <PrimaryButton label={"Confirm"} onClick={onClose} />
-                )}
+                <div className="flex justify-end">
+                  {loading ? (
+                    <div className="w-full rounded-full bg-[#00AA61] py-4 flex center">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <PrimaryButton label={"Confirm"} onClick={onClose} />
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -500,18 +552,17 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
         onClick={async () => {
           setLoading(true);
           onClose();
-          console.log(plan);
           let userInput = {
             mobile_number: mobile_number,
-            network_api_id: network.id,
-            airtime_api_id: plan.id,
+            network_api_id: plan.provider_id,
+            airtime_api_id: plan.product_id,
             amount: amount,
           };
 
           try {
             const response = await purchaseAirtime(userInput, pin);
             console.log(response);
-
+            setLoading(false);
             if (response && response.success) {
               console.log(response.trxDetails.transactionId);
               setTransaction(response.trxDetails.transactionId);
@@ -560,10 +611,9 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
           window.location.reload();
         }}
         onReceipt={() => {
-          console.log(transaction);
-          setToggle(false);
           setIsOpenSuccess(!isOpenSuccess);
           setToggleReceipt(true);
+          
         }}
       />
 

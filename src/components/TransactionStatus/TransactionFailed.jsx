@@ -1,6 +1,6 @@
 import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import SecondaryButton from "../Inputs/SecondaryButton copy";
+import SecondaryButton from "../Inputs/SecondaryButton";
 import PrimaryButton from "../Inputs/PrimaryButton";
 import fail from "../../assets/fail.svg";
 
@@ -46,8 +46,8 @@ const TransactionFailed = ({
               </div>
 
               <div className="bg-neutral100 p-4 flex gap-4">
-                <SecondaryButton label="Try again" onClick={onReset} />
-                <PrimaryButton label="Done" onClick={onDone} />
+                <SecondaryButton width="flex-1" label="Try again" onClick={onReset} />
+                <PrimaryButton width="flex-1" label="Done" onClick={onDone} />
               </div>
             </div>
           </div>

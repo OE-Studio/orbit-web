@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../features/auth/authActions";
 import { updateUserInput } from "../../features/auth/authSlice";
 import { Spinner } from "../Spinner";
+import PrimaryButton from "../Inputs/PrimaryButton";
 
 const SignupEmail = () => {
   // eslint-disable-next-line
@@ -196,21 +197,23 @@ const SignupEmail = () => {
         </div>
       </div>
       <div className="h-6" />
+      <div className="flex justify-end">
+        <PrimaryButton
+          disabled={
+            !validationLength ||
+            !validationUpperCase ||
+            !validationSpecialCharacter ||
+            !email
+          }
+          className="w-full flex items-center justify-center bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "
+          onClick={(e) => {
+            e.preventDefault();
+            registerUserFunc();
+          }}
+          label={loading ? <Spinner color="#ffffff" /> : "Continue"}
+        />
+      </div>
 
-      <button
-        disabled={
-          !validationLength ||
-          (!validationUpperCase || !validationSpecialCharacter) ||
-          !email
-        }
-        className="w-full flex items-center justify-center bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "
-        onClick={(e) => {
-          e.preventDefault();
-          registerUserFunc();
-        }}
-      >
-        {loading ? <Spinner color="#ffffff" /> : "Continue"}
-      </button>
       {error && <p className="text-[#EF4444] mt-4 text-sm">{error}</p>}
     </>
   );

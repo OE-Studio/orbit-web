@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Spinner } from "../../../components/Spinner";
 import { updatePassword } from "./ForgotPasswordApi";
 import { useNavigate } from "react-router-dom";
+import PrimaryButton from "../../../components/Inputs/PrimaryButton";
 
 const UpdatePassword = () => {
   // Input Formation
@@ -53,7 +54,7 @@ const UpdatePassword = () => {
         New Password
       </p>
       <div className="h-9" />
-      <div className="border border-[#E5ECF5] rounded-[8px] py-[64px] min-h-[534px]">
+      <div className="E5ECF5] rounded-[8px] py-[64px] min-h-[534px]">
         <div className="max-w-[353px] mx-auto">
           <div className="focus-within:border-[#5DADEC] border-transparent border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA]">
             <label
@@ -144,20 +145,21 @@ const UpdatePassword = () => {
             </>
           )}
 
-          <button
-            disabled={
-              !validationLength ||
-              !validationUpperCase ||
-              !validationSpecialCharacter
-            }
-            className="w-full flex items-center justify-center bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "
-            onClick={(e) => {
-              e.preventDefault();
-              updatePassword(password, setLoading, setError, navigate);
-            }}
-          >
-            {loading ? <Spinner color="#ffffff" /> : "Continue"}
-          </button>
+          <div className="flex justify-end">
+            <PrimaryButton
+              disabled={
+                !validationLength ||
+                !validationUpperCase ||
+                !validationSpecialCharacter
+              }
+              className="w-full flex items-center justify-center bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "
+              onClick={(e) => {
+                e.preventDefault();
+                updatePassword(password, setLoading, setError, navigate);
+              }}
+              label={loading ? <Spinner color="#ffffff" /> : "Continue"}
+            />
+          </div>
         </div>
       </div>
     </>

@@ -27,7 +27,7 @@ const AddCard = ({ toggle, setToggle }) => {
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14">
         {/* box */}
-        <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-6 space-y-8">
+        <div className="bg-white  rounded-[8px] p-6 space-y-8">
           {/* Input */}
           <div className="border-[2px] focus-within:border-[#5DADEC] border-transparent w-full bg-neutral100 rounded-lg p-2.5">
             <label htmlFor="name" className="text-xs text-text100">

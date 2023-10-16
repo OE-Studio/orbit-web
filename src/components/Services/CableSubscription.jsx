@@ -51,12 +51,13 @@ const CableSubscription = ({ toggle, setToggle }) => {
   const [meterLoading, setMeterLoading] = useState(false);
 
   const validMeter = async () => {
+    console.log(plan);
     setMeterLoading(true);
     setMeterDetail("");
     try {
       const response = await validateCable({
         smart_card_number: meter_number,
-        cable_plan_api_id: network.id,
+        cable_plan_api_id: plan.provider_id,
       });
       setMeterLoading(false);
       setMeterDetail(response.data.customer_name);
@@ -100,10 +101,10 @@ const CableSubscription = ({ toggle, setToggle }) => {
 
   const wallet = useSelector((state) => state.wallet);
 
-  let data_product = products?.filter((item) => {
-    return item.product === "Cable Plan";
-  });
-
+  let data_product = products?.cable;
+  const providerNames = [
+    ...new Set(data_product.map((item) => item.provider_name)),
+  ];
   return (
     <>
       {toggleReceipt ? (
@@ -154,7 +155,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
         <div className="h-9" />
         <div className="h-full overflow-y-scroll pb-14 font-inter ">
           {/* box */}
-          <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-10">
+          <div className="bg-white  rounded-[8px] p-10">
             {step === 0 && (
               <div className="mx-auto w-[353px] space-y-6">
                 {/* Support */}
@@ -190,7 +191,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
                         Cable TV Service Provide
                       </p>
                       <p className="text-[16px] text-neutral300">
-                        {network?.name || "Select"}
+                        {network || "Select"}
                       </p>
                     </div>
                     <div className="flex items-center justify-center h-6 w-6 ">
@@ -203,7 +204,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
                   </div>
                   {networkDrop && (
                     <div className="absolute top-full mt-1 p-2 space-y-2 bg-white w-full rounded-lg z-10">
-                      {dataProvider?.map((networkItem, index) => {
+                      {providerNames?.map((networkItem, index) => {
                         return (
                           <div
                             className="flex rounded-full px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
@@ -215,7 +216,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
                             }}
                           >
                             <p className="text-grey200 text-[14px] font-medium">
-                              {networkItem.name}
+                              {networkItem && networkItem.toUpperCase()}
                             </p>
 
                             <div className="h-4 w-4 border border-[B8C0CC] rounded-full center">
@@ -226,6 +227,72 @@ const CableSubscription = ({ toggle, setToggle }) => {
                           </div>
                         );
                       })}
+                    </div>
+                  )}
+                </div>
+
+                {/* Plan */}
+                <div className="relative">
+                  <div
+                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center"
+                    onClick={() => {
+                      setPlanDrop(!planDrop);
+                    }}
+                  >
+                    <div className="space-y-2">
+                      <p className="text-[11px] text-text100">Cable PLAN</p>
+                      <p className="text-[16px] text-neutral300">
+                        {plan?.description || "Select"}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-center h-6 w-6 ">
+                      {planDrop ? (
+                        <ChevronUpIcon className="h-4 text-grey150" />
+                      ) : (
+                        <ChevronDownIcon className="h-4 text-grey150" />
+                      )}
+                    </div>
+                  </div>
+                  {planDrop && (
+                    <div className="absolute top-full mt-1 p-2 space-y-4 bg-white w-full rounded-lg z-[5] max-h-[350px] overflow-y-scroll">
+                      {data_product
+                        .filter((item) => {
+                          if (network) {
+                            return item.provider_name === network;
+                          }
+                          return true;
+                        })
+                        .map((networkItem, index) => {
+                          return (
+                            <div
+                              className="flex rounded-md px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
+                              key={index}
+                              onClick={() => {
+                                setPlan({
+                                  ...networkItem,
+                                });
+                                setPlanDrop(false);
+                              }}
+                            >
+                              <div>
+                                <p className="text-grey400 text-[14px] font-medium">
+                                  {networkItem?.description}{" "}
+                                  {networkItem?.cable_type.toUpperCase()}
+                                </p>
+                                <div className="h-2" />
+                                <p className="text-neutral-300 text-[14px] font-medium">
+                                  ₦{networkItem.selling_price}
+                                </p>
+                              </div>
+
+                              <div className="h-4 w-4 border border-[B8C0CC] rounded-full center">
+                                {networkItem === network && (
+                                  <div className="w-2.5 h-2.5 rounded-full bg-neutral300" />
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
                     </div>
                   )}
                 </div>
@@ -262,87 +329,13 @@ const CableSubscription = ({ toggle, setToggle }) => {
                   </div>
                 </div>
 
-                {/* Plan */}
-                <div className="relative">
-                  <div
-                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center"
-                    onClick={() => {
-                      setPlanDrop(!planDrop);
-                    }}
-                  >
-                    <div className="space-y-2">
-                      <p className="text-[11px] text-text100">Cable PLAN</p>
-                      <p className="text-[16px] text-neutral300">
-                        {plan?.description || "Select"}
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-center h-6 w-6 ">
-                      {planDrop ? (
-                        <ChevronUpIcon className="h-4 text-grey150" />
-                      ) : (
-                        <ChevronDownIcon className="h-4 text-grey150" />
-                      )}
-                    </div>
-                  </div>
-                  {planDrop && (
-                    <div className="absolute top-full mt-1 p-2 space-y-4 bg-white w-full rounded-lg z-[5] max-h-[350px] overflow-y-scroll">
-                      {data_product
-                        .filter((item) => {
-                          if (network) {
-                            return (
-                              item.product_provider ===
-                              network.name.toUpperCase()
-                            );
-                          }
-                          return true;
-                        })
-                        .map((networkItem, index) => {
-                          const currentProduct = dataProducts.find(
-                            (item) => item.id === networkItem.id
-                          );
-
-                          return (
-                            <div
-                              className="flex rounded-md px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
-                              key={index}
-                              onClick={() => {
-                                setPlan({
-                                  ...networkItem,
-                                  ...currentProduct,
-                                });
-                                setPlanDrop(false);
-                              }}
-                            >
-                              <div>
-                                <p className="text-grey400 text-[14px] font-medium">
-                                  {currentProduct?.description}{" "}
-                                  {currentProduct?.cable_type.toUpperCase()}
-                                </p>
-                                <div className="h-2" />
-                                <p className="text-neutral-300 text-[14px] font-medium">
-                                  ₦{networkItem.price}
-                                </p>
-                              </div>
-
-                              <div className="h-4 w-4 border border-[B8C0CC] rounded-full center">
-                                {networkItem === network && (
-                                  <div className="w-2.5 h-2.5 rounded-full bg-neutral300" />
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  )}
-                </div>
-
                 {/* Amount */}
                 <div className="rounded-lg  overflow-hidden">
                   <div className="bg-neutral100 flex p-2.5 justify-between items-center ">
                     <div className="space-y-2">
                       <p className="text-[11px] text-text100">Amount to pay</p>
                       <p className="text-[16px] text-neutral300">
-                        ₦ {plan?.price || "Select"}
+                        ₦ {plan?.selling_price || "Select"}
                       </p>
                     </div>
                     {/* <div className="flex items-center gap-1 text-primaryColor py-1 px-2 bg-white rounded-full">
@@ -353,12 +346,12 @@ const CableSubscription = ({ toggle, setToggle }) => {
                   <div
                     className={`p-2 
                   ${
-                    plan.price > wallet?.data?.data.balance
+                    plan.selling_price > wallet?.data?.data.balance
                       ? "bg-red500"
                       : "bg-green700"
                   } flex items-center gap-2 text-white font-inter text-xs`}
                   >
-                    {plan.price > wallet?.data?.data.balance ? (
+                    {plan.selling_price > wallet?.data?.data.balance ? (
                       <p>You do not have sufficient balance</p>
                     ) : (
                       <>
@@ -397,7 +390,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
                       meter_number &&
                       network &&
                       meterDetail &&
-                      plan.price < wallet?.data?.data.balance
+                      plan.selling_price < wallet?.data?.data.balance
                     )
                   }
                   label={"Continue"}
@@ -433,7 +426,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
                       Amount to pay
                     </p>
                     <p className="text-[11px] text-neutral300 text-xs">
-                      ₦ {plan?.price}
+                      ₦ {plan?.selling_price}
                     </p>
                   </div>
                 </div>
@@ -466,7 +459,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
           onClose();
           let userInput = {
             smart_card_number: meter_number,
-            cable_plan_api_id: plan.id,
+            cable_plan_api_id: plan.provider_id,
             validated_customer_name: meterDetail,
           };
           console.log(userInput);

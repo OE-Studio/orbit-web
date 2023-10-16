@@ -13,7 +13,6 @@ const loginSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers:
-
     {
         [loginUser.pending]: (state) => {
             state.isLoading = true;
@@ -31,7 +30,7 @@ const loginSlice = createSlice({
 
         [loginUser.rejected]: (state, { payload }) => {
             state.isLoading = false;
-            state.error = 'Invalid password or email';
+            state.error = payload;
         }
     }
 })

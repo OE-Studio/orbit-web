@@ -1,4 +1,5 @@
 import axios from "axios";
+import { logOut } from "../components/settings-outlet/SettingsApi";
 
 // Create an instance of Axios with baseURL
 const api = axios.create({
@@ -8,11 +9,12 @@ const api = axios.create({
 
 // Add a response interceptor
 api.interceptors.response.use(
-  (response) => {
+  async (response) => {
     return response;
   },
   (error) => {
     if (error.response && error.response.status === 401) {
+      logOut();
       // Clear sessionStorage
       sessionStorage.clear();
       // Reload the page

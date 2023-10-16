@@ -16,6 +16,7 @@ import transactionImg from "../../assets/empty-state/emptyTransaction.svg";
 import cut from "../../assets/receipt/bottom.svg";
 import html2canvas from "html2canvas";
 import { GetAllBackgrounds } from "../settings-outlet/SettingsApi";
+import { HourglassHigh, HourglassMedium } from "phosphor-react";
 // import html2pdf from "html2pdf.js";
 
 export const ReceiptHeader = ({
@@ -91,6 +92,11 @@ export const StatusState = ({ status }) => {
       statusIcon = <CheckBadgeIcon className="h-4" />;
       break;
 
+    case "pending":
+      statusStyle = "border-grey300 text-grey300 ";
+      statusIcon = <HourglassHigh className="h-4" weight="fill" />;
+      break;
+
     case "failed":
       statusStyle = "border-orange400 text-orange500 bg-orange50";
       statusIcon = <ExclamationTriangleIcon className="h-4" />;
@@ -101,7 +107,7 @@ export const StatusState = ({ status }) => {
   }
   return (
     <div
-      className={`flex  px-2.5 items-center py-1.5 border rounded-full  ${statusStyle}`}
+      className={`flex px-2.5 center py-1.5 border rounded-full ${statusStyle}`}
     >
       <p className="text-sm">{convertToSentenceCase(status)}</p>
       <div className="w-2"></div>
@@ -144,7 +150,7 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
             topLabel={"Data"}
             topDesc={
               <>
-                ₦
+                {current.description} {current.product_type} ₦
                 <span className="font-semibold">
                   {" "}
                   {current.amount.toFixed(2)}
@@ -567,7 +573,7 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14 font-inter ">
         {/* box */}
-        <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-10">
+        <div className="bg-white rounded-[8px] p-10">
           <div className="">{receiptBody}</div>
           {/* Cover the Receipt */}
           <div className="w-full h-full fixed bg-white z-[-199]"></div>

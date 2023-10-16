@@ -24,7 +24,7 @@ import { fetchTransactions } from "../../features/TransactionsSlice";
 const PurchaseData = ({ toggle, setToggle }) => {
   const [network, setNetwork] = useState(null);
   const [networkDrop, setNetworkDrop] = useState(false);
-  const [plan, setPlan] = useState({});
+  const [plan, setPlan] = useState(null);
   const [planDrop, setPlanDrop] = useState(false);
   const [planTypeDrop, setPlanTypeDrop] = useState(false);
   const [planType, setPlanType] = useState("");
@@ -72,22 +72,31 @@ const PurchaseData = ({ toggle, setToggle }) => {
 
   const { products } = useSelector((state) => state.product);
 
+  // const planTypes = ["sme", "gifting", "cg", "direct coupon"];
+
   const wallet = useSelector((state) => state.wallet);
 
-  let data_product = products.filter((item) => {
-    return item.product === "Data Plan";
-  });
+  let data_product = products.data;
 
-  const planTypes = ["sme", "gifting", "cg", "direct coupon"];
+  const planTypes = [...new Set(data_product.map((item) => item.plan_type))];
+  const providerNames = [
+    ...new Set(data_product.map((item) => item.provider_name)),
+  ];
+
+  // let data_product = products.data.filter((item) => {
+  //   return item.product === "Data Plan";
+  // });
 
   return (
     <>
       {toggleReceipt ? (
-        <Receipt
-          transaction={transaction}
-          setToggle={setToggleReceipt}
-          toggle={toggleReceipt}
-        />
+        <div className="relative z-[70]">
+          <Receipt
+            transaction={transaction}
+            setToggle={setToggleReceipt}
+            toggle={toggleReceipt}
+          />
+        </div>
       ) : null}
       <SideBarWrapper toggle={toggle}>
         {/* Header */}
@@ -130,7 +139,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
         <div className="h-9" />
         <div className="h-full overflow-y-scroll pb-14 font-inter ">
           {/* box */}
-          <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-10">
+          <div className="bg-white  rounded-[8px] p-10">
             {step === 0 && (
               <div className="mx-auto w-[353px] space-y-6">
                 {/* Balance USSD */}
@@ -188,12 +197,13 @@ const PurchaseData = ({ toggle, setToggle }) => {
                     className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center cursor-pointer"
                     onClick={() => {
                       setNetworkDrop(!networkDrop);
+                      setPlan(null);
                     }}
                   >
                     <div className="space-y-2">
                       <p className="text-[11px] text-text100">Network</p>
                       <p className="text-[16px] text-neutral300">
-                        {network?.name || "Select"}
+                        {network || "Select"}
                       </p>
                     </div>
                     <div className="flex items-center justify-center h-6 w-6 ">
@@ -206,7 +216,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                   </div>
                   {networkDrop && (
                     <div className="absolute top-full mt-1 p-2 space-y-2 bg-white w-full rounded-lg z-10  lift max-h-[350px]">
-                      {dataProvider?.map((networkItem, index) => {
+                      {providerNames?.map((networkItem, index) => {
                         return (
                           <div
                             className="flex rounded-full px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
@@ -217,7 +227,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                             }}
                           >
                             <p className="text-grey200 text-[14px] font-medium">
-                              {networkItem.name}
+                              {networkItem}
                             </p>
 
                             <div className="h-4 w-4 border border-[B8C0CC] rounded-full center">
@@ -280,30 +290,40 @@ const PurchaseData = ({ toggle, setToggle }) => {
                   {planTypeDrop && (
                     <div className="absolute top-full mt-1 p-2 space-y-4 bg-white w-full rounded-lg z-10 lift max-h-[350px] overflow-y-scroll">
                       {network &&
-                        planTypes.map((item, index) => {
-                          return (
-                            <div
-                              className="flex rounded-md px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
-                              key={index}
-                              onClick={() => {
-                                setPlanType(item);
-                                setPlanTypeDrop(false);
-                              }}
-                            >
-                              <div>
-                                <p className="text-grey300 text-[14px] font-medium">
-                                  {item.toUpperCase()}
-                                </p>
-                              </div>
+                        planTypes
+                          .filter(
+                            (planType) =>
+                              !network ||
+                              data_product.some(
+                                (item) =>
+                                  item.provider_name === network &&
+                                  item.plan_type === planType
+                              )
+                          )
+                          .map((item, index) => {
+                            return (
+                              <div
+                                className="flex rounded-md px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
+                                key={index}
+                                onClick={() => {
+                                  setPlanType(item);
+                                  setPlanTypeDrop(false);
+                                }}
+                              >
+                                <div>
+                                  <p className="text-grey300 text-[14px] font-medium">
+                                    {item.toUpperCase()}
+                                  </p>
+                                </div>
 
-                              <div className="h-4 w-4 border border-[B8C0CC] rounded-full center">
-                                {planType === item && (
-                                  <div className="w-2.5 h-2.5 rounded-full bg-neutral300" />
-                                )}
+                                <div className="h-4 w-4 border border-[B8C0CC] rounded-full center">
+                                  {planType === item && (
+                                    <div className="w-2.5 h-2.5 rounded-full bg-neutral300" />
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
                     </div>
                   )}
                 </div>
@@ -335,27 +355,18 @@ const PurchaseData = ({ toggle, setToggle }) => {
                       {network &&
                         data_product
                           .filter((item) => {
-                            return (
-                              item.product_provider ===
-                              network.name.toUpperCase()
-                            );
+                            return item.provider_name === network;
                           })
                           .filter((item) => {
-                            const currentProduct = dataProducts.find(
-                              (data) => item.id === data.id
-                            );
                             if (planType) {
-                              return (
-                                currentProduct?.plan_type.toLowerCase() ===
-                                planType
-                              );
+                              return item?.plan_type === planType;
                             }
                             return true;
                           })
                           .map((networkItem, index) => {
-                            const currentProduct = dataProducts.find(
-                              (item) => item.id === networkItem.id
-                            );
+                            // const currentProduct = dataProducts.find(
+                            //   (item) => item.id === networkItem.id
+                            // );
 
                             return (
                               <div
@@ -364,19 +375,18 @@ const PurchaseData = ({ toggle, setToggle }) => {
                                 onClick={() => {
                                   setPlan({
                                     ...networkItem,
-                                    ...currentProduct,
                                   });
                                   setPlanDrop(false);
                                 }}
                               >
                                 <div>
                                   <p className="text-grey400 text-[14px] font-medium">
-                                    {currentProduct?.description}{" "}
-                                    {currentProduct?.plan_type.toUpperCase()}
+                                    {networkItem?.description}{" "}
+                                    {networkItem?.plan_type.toUpperCase()}
                                   </p>
                                   <div className="h-2" />
                                   <p className="text-neutral-300 text-[14px] font-medium">
-                                    ₦{networkItem.price}
+                                    ₦{networkItem.selling_price}
                                   </p>
                                 </div>
 
@@ -398,7 +408,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                     <div className="space-y-2">
                       <p className="text-[11px] text-text100">Amount to pay</p>
                       <p className="text-[16px] text-neutral300">
-                        ₦ {plan?.price || "Select"}
+                        ₦ {plan?.selling_price || "Select"}
                       </p>
                     </div>
                     <div className="flex items-center gap-1 text-primaryColor py-1 px-2 bg-white rounded-full">
@@ -409,12 +419,12 @@ const PurchaseData = ({ toggle, setToggle }) => {
                   <div
                     className={`p-2 
                   ${
-                    plan.price > wallet?.data?.data.balance
+                    plan?.selling_price > wallet?.data?.data.balance
                       ? "bg-red500"
                       : "bg-green700"
                   } flex items-center gap-2 text-white font-inter text-xs`}
                   >
-                    {plan.price > wallet?.data?.data.balance ? (
+                    {plan?.selling_price > wallet?.data?.data.balance ? (
                       <p>You do not have sufficient balance</p>
                     ) : (
                       <>
@@ -445,22 +455,23 @@ const PurchaseData = ({ toggle, setToggle }) => {
                   </div>
                 </div>
                 <div />
-
-                <PrimaryButton
-                  disabled={
-                    !(
-                      plan &&
-                      mobile_number &&
-                      network &&
-                      plan.price < wallet?.data?.data.balance
-                    )
-                  }
-                  label={"Continue"}
-                  onClick={() => {
-                    setError("");
-                    setStep(1);
-                  }}
-                />
+                <div className="flex justify-end">
+                  <PrimaryButton
+                    disabled={
+                      !(
+                        plan &&
+                        mobile_number &&
+                        network &&
+                        plan?.selling_price < wallet?.data?.data.balance
+                      )
+                    }
+                    label={"Continue"}
+                    onClick={() => {
+                      setError("");
+                      setStep(1);
+                    }}
+                  />
+                </div>
               </div>
             )}
             {step === 1 && (
@@ -471,7 +482,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
                   <div className=" flex p-2.5 justify-between items-center ">
                     <p className="text-[11px] text-text100 text-xs">Network</p>
                     <p className="text-[11px] text-neutral300 text-xs">
-                      {network?.name}
+                      {plan?.provider_name}
                     </p>
                   </div>
 
@@ -497,19 +508,20 @@ const PurchaseData = ({ toggle, setToggle }) => {
                       Amount to pay
                     </p>
                     <p className="text-[11px] text-neutral300 text-xs">
-                      ₦ {plan?.price}
+                      ₦ {plan?.selling_price}
                     </p>
                   </div>
                 </div>
                 <div />
-
-                {loading ? (
-                  <div className="w-full rounded-full bg-[#00AA61] py-4 flex center">
-                    <Spinner />
-                  </div>
-                ) : (
-                  <PrimaryButton label={"Confirm"} onClick={onClose} />
-                )}
+                <div className="flex justify-end">
+                  {loading ? (
+                    <div className="w-full rounded-full bg-[#00AA61] py-4 flex center">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <PrimaryButton label={"Confirm"} onClick={onClose} />
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -530,8 +542,8 @@ const PurchaseData = ({ toggle, setToggle }) => {
           onClose();
           let userInput = {
             mobile_number: mobile_number,
-            network_api_id: network.id,
-            data_api_id: plan.id,
+            network_api_id: plan.provider_id,
+            data_api_id: plan.product_id,
           };
           console.log(userInput);
 
@@ -541,6 +553,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
             setLoading(false);
 
             if (response && response.success) {
+              setLoading(false);
               console.log(response.trxDetails.transactionId);
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
@@ -589,7 +602,6 @@ const PurchaseData = ({ toggle, setToggle }) => {
           window.location.reload();
         }}
         onReceipt={() => {
-          setToggle(false);
           setIsOpenSuccess(!isOpenSuccess);
           setToggleReceipt(true);
         }}

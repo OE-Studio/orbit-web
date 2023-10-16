@@ -14,7 +14,7 @@ const navigate = useNavigate()
         Recover Password
       </p>
       <div className="h-9" />
-      <div className="border border-[#E5ECF5] rounded-[8px] py-[64px] min-h-[534px]">
+      <div className=" rounded-[8px] py-[64px] min-h-[534px]">
         <div className="max-w-[353px] mx-auto">
           <form
             onSubmit={(e) => {

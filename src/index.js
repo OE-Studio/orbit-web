@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
@@ -37,6 +37,7 @@ import UpdatePassword from './Pages/Auth/ForgotPassword/UpdatePassword';
 import UpdateSuccess from './Pages/Auth/ForgotPassword/UpdateSuccess';
 import ContactUs from './components/settings-outlet/ContactUs';
 import SignupReferral from './components/auth/SignupReferral';
+import MobileLayout from './Pages/MobileLayout';
 
 
 
@@ -154,16 +155,51 @@ const router = createBrowserRouter([
 ]);
 
 
+const isMobileOrTablet = window.innerWidth <= 768; // You can adjust this threshold as needed
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+
+const App = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mobileMediaQuery = window.matchMedia('(max-width: 768px)'); // Adjust the breakpoint as needed
+    console.log(mobileMediaQuery)
+
+    // Function to update the state based on the media query
+    const handleResize = () => {
+      setIsMobile(mobileMediaQuery.matches);
+    };
+
+    // Initial check and add event listener
+    handleResize();
+    mobileMediaQuery.addEventListener('change', handleResize);
+
+    // Clean up the event listener on unmount
+    return () => {
+      mobileMediaQuery.removeEventListener('change', handleResize);
+    };
+  }, []);
+  
+  if (isMobile) {
+    // Render a different component for mobile or tablet
+    return <MobileLayout />;
+  } else {
+    // Render the desktop component
+    return (
+      <React.StrictMode>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+      </React.StrictMode>
+    );
+  }
+};
+
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>
+  <App />
 );
 
 // If you want to start measuring performance in your app, pass a function

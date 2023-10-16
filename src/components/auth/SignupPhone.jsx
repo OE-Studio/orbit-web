@@ -5,6 +5,7 @@ import axios from "../../api/axios";
 import { Spinner } from "../Spinner";
 import SuccessToasters from "../Inputs/SuccessToasters";
 import Toasters from "../Inputs/Toasters";
+import PrimaryButton from "../Inputs/PrimaryButton";
 
 const SignupPhone = () => {
   const navigate = useNavigate();
@@ -84,39 +85,41 @@ const SignupPhone = () => {
       <div className="h-6" />
 
       {!inputSet && (
-        <button
-          disabled={inputError || phoneNumber === ""}
-          className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] flex items-center justify-center "
-          onClick={async (e) => {
-            e.preventDefault();
-            console.log("continue");
-            setLoading(true);
-            // eslint-disable-next-line
-            const setPhoneNumber = await axios
-              .patch(
-                `/v1/users/setPhoneNumber?token=${JSON.parse(
-                  sessionStorage.getItem("loginToken")
-                )}`,
-                { phoneNumber: phoneNumber }
-              )
-              .then((res) => {
-                setLoading(false);
-                console.log(res);
-                setSuccess("Check your phone for the OTP");
-                setTimeout(() => {
-                  setInputSet(true);
-                  setSuccess("");
-                  return;
-                }, 3000);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }}
-        >
-          {" "}
-          {loading ? <Spinner /> : " Continue"}
-        </button>
+        <div className="flex justify-end">
+
+          <PrimaryButton
+            disabled={inputError || phoneNumber === ""}
+            className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] flex items-center justify-center "
+            onClick={async (e) => {
+              e.preventDefault();
+              console.log("continue");
+              setLoading(true);
+              // eslint-disable-next-line
+              const setPhoneNumber = await axios
+                .patch(
+                  `/v1/users/setPhoneNumber?token=${JSON.parse(
+                    sessionStorage.getItem("loginToken")
+                  )}`,
+                  { phoneNumber: phoneNumber }
+                )
+                .then((res) => {
+                  setLoading(false);
+                  console.log(res);
+                  setSuccess("Check your phone for the OTP");
+                  setTimeout(() => {
+                    setInputSet(true);
+                    setSuccess("");
+                    return;
+                  }, 3000);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }}
+            label={loading ? <Spinner /> : " Continue"}
+          />
+        </div>
+        
       )}
 
       {inputSet && (
@@ -186,11 +189,12 @@ const SignupPhone = () => {
             </span>
           </div>
           <div className="h-7" />
+          <div className="flex justify-end">
           {loading ? (
             <Spinner />
           ) : (
-            <button
-              disabled={otp.length < 6 && loading}
+            <PrimaryButton
+              disabled={!(otp.length === 6 && loading)}
               className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
               onClick={async (e) => {
                 e.preventDefault();
@@ -237,10 +241,12 @@ const SignupPhone = () => {
                     }, 3000);
                   });
               }}
-            >
-              Submit OTP
-            </button>
+            label={"Submit OTP"}
+            />
+            
+            
           )}
+          </div>
         </div>
       )}
     </>

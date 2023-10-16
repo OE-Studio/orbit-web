@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import PrimaryButton from "../Inputs/PrimaryButton";
-import SecondaryButton from "../Inputs/SecondaryButton copy";
+import SecondaryButton from "../Inputs/SecondaryButton";
 import { uploadSelfie } from "./KycApi";
 import { Spinner } from "../Spinner";
 
@@ -77,19 +77,23 @@ const SelfieCapture = ({ imageDataUrl, setImageDataUrl, setStep }) => {
       )}
 
       <div className="h-[26px]"></div>
+<div className="flex justify-end">
 
       {!imageDataUrl && (
         <PrimaryButton label={"Take selfie"} onClick={captureImage} />
       )}
+</div>
       {imageDataUrl && (
-        <div className="space-y-4">
+        <div className="flex gap-4">
           <PrimaryButton
-            label={loading ? <Spinner /> : "Upload Photo"}
+          width="flex-1"
+            label={loading ? <Spinner /> : "Upload"}
             onClick={() => {
               uploadSelfie(imageDataUrl, setStep, setLoading);
             }}
           />
           <SecondaryButton
+          width="flex-1"
             label={"Retake"}
             onClick={() => {
               startCamera();
