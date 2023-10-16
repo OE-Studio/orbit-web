@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Spinner } from "../../../components/Spinner";
 import { getCode } from "./ForgotPasswordApi";
 import { useNavigate } from "react-router-dom";
+import PrimaryButton from "../../../components/Inputs/PrimaryButton";
 
 const ForgotPasswordEmail = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <>
       <p className="text-2xl font-semibold text-[#1B1B1B] font-clash text-center">
@@ -52,13 +53,14 @@ const navigate = useNavigate()
               </div>
             </div>
             <div className="h-[26px]" />
-            <button
-              disabled={!email}
-              type="submit"
-              className="w-full flex items-center justify-center bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "
-            >
-              {loading ? <Spinner color="#ffffff" /> : "Continue"}
-            </button>
+            <div className="flex justify-end">
+              <PrimaryButton
+                disabled={!email}
+                type="submit"
+                className="w-full flex items-center justify-center bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "
+                label={loading ? <Spinner color="#ffffff" /> : "Continue"}
+              ></PrimaryButton>
+            </div>
             {error && <p className="text-[#EF4444] mt-4 text-sm">{error}</p>}
           </form>
         </div>

@@ -35,7 +35,7 @@ const UpdateSuccess = () => {
               You have successfully changed your password
             </p>
           </div>
-          <div className="flex justify-center mt-10"> 
+          <div className="flex justify-center mt-20"> 
           <PrimaryButton
             className="w-full flex items-center justify-center bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] my-auto"
             onClick={(e) => {

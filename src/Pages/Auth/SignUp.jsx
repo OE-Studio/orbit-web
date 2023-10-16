@@ -1,34 +1,34 @@
 import React, { useEffect, useState } from "react";
-import Slide1 from "../../assets/onboarding/1.png";
-import Slide2 from "../../assets/onboarding/2.png";
-import Slide3 from "../../assets/onboarding/3.png";
+// import Slide1 from "../../assets/onboarding/1.png";
+// import Slide2 from "../../assets/onboarding/2.png";
+// import Slide3 from "../../assets/onboarding/3.png";
 import SignupForm from "./SignupForm";
-import Slides from "./Slides";
+// import Slides from "./Slides";
 import { SideCard } from "./Login";
 
-const onboardingSlides = [
-  {
-    title: "Deeply personal style your way.",
-    description:
-      "Give personality to your app, make it yours in every way, choose your pattern.",
-    image: Slide1,
-    bgColor: "#6AC5B9",
-  },
-  {
-    title: "With virtual cards crafted for you.",
-    description:
-      "Get your virtual cards in dollar or naira, reliable networks at low cost just for you.",
-    image: Slide2,
-    bgColor: "#F5C08F",
-  },
-  {
-    title: "Your everyday needs in one place",
-    description:
-      "We move around your orbit, your daily needs now in on place, designed for ease.",
-    image: Slide3,
-    bgColor: "#F5C08F",
-  },
-];
+// const onboardingSlides = [
+//   {
+//     title: "Deeply personal style your way.",
+//     description:
+//       "Give personality to your app, make it yours in every way, choose your pattern.",
+//     image: Slide1,
+//     bgColor: "#6AC5B9",
+//   },
+//   {
+//     title: "With virtual cards crafted for you.",
+//     description:
+//       "Get your virtual cards in dollar or naira, reliable networks at low cost just for you.",
+//     image: Slide2,
+//     bgColor: "#F5C08F",
+//   },
+//   {
+//     title: "Your everyday needs in one place",
+//     description:
+//       "We move around your orbit, your daily needs now in on place, designed for ease.",
+//     image: Slide3,
+//     bgColor: "#F5C08F",
+//   },
+// ];
 
 const SignUp = () => {
   const [scrollIndex, setscrollIndex] = useState(0);
