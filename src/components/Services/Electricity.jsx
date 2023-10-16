@@ -69,7 +69,7 @@ const Electricity = ({ toggle, setToggle }) => {
 
   // eslint-disable-next-line
   const [provider, setProvider] = useState(null);
-// eslint-disable-next-line
+  // eslint-disable-next-line
   const [currentProducts, setCurrentProducts] = useState(null);
   const [meter_number, setMeter_number] = useState("");
   const [amount, setAmount] = useState(0);
@@ -343,8 +343,6 @@ const Electricity = ({ toggle, setToggle }) => {
                             return item.meter_type === network;
                           })
                           .map((networkItem, index) => {
-                            
-
                             return (
                               <div
                                 className="flex rounded-md px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
@@ -352,7 +350,6 @@ const Electricity = ({ toggle, setToggle }) => {
                                 onClick={() => {
                                   setPlan({
                                     ...networkItem,
-                                    
                                   });
                                   setPlanDrop(false);
                                 }}
@@ -515,27 +512,28 @@ const Electricity = ({ toggle, setToggle }) => {
                   </div>
                 </div>
                 <div />
-
-                <PrimaryButton
-                  disabled={
-                    !(
-                      plan &&
-                      mobile_number &&
-                      meter_number &&
-                      meterDetail &&
-                      meterDetail.customerAddress &&
-                      meterDetail.customerName &&
-                      network &&
-                      amount &&
-                      amount < wallet?.data?.data.balance
-                    )
-                  }
-                  label={"Continue"}
-                  onClick={() => {
-                    setError("");
-                    setStep(1);
-                  }}
-                />
+                <div className="flex justify-end">
+                  <PrimaryButton
+                    disabled={
+                      !(
+                        plan &&
+                        mobile_number &&
+                        meter_number &&
+                        meterDetail &&
+                        meterDetail.customerAddress &&
+                        meterDetail.customerName &&
+                        network &&
+                        amount &&
+                        amount < wallet?.data?.data.balance
+                      )
+                    }
+                    label={"Continue"}
+                    onClick={() => {
+                      setError("");
+                      setStep(1);
+                    }}
+                  />
+                </div>
               </div>
             )}
             {step === 1 && (
@@ -603,14 +601,15 @@ const Electricity = ({ toggle, setToggle }) => {
                   </div>
                 </div>
                 <div />
-
-                {loading ? (
-                  <div className="w-full rounded-full bg-[#00AA61] py-4 flex center">
-                    <Spinner />
-                  </div>
-                ) : (
-                  <PrimaryButton label={"Confirm"} onClick={onClose} />
-                )}
+                <div className="flex justify-end">
+                  {loading ? (
+                    <div className="w-full rounded-full bg-[#00AA61] py-4 flex center">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <PrimaryButton label={"Confirm"} onClick={onClose} />
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -718,3 +717,4 @@ const Electricity = ({ toggle, setToggle }) => {
 };
 
 export default Electricity;
+

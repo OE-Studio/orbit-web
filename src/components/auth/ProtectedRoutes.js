@@ -15,6 +15,7 @@ import { fetchVirtualAccount } from "../../features/getVirtualAccountSlice";
 import { fetchBankList } from "../../features/getBankList";
 
 import { fetchNotifications } from "../../features/NotificationsSlice";
+import { fetchAllBackground } from "../../features/getAllBackgrounds";
 
 
 
@@ -39,8 +40,10 @@ const ProtectedRoutes = () => {
     const virtualAccountStatus = useSelector((state) => state.virtualAccount.status);
     const bankListStatus = useSelector((state) => state.bankList.status);
     const notificationStatus = useSelector((state) => state.notifications.status);
+    const bgStatus = useSelector((state) => state.backgrounds.status);
+    console.log(bgStatus)
 
-    
+
 
     // window.addEventListener('beforeunload', async (event) => {
     //     event.preventDefault();
@@ -100,6 +103,16 @@ const ProtectedRoutes = () => {
         return () => { };
         // eslint-disable-next-line
     }, [walletStatus]);
+
+
+    // fetchBackgrounds
+    useEffect(() => {
+        if (bgStatus === "idle") {
+            dispatch(fetchAllBackground());
+        }
+        return () => { };
+        // eslint-disable-next-line
+    }, [bgStatus]);
 
 
     // fetchTransactions

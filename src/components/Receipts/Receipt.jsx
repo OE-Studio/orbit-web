@@ -15,7 +15,6 @@ import convertToSentenceCase from "../../utils/convertToSentence";
 import transactionImg from "../../assets/empty-state/emptyTransaction.svg";
 import cut from "../../assets/receipt/bottom.svg";
 import html2canvas from "html2canvas";
-import { GetAllBackgrounds } from "../settings-outlet/SettingsApi";
 import { HourglassHigh } from "phosphor-react";
 // import html2pdf from "html2pdf.js";
 
@@ -25,14 +24,16 @@ export const ReceiptHeader = ({
   bottomLabel,
   bottomDesc,
 }) => {
-  const [allBg, setAllBg] = useState(null);
+  // const [allBg, setAllBg] = useState(null);
   const [selectedBg, setSelectedBg] = useState(null);
   const user = useSelector((state) => state.user.user);
+  const allBg = useSelector((state) => state.backgrounds.data);
+ 
 
   useEffect(() => {
     const bgDataFetch = async () => {
-      const response = await GetAllBackgrounds();
-      setAllBg(response.allImages);
+      // const response = await GetAllBackgrounds();
+      // setAllBg(response.allImages);
     };
 
     bgDataFetch();

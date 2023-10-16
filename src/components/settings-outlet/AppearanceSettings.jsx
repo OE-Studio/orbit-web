@@ -1,7 +1,7 @@
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import React, { useEffect, useState } from "react";
 // import bgData from "../../data/backgroundData";
-import { GetAllBackgrounds, SetPreferredBg } from "./SettingsApi";
+import { SetPreferredBg } from "./SettingsApi";
 import { Spinner } from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "../../features/profile/userAction";
@@ -30,18 +30,9 @@ const AppearanceItem = ({ url, bg, selectedBg, setSelectedBg }) => {
 const AppearanceSettings = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
-  const [allBg, setAllBg] = useState(null);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [selectedBg, setSelectedBg] = useState();
-  const bgDataFetch = async () => {
-    const response = await GetAllBackgrounds();
-    console.log(response);
-    setAllBg(response.allImages);
-  };
-
-  useEffect(() => {
-    bgDataFetch();
-  }, []);
+  const allBg = useSelector((state) => state.backgrounds.data);
 
   useEffect(() => {
     if (allBg) {

@@ -10,7 +10,6 @@ import NotificationPage from "../components/overlays/NotificationPage";
 import { MdLogout } from "react-icons/md";
 import { useEffect } from "react";
 import {
-  GetAllBackgrounds,
   logOut,
 } from "../components/settings-outlet/SettingsApi";
 import { useSelector } from "react-redux";
@@ -21,23 +20,15 @@ const RootLayout = () => {
   const [currentNotification, setcurrentNotification] = useState(0);
   const navigate = useNavigate();
 
-  const [allBg, setAllBg] = useState(null);
   const [selectedBg, setSelectedBg] = useState(null);
+  const allBg = useSelector((state) => state.backgrounds.data);
 
-  const bgDataFetch = async () => {
-    const response = await GetAllBackgrounds();
-    setAllBg(response.allImages);
-  };
   const user = useSelector((state) => state.user.user);
   const userStatus = useSelector((state) => state.user.status);
   const { notifications } = useSelector((state) => state.notifications);
   const unreadNotifications = notifications.filter(
     (item) => item.status !== "read"
   ).length;
-
-  useEffect(() => {
-    bgDataFetch();
-  }, []);
 
   useEffect(() => {
     if (allBg) {

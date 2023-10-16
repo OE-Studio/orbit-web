@@ -26,7 +26,9 @@ const CableSubscription = ({ toggle, setToggle }) => {
   const [plan, setPlan] = useState({});
   const [planDrop, setPlanDrop] = useState(false);
 
+  // eslint-disable-next-line
   const [dataProvider, setDataProvider] = useState(null);
+  // eslint-disable-next-line
   const [dataProducts, setDataProducts] = useState(null);
 
   const [step, setStep] = useState(0);
