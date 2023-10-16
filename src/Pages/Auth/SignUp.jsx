@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 // import Slide1 from "../../assets/onboarding/1.png";
 // import Slide2 from "../../assets/onboarding/2.png";
 // import Slide3 from "../../assets/onboarding/3.png";
@@ -31,26 +31,26 @@ import { SideCard } from "./Login";
 // ];
 
 const SignUp = () => {
-  const [scrollIndex, setscrollIndex] = useState(0);
+  // const [scrollIndex, setscrollIndex] = useState(0);
 
-  useEffect(() => {
-    let slideContainer = document.getElementById("slideContainer");
-    const timer = setInterval(() => {
-      if (scrollIndex < 2) {
-        slideContainer.scroll({
-          left: scrollIndex === 0 ? window.innerWidth / 2 : window.innerWidth,
-          top: 0,
-          behavior: "smooth",
-        });
+  // useEffect(() => {
+  //   let slideContainer = document.getElementById("slideContainer");
+  //   const timer = setInterval(() => {
+  //     if (scrollIndex < 2) {
+  //       slideContainer.scroll({
+  //         left: scrollIndex === 0 ? window.innerWidth / 2 : window.innerWidth,
+  //         top: 0,
+  //         behavior: "smooth",
+  //       });
 
-        setscrollIndex(scrollIndex + 1);
-      } else {
-        slideContainer.scrollLeft = 0;
-        setscrollIndex(0);
-      }
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, [scrollIndex]);
+  //       setscrollIndex(scrollIndex + 1);
+  //     } else {
+  //       slideContainer.scrollLeft = 0;
+  //       setscrollIndex(0);
+  //     }
+  //   }, 5000);
+  //   return () => clearTimeout(timer);
+  // }, [scrollIndex]);
 
   return (
     <div className="flex h-[100vh]">

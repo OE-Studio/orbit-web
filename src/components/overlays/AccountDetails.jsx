@@ -99,7 +99,7 @@ const AccountDetails = ({ toggle, setToggle }) => {
           </div>
         </div>
         <div className="h-full overflow-y-scroll max-h-[600px] space-y-6">
-          {virtualAccount.map((item, index) => {
+          {virtualAccount?.map((item, index) => {
             return (
               <BankCard
                 accountName={item.account_name}

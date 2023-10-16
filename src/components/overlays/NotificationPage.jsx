@@ -44,16 +44,16 @@ const Notification = ({
       <div className="h-full overflow-y-scroll pb-14">
         <div className="bg-white border border-[#E5ECF5] rounded-[8px] p-6">
           <p className="text-neutral300 text-xs mb-6 uppercase">
-            {format(
-              Date.parse(notifications[current_notification].createdAt),
+            {notifications[current_notification]?.createdAt && format(
+              Date.parse(notifications[current_notification]?.createdAt),
               "dd MMM, yyy"
             )}
           </p>
           <p className={`font-medium text-grey150`}>
-            {notifications[current_notification].title}
+            {notifications[current_notification]?.title}
           </p>
           <p className="text-neutral300 text-sm mt-1">
-            {notifications[current_notification].message}
+            {notifications[current_notification]?.message}
           </p>
         </div>
       </div>

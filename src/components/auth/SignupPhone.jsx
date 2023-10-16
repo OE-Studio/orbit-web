@@ -65,6 +65,7 @@ const SignupPhone = () => {
         <div className="h-[2px]" />
         <div className="flex items-center gap-2 ">
           <input
+            readOnly={inputSet}
             type="tel"
             name="phoneNumber"
             id="phoneNumber"
@@ -86,7 +87,6 @@ const SignupPhone = () => {
 
       {!inputSet && (
         <div className="flex justify-end">
-
           <PrimaryButton
             disabled={inputError || phoneNumber === ""}
             className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] flex items-center justify-center "
@@ -119,7 +119,6 @@ const SignupPhone = () => {
             label={loading ? <Spinner /> : " Continue"}
           />
         </div>
-        
       )}
 
       {inputSet && (
@@ -170,17 +169,21 @@ const SignupPhone = () => {
                   .put("/v1/users/resendSMSotp", {
                     accountId: JSON.parse(sessionStorage.getItem("userInfo"))
                       .userId,
+                    phoneNumber: phoneNumber,
                   })
                   .then((res) => {
                     console.log(res);
                     console.log(res.data.success);
                     setResendLoading(false);
-
-                    setSuccess(res.data.message);
-                    setTimeout(() => {
-                      setSuccess("");
-                      return;
-                    }, 3000);
+                    if (res.data.success) {
+                      setSuccess(res.data.message);
+                      setTimeout(() => {
+                        setSuccess("");
+                        return;
+                      }, 3000);
+                    } else {
+                      setPresentError("Unable to re-send SMS");
+                    }
                   })
                   .catch((err) => {});
               }}
@@ -190,62 +193,62 @@ const SignupPhone = () => {
           </div>
           <div className="h-7" />
           <div className="flex justify-end">
-          {loading ? (
-            <Spinner />
-          ) : (
-            <PrimaryButton
-              disabled={!(otp.length === 6 && loading)}
-              className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
-              onClick={async (e) => {
-                e.preventDefault();
-                console.log("submit-otp");
-                setLoading(true);
-                console.log(
-                  JSON.parse(sessionStorage.getItem("userInfo")).userId
-                );
-                
-                await axios.put(
-                  `/v1/users/verifyPhoneNumber?token=${JSON.parse(
-                    sessionStorage.getItem("loginToken")
-                  )}`,
-                  {
-                    otp: otp,
-                    phoneNumber: phoneNumber,
-                  }
-                ).then((res) => {
-                    setLoading(false);
-                    console.log(res);
-                    console.log(res.data.success);
-                    if (res.data.success) {
-                      setSuccess(res.data.message);
+            {loading ? (
+              <Spinner />
+            ) : (
+              <PrimaryButton
+                disabled={!(otp.length === 6 && loading)}
+                className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
+                onClick={async (e) => {
+                  e.preventDefault();
+                  console.log("submit-otp");
+                  setLoading(true);
+                  console.log(
+                    JSON.parse(sessionStorage.getItem("userInfo")).userId
+                  );
+
+                  await axios
+                    .put(
+                      `/v1/users/verifyPhoneNumber?token=${JSON.parse(
+                        sessionStorage.getItem("loginToken")
+                      )}`,
+                      {
+                        otp: otp,
+                        phoneNumber: phoneNumber,
+                      }
+                    )
+                    .then((res) => {
+                      setLoading(false);
+                      console.log(res);
+                      console.log(res.data.success);
+                      if (res.data.success) {
+                        setSuccess(res.data.message);
+                        setTimeout(() => {
+                          setSuccess("");
+                          navigate("/signup/pin");
+                          return;
+                        }, 1000);
+                      } else {
+                        setPresentError(res.data.message);
+                        setTimeout(() => {
+                          setLoading(false);
+                          setPresentError("");
+                          return;
+                        }, 3000);
+                      }
+                    })
+                    .catch((err) => {
+                      setLoading(false);
+                      setPresentError(err.message);
                       setTimeout(() => {
-                        setSuccess("");
-                        navigate("/signup/pin");
-                        return;
-                      }, 1000);
-                    } else {
-                      setPresentError(res.data.message);
-                      setTimeout(() => {
-                        setLoading(false);
                         setPresentError("");
                         return;
                       }, 3000);
-                    }
-                  })
-                  .catch((err) => {
-                    setLoading(false);
-                    setPresentError(err.message);
-                    setTimeout(() => {
-                      setPresentError("");
-                      return;
-                    }, 3000);
-                  });
-              }}
-            label={"Submit OTP"}
-            />
-            
-            
-          )}
+                    });
+                }}
+                label={"Submit OTP"}
+              />
+            )}
           </div>
         </div>
       )}
