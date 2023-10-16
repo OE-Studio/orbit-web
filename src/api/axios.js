@@ -7,7 +7,7 @@ const api = axios.create({
   baseURL: 'https://orbit-finance-api.herokuapp.com/users/api'
 });
 
-// Add a response interceptor
+// Add a response interceptor new
 api.interceptors.response.use(
   async (response) => {
     return response;
