@@ -6,7 +6,7 @@ import {
   CheckBadgeIcon,
   ChevronLeftIcon,
   ExclamationTriangleIcon,
-  PaperAirplaneIcon
+  PaperAirplaneIcon,
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import { transfertoFriends } from "./ServiceApi";
@@ -30,6 +30,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
   const [isOpenFailed, setIsOpenFailed] = useState(false);
   const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
+  const [usernameLoading, setUsernameLoading] = useState(false);
   const [pinError, setPinError] = useState(false);
   const [error, setError] = useState("");
   const [failedMsg, setFailedMsg] = useState("");
@@ -52,32 +53,37 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
   const [username, setUsername] = useState("");
   const [usernameAvailable, setUsernameAvailable] = useState(false);
 
+  const user = useSelector((state) => state.user.user);
+
   // Debounce Input to Check Username
   React.useEffect(() => {
     const getData = setTimeout(() => {
       if (username) {
-        let currentUserName = JSON.parse(sessionStorage.getItem("user"));
         if (
-          username === currentUserName.username ||
-          username === currentUserName.email ||
-          Number(username) === username.includes(currentUserName.phoneNumber)
+          username === user.username ||
+          username === user.email ||
+          Number(username) === username.includes(user.phoneNumber)
         ) {
           setUsernameError(true);
-          setError("You can can't send money to yourself");
+          setError("You can't send money to yourself");
           setUsernameAvailable(false);
           return;
         }
-
+        setUsernameLoading(true);
         axios
           .post(`/v1/users/checkUsername`, { username: username.toLowerCase() })
           .then((response) => {
+            setUsernameLoading(false);
+            console.log(response.data);
             if (response.data.success) {
               if (
                 response.data.message.trim() ===
-                `username; ${username} is available`
+                `Username, ${username} is available`
               ) {
+                console.log("here");
                 setUsernameError(true);
                 setUsernameAvailable(false);
+                return;
               }
             } else {
               if (
@@ -86,6 +92,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
               ) {
                 setUsernameError(false);
                 setUsernameAvailable(true);
+                return;
               }
             }
           });
@@ -186,9 +193,9 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
                         />
                       </div>
 
-                      {username.length > 0 &&
-                        !usernameError &&
-                        !usernameAvailable && <Spinner color="#A6B0BF" />}
+                      {username.length > 0 && usernameLoading && (
+                        <Spinner color="#A6B0BF" />
+                      )}
 
                       {username.length > 0 && usernameAvailable && (
                         <CheckBadgeIcon
@@ -261,6 +268,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
                       !(
                         username &&
                         !usernameError &&
+                        setUsernameAvailable &&
                         amount &&
                         amount < wallet?.data?.data.balance
                       )
@@ -360,6 +368,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
         }}
       />
       <SuccessPage
+        type={"Transfer"}
         isOpen={isOpenSuccess}
         onClose={() => {
           setIsOpenSuccess(!isOpenSuccess);

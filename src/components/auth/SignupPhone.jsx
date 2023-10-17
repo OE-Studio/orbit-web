@@ -207,7 +207,11 @@ const SignupPhone = () => {
             </span>
           </div>
           <div className="h-7" />
-          <div className="flex justify-end gap-6">
+          
+            {loading ? (
+              <Spinner />
+            ) : (
+              <div className="flex justify-end gap-6">
             <SecondaryButton
               width="flex-1"
               label={"Edit Number"}
@@ -216,9 +220,6 @@ const SignupPhone = () => {
                 setOtp("");
               }}
             />
-            {loading ? (
-              <Spinner />
-            ) : (
               <PrimaryButton
                 disabled={!(otp.length === 6)}
                 onClick={async (e) => {
@@ -265,8 +266,8 @@ const SignupPhone = () => {
                 label={"Submit OTP"}
                 width="flex-1"
               />
-            )}
           </div>
+            )}
         </div>
       )}
     </>

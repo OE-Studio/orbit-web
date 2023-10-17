@@ -5,7 +5,7 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronUpIcon,
-  GlobeAltIcon
+  GlobeAltIcon,
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import { BankTransfer, fetchAccountName } from "./ServiceApi";
@@ -113,10 +113,10 @@ const SendMoney = ({ toggle, setToggle }) => {
               </p>
             </div>
             <CloseButton
-            onClick={() => {
-              setToggle(!toggle);
-            }}
-        />
+              onClick={() => {
+                setToggle(!toggle);
+              }}
+            />
           </div>
         ) : (
           <div className="flex justify-between items-center">
@@ -431,15 +431,13 @@ const SendMoney = ({ toggle, setToggle }) => {
             narration: narrations,
             reference: "",
           };
-          
 
           try {
             const response = await BankTransfer(userInput, pin);
-            
+
             setLoading(false);
 
             if (response && response.success) {
-              
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -461,7 +459,6 @@ const SendMoney = ({ toggle, setToggle }) => {
 
               // Invalid Number
               if (response.message === "invalid network selection") {
-                
                 setStep(0);
                 setError("Invalid network selection");
                 return;
@@ -471,9 +468,7 @@ const SendMoney = ({ toggle, setToggle }) => {
               setIsOpenFailed(true);
               return;
             }
-          } catch (error) {
-            
-          }
+          } catch (error) {}
         }}
       />
       <SuccessPage

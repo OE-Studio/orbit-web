@@ -61,7 +61,7 @@ const RecentTransactions = () => {
         </div>
       </div>
       <div className="w-full h-[1px] bg-neutral200" />
-      <div className="flex items-center gap-[30px] justify-between p-6">
+      <div className="flex items-center gap-[30px] justify-between px-6">
         {cashFlow?.totalSpending === 0 && cashFlow?.totalFunding === 0 ? (
           <img src={chartDefault} alt="" />
         ) : (

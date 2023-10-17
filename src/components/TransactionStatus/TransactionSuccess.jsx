@@ -40,13 +40,17 @@ const SuccessPage = ({
                 </p>
                 <div className="h-1 5" />
                 <p className="w-[80%] text-base leading-snug text-center text-gray-600 mx-auto">
-                  You purchase is being processed
+                  {`You ${type.toLowerCase()} is being processed`}
                 </p>
               </div>
 
               <div className="bg-neutral100 p-4 flex gap-4">
                 <SecondaryButton width="flex-1" label="Done" onClick={onDone} />
-                <PrimaryButton width="flex-1" label="Receipt" onClick={onReceipt} />
+                <PrimaryButton
+                  width="flex-1"
+                  label="Receipt"
+                  onClick={onReceipt}
+                />
               </div>
             </div>
           </div>

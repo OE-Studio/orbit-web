@@ -6,7 +6,7 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronUpIcon,
-  GlobeAltIcon
+  GlobeAltIcon,
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import { fetchDataId, purchaseElectricity, validateMeter } from "./ServiceApi";
@@ -109,7 +109,6 @@ const Electricity = ({ toggle, setToggle }) => {
       }
 
       setMeterLoading(false);
-      
     } catch (error) {}
   };
 
@@ -169,10 +168,10 @@ const Electricity = ({ toggle, setToggle }) => {
               </p>
             </div>
             <CloseButton
-            onClick={() => {
-              setToggle(!toggle);
-            }}
-        />
+              onClick={() => {
+                setToggle(!toggle);
+              }}
+            />
           </div>
         ) : (
           <div className="flex justify-between items-center">
@@ -633,14 +632,12 @@ const Electricity = ({ toggle, setToggle }) => {
             validated_address: meterDetail.customerAddress,
             amount: amount,
           };
-          
 
           try {
             const response = await purchaseElectricity(userInput, pin);
-            
 
+            setLoading(false);
             if (response && response.success) {
-              
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -661,7 +658,6 @@ const Electricity = ({ toggle, setToggle }) => {
 
               // Invalid Number
               if (response.message === "invalid network selection") {
-                
                 setStep(0);
                 setError("Invalid network selection");
                 return;
@@ -671,9 +667,7 @@ const Electricity = ({ toggle, setToggle }) => {
               setIsOpenFailed(true);
               return;
             }
-          } catch (error) {
-            
-          }
+          } catch (error) {}
         }}
       />
       <SuccessPage
@@ -687,7 +681,6 @@ const Electricity = ({ toggle, setToggle }) => {
           window.location.reload();
         }}
         onReceipt={() => {
-          
           setIsOpenSuccess(!isOpenSuccess);
           setToggleReceipt(true);
         }}
@@ -714,4 +707,3 @@ const Electricity = ({ toggle, setToggle }) => {
 };
 
 export default Electricity;
-
