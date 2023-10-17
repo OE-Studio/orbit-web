@@ -1,8 +1,6 @@
 import {
   CheckBadgeIcon,
   ChevronRightIcon,
-  
-  GiftTopIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
@@ -44,11 +42,11 @@ const SettingsHeader = () => {
             </div>
           </div>
           <div className="flex space-x-2 items-center px-3 py-1 border rounded-full border-neutral200 h-fit">
-              <p className="text-sm font-medium text-grey200">
-                {convertToSentenceCase(user?.title)}
-              </p>
-              <UserCircle weight="fill" className="text-xl text-blue25" />
-            </div>
+            <p className="text-sm font-medium text-grey200">
+              {convertToSentenceCase(user?.title)}
+            </p>
+            <UserCircle weight="fill" className="text-xl text-blue25" />
+          </div>
         </div>
 
         {/* Final Breadcrumb */}
