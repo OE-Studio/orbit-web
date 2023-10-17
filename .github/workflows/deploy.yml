@@ -44,4 +44,4 @@ jobs:
             sudo systemctl restart nginx
           ENDSSH
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.YOUR_SSH_PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.WEB_APP_SSH_PRIVATE_KEY }}
