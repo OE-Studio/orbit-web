@@ -2,12 +2,11 @@ name: Deploy to DigitalOcean
 
 on:
   push:
-    branches:
-      - oluwatobi
+    branches: [oluwatobi]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -16,31 +15,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 18
+          node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
-
-      - name: Prepare SSH
-        run: |
-          mkdir -p $HOME/.ssh
-          touch $HOME/.ssh/known_hosts
-          ssh-keyscan -H ${{ secrets.WEB_APP_SSH_HOST }} >> $HOME/.ssh/known_hosts
-      - name: Deploy to DigitalOcean
-        run: |
-          echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
-          chmod 600 $HOME/.ssh/id_rsa
-          ssh -i $HOME/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.WEB_APP_SSH_USERNAME }}@${{ secrets.WEB_APP_SSH_HOST }} 'bash -s' <<'ENDSSH'
-            # Replace with your deployment steps, e.g., stop the existing service, copy new files, and start the service.
-            cd /orbit-web
-            git pull
-            npm install
-            npm run build
-            # Restart your web server, e.g., Nginx or Apache
-            sudo systemctl restart nginx
-          ENDSSH
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - run: |
+          npm i
+          npm run build
