@@ -1,4 +1,4 @@
-name: Deploy to Digital Ocean
+name: Deploy to DigitalOcean
 
 on:
   push:
@@ -24,15 +24,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy to Digital Ocean
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Deploy to DigitalOcean
         run: |
-          echo "$SSH_PRIVATE_KEY" > private_key.pem
-          chmod 600 private_key.pem
-          scp -i private_key.pem -r build/* ${{ secrets.WEB_APP_SSH_USERNAME }}@${{ secrets.WEB_APP_SSH_HOST }}:/var/www/html/
-          ssh -i private_key.pem your-username@your-droplet-ip "pm2 restart your-app-name"
-
-      - name: Cleanup
-        run: |
-          rm -f private_key.pem
+          ssh-keyscan -H ${{ secrets.WEB_APP_SSH_HOST }} >> $HOME/.ssh/known_hosts
+          ssh -v -i $HOME/.ssh/id_rsa -o ${{ secrets.WEB_APP_SSH_USERNAME }}@${{ secrets.WEB_APP_SSH_HOST }} 'bash -s' <<'ENDSSH'
+            # Replace with your deployment steps, e.g., stop the existing service, copy new files, and start the service.
+            cd /orbit-web
+            git pull
+            npm install
+            npm run build
+            # Restart your web server, e.g., Nginx or Apache
+            sudo systemctl restart nginx
+          ENDSSH
