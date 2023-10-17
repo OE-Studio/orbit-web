@@ -6,7 +6,7 @@ import {
   ArrowDownOnSquareIcon,
   CheckBadgeIcon,
   ExclamationTriangleIcon,
-  ReceiptPercentIcon
+  ReceiptPercentIcon,
 } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
 
@@ -28,7 +28,6 @@ export const ReceiptHeader = ({
   const [selectedBg, setSelectedBg] = useState(null);
   const user = useSelector((state) => state.user.user);
   const allBg = useSelector((state) => state.backgrounds.data);
- 
 
   useEffect(() => {
     const bgDataFetch = async () => {
@@ -309,9 +308,9 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
       </>
     );
   }
-
   // Transfer Receipt
   if (current?.narration.includes("transfer")) {
+    console.log(current);
     receiptBody = (
       <>
         <div className="max-w-[350px] mx-auto">
@@ -339,6 +338,19 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
               <p className="text-sm font-inter text-grey300 text-right font-semibold w-[45%]">
                 {" "}
                 Wallet
+              </p>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+          <div className="h-6"></div>
+          {/* Wallet */}
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">Sender</p>
+              <p className="text-sm font-inter text-grey300 text-right font-semibold w-[45%]">
+                {" "}
+                @{current.provider_name}
               </p>
             </div>
           </div>
@@ -563,11 +575,10 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
           </p>
         </div>
         <CloseButton
-            onClick={() => {
-              setToggle(!toggle);
-            }}
+          onClick={() => {
+            setToggle(!toggle);
+          }}
         />
-       
       </div>
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14 font-inter ">
