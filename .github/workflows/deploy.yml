@@ -32,16 +32,18 @@ jobs:
 
       - name: Deploy to DigitalOcean
         run: |
-          echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
-          chmod 600 $HOME/.ssh/id_rsa
-          ssh -i $HOME/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.WEB_APP_SSH_USERNAME }}@${{ secrets.WEB_APP_SSH_HOST }} 'bash -s' <<'ENDSSH'
-            # Replace with your deployment steps, e.g., stop the existing service, copy new files, and start the service.
-            cd /orbit-web
-            git pull
-            npm install
-            npm run build
-            # Restart your web server, e.g., Nginx or Apache
-            sudo systemctl restart nginx
+          # Set the passphrase for the SSH key
+          SSH_PASSPHRASE="wale"
+
+          # Provide the passphrase to the SSH key using sshpass
+          echo "$SSH_PASSPHRASE" | sshpass -p ssh -i $HOME/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.WEB_APP_SSH_USERNAME }}@${{ secrets.WEB_APP_SSH_HOST }} 'bash -s' <<'ENDSSH'
+          # Replace with your deployment steps, e.g., stop the existing service, copy new files, and start the service.
+          cd /orbit-web
+          git pull
+          npm install
+          npm run build
+          # Restart your web server, e.g., Nginx or Apache
+          sudo systemctl restart nginx
           ENDSSH
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.WEB_APP_SSH_PRIVATE_KEY }}
+          SSH_PASSPHRASE: ${{ secrets.SSH_KEY_PASSPHRASE }}
