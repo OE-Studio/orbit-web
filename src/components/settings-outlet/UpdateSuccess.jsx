@@ -42,8 +42,7 @@ const UpdateSuccess = ({
                   {label}
                 </p>
               </div>
-
-              <div className="bg-neutral100 p-4 flex gap-4">
+              <div className="bg-neutral100 p-4 flex gap-4 justify-center">
                 <PrimaryButton label="Done" onClick={onDone} />
               </div>
             </div>

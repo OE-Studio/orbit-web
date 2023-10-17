@@ -1,4 +1,5 @@
-import { FileArrowUp, Paperclip, Trash } from "phosphor-react";
+import { FileImage, Paperclip, Trash, UploadSimple } from "phosphor-react";
+import { useState } from "react";
 
 const FileUploader = ({ selectedFile, setSelectedFile, id }) => {
   const handleFileInputChange = (e) => {
@@ -6,11 +7,7 @@ const FileUploader = ({ selectedFile, setSelectedFile, id }) => {
     setSelectedFile(file);
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  
+  const [dragOver, setDragOver] = useState(false);
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -39,40 +36,52 @@ const FileUploader = ({ selectedFile, setSelectedFile, id }) => {
 
   return (
     <div
-      className="w-full bg-gray-25"
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
+    // className="w-full bg-[#F2F7FA] outline-1 outline-[#5DADEC] outline-dashed  rounded-[8px]"
     >
       {selectedFile ? (
-        <div className="flex items-center justify-between p-4 md:p-8">
+        <div className="flex items-center justify-between p-4 md:p-6   w-full bg-[#E3EFDC]  rounded-[8px]">
           <div className="flex items-center gap-3">
-            <FileArrowUp weight="fill" className="text-green-500 text-3xl" />
+            <div className="p-2 bg-gray-0 w-12 h-12 rounded-full bg-[#73B051] center">
+              <FileImage weight="fill" className="text-[#F1F7EE] text-2xl" />
+            </div>
             <div>
-              <p className="text-sm font-medium leading-tight  text-gray-600">
-                File Attached
+              <p className="font-semibold leading-tight text-[#71879C]">
+                {nameFormat(selectedFile.name, 20)}
               </p>
               <div className="h-1"></div>
               <div className="flex items-center gap-1">
-                <Paperclip weight="fill" className="text-lg" />
+                <Paperclip className="text-lg text-[#71879C]" />
 
-                <p className="text-xs leading-none text-gray-400">
-                  {nameFormat(selectedFile.name, 20)} (
-                  {sizeFormat(selectedFile.size)})
+                <p className="text-[15px] text-[#71879C]">
+                  ({sizeFormat(selectedFile.size)})
                 </p>
               </div>
             </div>
           </div>
+
           <button
-            className="p-2 rounded-lg bg-gray-0"
+            className="p-2 bg-gray-0 w-12 h-12 rounded-full bg-white center"
             onClick={() => {
               setSelectedFile(null);
             }}
           >
-            <Trash weight="bold" />
+            <Trash className="text-2xl text-red500" />
           </button>
         </div>
       ) : (
-        <label htmlFor={id} className="w-full p-4 md:p-8 ">
+        <label
+          onDragEnter={() => {
+            setDragOver(true);
+          }}
+          onDragLeave={() => {
+            setDragOver(false);
+          }}
+          onDrop={handleDrop}
+          htmlFor={id}
+          className={`flex items-center justify-between p-4 md:p-6   w-full ${
+            dragOver ? "" : "bg-[#F2F7FA]"
+          } min-h-[105px] outline-1 outline-[#5DADEC] outline-dashed  rounded-[8px]`}
+        >
           <input
             type="file"
             accept=".jpg,.jpeg,.png"
@@ -80,26 +89,33 @@ const FileUploader = ({ selectedFile, setSelectedFile, id }) => {
             onChange={handleFileInputChange}
             hidden
           />
-          <div className="flex center gap-3">
-            {/* <img src={fileUpload} alt="" /> */}
-            <FileArrowUp weight="fill" className="text-3xl" />
-            <div>
-              <p className="text-sm font-medium leading-tight underline text-primary-500">
-                Click or drag to upload file
-              </p>
-              <div className="h-1"></div>
-              <p className="text-xs leading-none text-gray-400">
-                PDF, JPG or PNG, 3MB max
-              </p>
+          {dragOver ? (
+            <p className="font-semibold leading-tight text-[#71879C] text-center w-full">
+              Drop content here
+            </p>
+          ) : (
+            <div className="flex center gap-3 bg-[#F2F7FA]">
+              {/* <img src={fileUpload} alt="" /> */}
+              <div className="w-14 h-14 rounded-full bg-white center">
+                <UploadSimple
+                  weight="fill"
+                  className="text-3xl text-[#71879C]"
+                />
+              </div>
+
+              <div>
+                <p className="font-semibold leading-tight text-[#71879C]">
+                  Click or drag to upload file
+                </p>
+                <div className="h-1"></div>
+                <p className="text-[15px] text-[#71879C]">
+                  PDF, JPG or PNG, 3MB max
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </label>
       )}
-      {/* {selectedFile ? (
-          <p>Selected File: {selectedFile.name}</p>
-        ) : (
-          <p>Drag and drop a file or click here to select a file</p>
-        )} */}
     </div>
   );
 };

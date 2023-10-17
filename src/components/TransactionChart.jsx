@@ -71,9 +71,16 @@ const TransactionChart = () => {
       options: {
         responsive: true,
         scales: {
-         
+          x: {
+            grid: {
+              drawOnChartArea: false,
+            },
+          },
           y: {
             beginAtZero: true,
+            grid: {
+              drawOnChartArea: false,
+            },
           },
         },
       },

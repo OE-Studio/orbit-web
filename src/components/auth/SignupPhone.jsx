@@ -85,6 +85,7 @@ const SignupPhone = () => {
             className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
             onChange={(e) => {
               const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+
               // Format the phone number
               setPhoneNumber(input);
               setInputError(false);

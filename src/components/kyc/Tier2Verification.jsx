@@ -23,6 +23,17 @@ const Tier2Verification = ({ toggle, setToggle }) => {
   const [resendLoading, setResendLoading] = useState(false);
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
+
+  function formatPhoneNumber(input) {
+    if (input.length <= 3) {
+      return input;
+    } else if (input.length <= 7) {
+      return `${input.slice(0, 3)} ${input.slice(3)}`;
+    } else {
+      return `${input.slice(0, 3)} ${input.slice(3, 7)} ${input.slice(7, 11)}`;
+    }
+  }
+
   return (
     <>
       <SideBarWrapper toggle={toggle}>
@@ -38,7 +49,7 @@ const Tier2Verification = ({ toggle, setToggle }) => {
             onClick={() => {
               setToggle(!toggle);
             }}
-        />
+          />
         </div>
         <div className="h-9" />
         <div className="h-full overflow-y-scroll pb-14 font-inter ">
@@ -76,7 +87,7 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                     <p className="text-2xl font-semibold font-clash text-grey600">
                       BVN verification
                     </p>
-                    <p className="w-full text-[15px] leading-snug text-[#71879C]">
+                    <p className="w-full text-[15px] text-[#71879C] leading-[125%]">
                       Enter your BVN, dial *565*0# on your BVN-registered line
                       to get your BVN code.
                     </p>
@@ -97,15 +108,17 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                         <br />
                         <div className="h-[2px]" />
                         <input
-                          type="text"
-                          placeholder=""
+                          type="numeric"
+                          placeholder="000 0000 0000"
                           name="bvn"
                           id="bvn"
-                          value={BVN}
+                          value={formatPhoneNumber(BVN)}
                           className={`text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full `}
                           onChange={(e) => {
                             setError("");
-                            setBVN(e.target.value);
+                            const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                            console.log(input);
+                            setBVN(input);
                           }}
                         />
                       </div>

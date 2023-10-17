@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import React from "react";
-import chart from "../assets/images/chart.svg";
+// import chart from "../assets/images/chart.svg";
 import TransactionType from "./TransactionComponents/TransactionType";
 import { useSelector } from "react-redux";
 import { EmptyTransaction } from "./TransactionBody";
@@ -8,7 +8,8 @@ import convertToSentenceCase from "../utils/convertToSentence";
 import { truncateText } from "../utils/TruncateText";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-
+import TransactionFlowChart from "./TransactionFlowChart";
+import chartDefault from "../assets/donutDefault.svg";
 const TransactionCard = ({ type, title, desc, product, price }) => {
   return (
     <div className="inline-flex items-center justify-center w-full bg-white  rounded-lg gap-4 font-inter">
@@ -40,7 +41,6 @@ const RecentTransactions = () => {
   const { transactions } = useSelector((state) => state.transactions);
   const { cashFlow } = useSelector((state) => state.user);
 
-
   let recentTransactions = [...transactions]
     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
     .slice(0, 6);
@@ -62,7 +62,14 @@ const RecentTransactions = () => {
       </div>
       <div className="w-full h-[1px] bg-neutral200" />
       <div className="flex items-center gap-[30px] justify-between p-6">
-        <img src={chart} alt="" />
+        {cashFlow?.totalSpending === 0 && cashFlow?.totalFunding === 0 ? (
+          <img src={chartDefault} alt="" />
+        ) : (
+          <TransactionFlowChart
+            totalSpent={cashFlow?.totalSpending}
+            totalFunded={cashFlow?.totalFunding}
+          />
+        )}
         <div className="space-y-2">
           <div className="flex gap-2 items-center">
             <div className="bg-[#5DADEC] h-2.5 w-2.5 rounded-full" />

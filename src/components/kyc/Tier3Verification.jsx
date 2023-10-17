@@ -58,13 +58,13 @@ const UploadGovtID = ({ setStep, setDocumentType, step }) => {
         Government issued ID
       </p>
 
-      <p className="w-full text-[15px] leading-snug text-[#71879C]">
-        kindly upload any of the following government issued Id{" "}
+      <p className="w-full text-[15px] text-[#71879C] leading-[22px]">
+        Kindly upload any of the following government issued ID,{" "}
         <span className="font-semibold">
-          Drivers license, Voters card, or International passport{" "}
+          Drivers license, Voters card, <span className="font-normal">or</span>{" "}
+          International passport{" "}
         </span>
       </p>
-      <div className="h-[1px] w-full bg-neutral100"></div>
       {selectedFile && (
         <div className="w-full center ">
           <img
@@ -76,19 +76,20 @@ const UploadGovtID = ({ setStep, setDocumentType, step }) => {
           />
         </div>
       )}
-      <div className="border rounded-xl">
+      <div className="">
         <FileUploader
           selectedFile={selectedFile}
           setSelectedFile={setSelectedFile}
         />
       </div>
 
-      <div className="h-[1px] w-full bg-neutral100"></div>
       {loading ? (
         <PrimaryButton label={<Spinner />} />
       ) : (
         <PrimaryButton
+          disabled={!selectedFile}
           label={"Upload"}
+          width="disabled:bg-[#71879C]"
           onClick={() => {
             uploadGovtDocId(selectedFile, setStep, setLoading);
           }}
@@ -139,12 +140,12 @@ const UploadUtilityDoc = ({ setStep, setDocumentType, step }) => {
         Upload Utility Document
       </p>
 
-      {/* <p className="w-full text-[15px] leading-snug text-[#71879C]">
-        kindly upload any of the following government issued Id{" "}
+      <p className="w-full text-[15px] text-[#71879C] leading-[22px]">
+        Kindly upload any of the following document showing your house address:{" "}
         <span className="font-semibold">
-          Drivers license, Voters card, or International passport{" "}
+          Utility bill <span className="font-normal">or</span> bank statement.
         </span>
-      </p> */}
+      </p>
       <div className="h-[1px] w-full bg-neutral100"></div>
       {/* <div>
             <div
@@ -469,14 +470,18 @@ const KYCStepFive = ({ setStep }) => {
       exit={{ x: "-20%", opacity: 0 }}
       className="space-y-[26px] font-inter"
     >
-      <div className="max-w-[353px] mx-auto h-[60vh] flex flex-col">
-        <div className="w-[250px] mx-auto">
-          <div className="mx-auto">
+      <div className="max-w-[353px] mx-auto h-[60vh] flex flex-col items-center">
+        <div className="w-[270px] mx-auto">
+          <div className="center mb-10">
             <lottie-player
               autoplay="true"
               loop="true"
               mode="normal"
-              style={{ width: "200px", height: "200px" }}
+              style={{
+                width: "200px",
+                height: "200px",
+                marginHorizontal: "auto",
+              }}
               src="https://assets9.lottiefiles.com/packages/lf20_R09JykuodG.json"
             />
           </div>
@@ -490,15 +495,15 @@ const KYCStepFive = ({ setStep }) => {
             back soon.
           </p>
         </div>
-        <button
+        <PrimaryButton
           className="w-full flex items-center justify-center bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] my-auto"
           onClick={(e) => {
             e.preventDefault();
             window.location.reload();
           }}
-        >
-          "Done"
-        </button>
+          width="w-fit mt-10"
+          label={"Done"}
+        />
       </div>
     </motion.div>
   );
@@ -519,11 +524,10 @@ const Tier3Verification = ({ toggle, setToggle }) => {
           <UserGroupIcon className=" h-[20px] text-blue25" />
         </div>
         <CloseButton
-            onClick={() => {
-              setToggle(!toggle);
-            }}
+          onClick={() => {
+            setToggle(!toggle);
+          }}
         />
-       
       </div>
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14 font-inter ">
