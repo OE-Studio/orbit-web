@@ -16,6 +16,7 @@ const SignupGeneral = () => {
 
   const navigate = useNavigate();
   const [buttonState, setButtonState] = useState(true);
+  const [dOBInputError, setDOBInputError] = useState(false);
   const [formDetails, setFormDetails] = useState({
     firstName: "",
     lastName: "",
@@ -27,14 +28,14 @@ const SignupGeneral = () => {
   const [username, setUsername] = useState(false);
   const [usernameAvailable, setUsernameAvailable] = useState(false);
 
-  const [minimumDate, setMinimumDate] = useState("");
+  const [maximumDate, setMaximumDate] = useState("");
 
   useEffect(() => {
     // Calculate the minimum date 18 years from today
     const today = new Date();
     today.setFullYear(today.getFullYear() - 18);
     const minimumDateValue = today.toISOString().split("T")[0];
-    setMinimumDate(minimumDateValue);
+    setMaximumDate(minimumDateValue);
   }, []);
   useEffect(() => {
     return () => {};
@@ -195,7 +196,11 @@ const SignupGeneral = () => {
         </p>
       )}
       <div className="h-6" />
-      <div className="focus-within:border-[#5DADEC] border-transparent border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA]">
+      <div className={`${
+          dOBInputError ? "focus-within:border-[#F26969]" : "focus-within:border-[#5DADEC]"
+        } ${
+          dOBInputError ? "border-[#F26969]" : "border-transparent"
+        }  border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA]`}>
         <label htmlFor="dob" className="text-xs text-[#71879C] font-inter">
           Date of birth
         </label>
@@ -207,23 +212,21 @@ const SignupGeneral = () => {
             name="dob"
             id="dob"
             value={formDetails?.d_o_b}
-            max={minimumDate}
+            max={maximumDate}
             className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
             onChange={(e) => {
-              const selectedDate = new Date(e.target.value);
-
-              if (selectedDate > minimumDate) {
-                alert(
-                  "You must pick a date that is at least 18 years from today."
-                );
-                // You can also prevent form submission here
-              } else {
-                handleClick("d_o_b", e.target.value);
-              }
+              setDOBInputError('')
+              setDOBInputError(e.target.value.split("-")[0] > maximumDate.split("-")[0]);
+              handleClick("d_o_b", e.target.value);
             }}
           />
         </div>
       </div>
+      {dOBInputError && (
+        <p className="text-[#EF4444] mt-1 text-sm">
+          You must be 18+ to register
+        </p>
+      )}
       <div className="h-6" />
       <div className="flex justify-end">
         <PrimaryButton
@@ -231,6 +234,7 @@ const SignupGeneral = () => {
           disabled={usernameError || !buttonState}
           onClick={(e) => {
             e.preventDefault();
+
             dispatch(updateUserInput(formDetails));
             navigate("/signup/email");
           }}

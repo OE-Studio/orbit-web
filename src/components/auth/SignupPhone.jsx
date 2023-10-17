@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PinInput from "react-pin-input";
 import axios from "../../api/axios";
@@ -6,11 +6,12 @@ import { Spinner } from "../Spinner";
 import SuccessToasters from "../Inputs/SuccessToasters";
 import Toasters from "../Inputs/Toasters";
 import PrimaryButton from "../Inputs/PrimaryButton";
+import SecondaryButton from "../Inputs/SecondaryButton";
 
 const SignupPhone = () => {
   const navigate = useNavigate();
 
-  const [phoneNumber, setphoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [inputSet, setInputSet] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
@@ -19,15 +20,25 @@ const SignupPhone = () => {
   const [inputError, setInputError] = useState(false);
   const [otp, setOtp] = useState("");
 
-  useEffect(() => {
-    const getData = setTimeout(() => {
-      if (phoneNumber) {
-        phoneNumber.length === 11 ? setInputError(false) : setInputError(true);
-      } else {
-      }
-    }, 500);
-    return () => clearTimeout(getData);
-  }, [phoneNumber]);
+  function formatPhoneNumber(input) {
+    if (input.length <= 3) {
+      return input;
+    } else if (input.length <= 7) {
+      return `${input.slice(0, 3)}-${input.slice(3)}`;
+    } else {
+      return `${input.slice(0, 3)}-${input.slice(3, 7)}-${input.slice(7, 11)}`;
+    }
+  }
+
+  // useEffect(() => {
+  //   const getData = setTimeout(() => {
+  //     if (phoneNumber) {
+  //       phoneNumber.length === 11 ? setInputError(false) : setInputError(true);
+  //     } else {
+  //     }
+  //   }, 500);
+  //   return () => clearTimeout(getData);
+  // }, [phoneNumber]);
 
   return (
     <>
@@ -69,11 +80,15 @@ const SignupPhone = () => {
             type="tel"
             name="phoneNumber"
             id="phoneNumber"
+            value={formatPhoneNumber(phoneNumber)}
             placeholder="000-0000-0000"
             className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
             onChange={(e) => {
-              setphoneNumber(e.target.value);
+              const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+              // Format the phone number
+              setPhoneNumber(input);
               setInputError(false);
+              setPresentError("");
             }}
           />
         </div>
@@ -103,13 +118,17 @@ const SignupPhone = () => {
                 )
                 .then((res) => {
                   setLoading(false);
-
-                  setSuccess("Check your phone for the OTP");
-                  setInputSet(true);
-                  setTimeout(() => {
-                    setSuccess("");
-                    return;
-                  }, 3000);
+                  if (res.data.success) {
+                    setSuccess("Check your phone for the OTP");
+                    setInputSet(true);
+                    setTimeout(() => {
+                      setSuccess("");
+                      return;
+                    }, 3000);
+                  } else {
+                    setPresentError(res.data.message);
+                    setInputSet(false);
+                  }
                 })
                 .catch((err) => {});
             }}
@@ -187,18 +206,23 @@ const SignupPhone = () => {
             </span>
           </div>
           <div className="h-7" />
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-6">
+            <SecondaryButton
+              width="flex-1"
+              label={"Edit Number"}
+              onClick={() => {
+                setInputSet(!inputSet);
+                setOtp("");
+              }}
+            />
             {loading ? (
               <Spinner />
             ) : (
               <PrimaryButton
-                disabled={!(otp.length === 6 && loading)}
-                className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
+                disabled={!(otp.length === 6)}
                 onClick={async (e) => {
                   e.preventDefault();
-
                   setLoading(true);
-
                   await axios
                     .put(
                       `/v1/users/verifyPhoneNumber?token=${JSON.parse(
@@ -238,6 +262,7 @@ const SignupPhone = () => {
                     });
                 }}
                 label={"Submit OTP"}
+                width="flex-1"
               />
             )}
           </div>
