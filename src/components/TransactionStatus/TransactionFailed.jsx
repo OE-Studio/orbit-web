@@ -41,12 +41,17 @@ const TransactionFailed = ({
                 </p>
                 <div className="h-1 5" />
                 <p className="w-[80%] text-base leading-snug text-center text-gray-600 mx-auto">
-                  {failedMsg || "Something went wrong with the purchase."}
+                  {failedMsg ||
+                    `Something went wrong with the ${type.toLowerCase()}`}
                 </p>
               </div>
 
               <div className="bg-neutral100 p-4 flex gap-4">
-                <SecondaryButton width="flex-1" label="Try again" onClick={onReset} />
+                <SecondaryButton
+                  width="flex-1"
+                  label="Try again"
+                  onClick={onReset}
+                />
                 <PrimaryButton width="flex-1" label="Done" onClick={onDone} />
               </div>
             </div>

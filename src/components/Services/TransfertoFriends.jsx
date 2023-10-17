@@ -186,7 +186,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
                           placeholder="username"
                           className="text-[#5b5b5b] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
                           onChange={(e) => {
-                            setUsername(e.target.value);
+                            setUsername(e.target.value.toLowerCase());
                             setUsernameAvailable(false);
                             setUsernameError(false);
                           }}
@@ -332,7 +332,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
           onClose();
           let userInput = {
             amount: amount,
-            receiverIdentity: username,
+            receiverIdentity: username.toLowerCase(),
           };
 
           try {
