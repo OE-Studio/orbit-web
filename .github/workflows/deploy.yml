@@ -9,19 +9,19 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - run: |
-          npm i
-          npm run build
-          cd .
-          pm2 stop 1
-          pm2 start 1
-          pm2 save
-          sudo service nginx restart
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    - run: |
+        npm i
+        npm run build
+        cd .
+        pm2 stop 1
+        pm2 start 1
+        pm2 save
+        sudo service nginx restart
