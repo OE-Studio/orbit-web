@@ -27,7 +27,7 @@ const NotificationItem = ({
 }) => {
   return (
     <div
-      className="w-full flex gap-4 py-4 border-t border-neutral100  font-inter"
+      className="w-full flex gap-4 py-4 border-t border-neutral100  font-inter cursor-pointer"
       onClick={async () => {
         // notifications[index].read = true;
         await MarkNotificationRead({ notificationId: id });

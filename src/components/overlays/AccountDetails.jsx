@@ -1,5 +1,4 @@
 import {
-  DocumentDuplicateIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/solid";
 
@@ -7,6 +6,7 @@ import OverlayWrapper from "../OvelayWrapper";
 import { X } from "phosphor-react";
 import { copyText } from "../../utils/copyText";
 import { useSelector } from "react-redux";
+import CopiedIcon from "../Inputs/CopiedIcon";
 
 const BankCard = ({
   accountName,
@@ -25,14 +25,11 @@ const BankCard = ({
           </p>
           <div className="flex justify-between items-center">
             <p className=" font-inter text-grey-600">{bankName}</p>
-            <div
-              className="cursor-pointer"
-              onClick={() => {
+            <CopiedIcon
+              copyMethod={() => {
                 copyText(bankName);
               }}
-            >
-              <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
-            </div>
+            />
           </div>
         </div>
         <div className="space-y-1">
@@ -41,14 +38,13 @@ const BankCard = ({
           </p>
           <div className="flex justify-between items-center">
             <p className="text-lg font-inter text-grey-600">{accountNumber}</p>
-            <div
-              className="cursor-pointer"
-              onClick={() => {
+
+            <CopiedIcon
+              copyMethod={() => {
                 copyText(accountNumber);
               }}
-            >
-              <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
-            </div>
+            />
+            
           </div>
         </div>
         <div className="space-y-1">
@@ -57,14 +53,11 @@ const BankCard = ({
           </p>
           <div className="flex justify-between items-center">
             <p className="text-lg font-inter text-grey-600">{accountName}</p>
-            <div
-              className="cursor-pointer"
-              onClick={() => {
+            <CopiedIcon
+              copyMethod={() => {
                 copyText(accountName);
               }}
-            >
-              <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
-            </div>
+            />
           </div>
         </div>
       </div>

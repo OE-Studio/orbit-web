@@ -60,7 +60,7 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                       onClose={() => {
                         setSuccess("");
                       }}
-                      customStyle="absolute -top-14"
+                      customStyle="absolute"
                     />
                   ) : null}
                   {presentError ? (
@@ -69,7 +69,7 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                       onClose={() => {
                         setPresentError("");
                       }}
-                      customStyle="absolute -top-14"
+                      customStyle="absolute"
                     />
                   ) : null}
                   <div className="space-y-[26px] font-inter">

@@ -38,7 +38,7 @@ const BankSettings = () => {
         <div className="space-y-4">
           {/* Master Card */}
           <div
-            className="w-[353px] h-[173px] rounded-[16px] p-3 border border-neutral200"
+            className="w-[353px] h-[173px] rounded-[16px] p-3 border border-neutral200 cursor-pointer"
             onClick={() => {
               setToggleDelete(true);
             }}
@@ -110,7 +110,7 @@ const BankSettings = () => {
 
           {/* Visa Card */}
           <div
-            className="w-[353px] h-[173px] rounded-[16px] p-3 border border-neutral200"
+            className="w-[353px] h-[173px] rounded-[16px] p-3 border border-neutral200 cursor-pointer"
             onClick={() => {
               setToggleDelete(true);
             }}
@@ -160,7 +160,7 @@ const BankSettings = () => {
         {/* Button */}
         <button
           type="submit"
-          className="flex items-center px-4 py-2.5 bg-green700 text-white font-clash rounded-full gap-3"
+          className="flex items-center px-4 py-2.5 bg-green700 text-white font-clash rounded-full gap-3 cursor-pointer"
           onClick={() => {
             setToggleAddCard(true);
           }}
@@ -314,7 +314,7 @@ const BankSettings = () => {
         {/* Button */}
         <button
           type="submit"
-          className="flex items-center px-4 py-2.5 bg-green700 text-white font-clash rounded-full gap-3"
+          className="flex items-center px-4 py-2.5 bg-green700 text-white font-clash rounded-full gap-3 cursor-pointer"
           onClick={() => {
             setToggleAddBank(true);
           }}

@@ -66,7 +66,7 @@ const SignUp = () => {
       </section> */}
       <SideCard />
       <section className="w-1/2 relative z-40">
-        <div className="max-w-[609px] mx-auto mt-24">
+        <div className="max-w-[609px] mx-auto mt-24 ">
           <SignupForm />
         </div>
       </section>

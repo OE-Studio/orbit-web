@@ -151,7 +151,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
         ) : (
           <div className="flex justify-between items-center">
             <div
-              className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
+              className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
               onClick={() => {
                 setStep(0);
               }}
@@ -183,7 +183,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                 {/* Balance USSD */}
                 <div className="relative">
                   <div
-                    className="bg-neutral100 flex px-2.5 py-[14px] rounded-lg justify-between items-center"
+                    className="bg-neutral100 flex px-2.5 py-[14px] rounded-lg justify-between items-center cursor-pointer"
                     onClick={() => {
                       setBalanceCheckDrop(!balanceCheckDrop);
                     }}
@@ -283,7 +283,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                 {/* Airtime Type */}
                 <div className="relative" ref={planRef}>
                   <div
-                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center"
+                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center cursor-pointer"
                     onClick={() => {
                       setPlanDrop(!planDrop);
                     }}

@@ -108,7 +108,7 @@ const RootLayout = () => {
                     className="transition-all duration-300 absolute w-[146px] bg-white p-2 rounded-lg top-full right-0 mt-3 hidden"
                   >
                     <div
-                      className="flex justify-between items-center py-[5px] px-3 rounded-full hover:bg-neutral100"
+                      className="flex justify-between items-center py-[5px] px-3 rounded-full hover:bg-neutral100 cursor-pointer"
                       onClick={async () => {
                         const response = await logOut();
                         

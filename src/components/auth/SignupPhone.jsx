@@ -37,7 +37,7 @@ const SignupPhone = () => {
           onClose={() => {
             setSuccess("");
           }}
-          customStyle="absolute -top-14"
+          customStyle="absolute "
         />
       ) : null}
       {presentError ? (
@@ -46,11 +46,11 @@ const SignupPhone = () => {
           onClose={() => {
             setPresentError("");
           }}
-          customStyle="absolute -top-14"
+          customStyle="absolute "
         />
       ) : null}
       <div
-        className={` ${
+        className={`${
           inputError ? "focus-within:-[#F26969]" : "border-transparent"
         } ${
           inputError ? "border-[#F26969]" : "border-transparent"
@@ -69,7 +69,7 @@ const SignupPhone = () => {
             type="tel"
             name="phoneNumber"
             id="phoneNumber"
-            placeholder="Your phone number"
+            placeholder="000-0000-0000"
             className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
             onChange={(e) => {
               setphoneNumber(e.target.value);

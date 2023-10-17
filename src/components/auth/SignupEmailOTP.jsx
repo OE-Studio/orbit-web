@@ -36,7 +36,7 @@ const SignupEmailOTP = () => {
           onClose={() => {
             setSuccess("");
           }}
-          customStyle="absolute -top-14"
+          customStyle="absolute"
         />
       ) : null}
       {presentError ? (
@@ -45,7 +45,7 @@ const SignupEmailOTP = () => {
           onClose={() => {
             setPresentError("");
           }}
-          customStyle="absolute -top-14"
+          customStyle="absolute "
         />
       ) : null}
       <div className="focus-within:border-['transparent'] border-transparent border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA]">

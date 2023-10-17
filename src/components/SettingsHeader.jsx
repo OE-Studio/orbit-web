@@ -1,7 +1,7 @@
 import {
   CheckBadgeIcon,
   ChevronRightIcon,
-  DocumentDuplicateIcon,
+  
   GiftTopIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
@@ -10,6 +10,9 @@ import HeaderCardLayout from "./HeaderCardLayout";
 import Referral from "./overlays/Referral";
 import { useSelector } from "react-redux";
 import { copyText } from "../utils/copyText";
+import CopiedIcon from "./Inputs/CopiedIcon";
+import convertToSentenceCase from "../utils/convertToSentence";
+import { UserCircle } from "phosphor-react";
 
 const SettingsHeader = () => {
   const [toggleReferral, setToggleReferral] = useState(false);
@@ -40,11 +43,12 @@ const SettingsHeader = () => {
               </div>
             </div>
           </div>
-          <div className="flex space-x-2 items-center px-3 py-1 border rounded-full border-neutral200 self-start">
-            <p className="text-sm font-medium text-grey200">Smart user</p>
-
-            <GiftTopIcon className=" h-[20px] text-blue25" />
-          </div>
+          <div className="flex space-x-2 items-center px-3 py-1 border rounded-full border-neutral200 h-fit">
+              <p className="text-sm font-medium text-grey200">
+                {convertToSentenceCase(user?.title)}
+              </p>
+              <UserCircle weight="fill" className="text-xl text-blue25" />
+            </div>
         </div>
 
         {/* Final Breadcrumb */}
@@ -97,14 +101,7 @@ const SettingsHeader = () => {
           </div>
 
           <div className="inline-flex space-x-4 items-start justify-start">
-          <div
-              className="flex space-x-4 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200 cursor-pointer"
-              onClick={() => {
-                let referralCode =
-                  user.referralCode !== null ? user.referralCode : "";
-                copyText(referralCode);
-              }}
-            >
+            <div className="flex space-x-4 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200">
               <p className="text-sm font-medium leading-normal text-blue25">
                 Referral Code
               </p>
@@ -118,12 +115,16 @@ const SettingsHeader = () => {
                   <span className="text-grey100">no referral code</span>
                 )}
               </p>
-              <div className="cursor-pointer">
-                <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
-              </div>
+              <CopiedIcon
+                copyMethod={() => {
+                  let referralCode =
+                    user.referralCode !== null ? user.referralCode : "";
+                  copyText(referralCode);
+                }}
+              />
             </div>
             <div
-              className="flex space-x-2 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200"
+              className="flex space-x-2 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200 cursor-pointer"
               onClick={() => {
                 setToggleReferral(!toggleReferral);
               }}

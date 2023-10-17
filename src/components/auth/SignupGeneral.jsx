@@ -227,7 +227,7 @@ const SignupGeneral = () => {
       <div className="h-6" />
       <div className="flex justify-end">
         <PrimaryButton
-          className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "
+          className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] cursor-pointer"
           disabled={usernameError || !buttonState}
           onClick={(e) => {
             e.preventDefault();

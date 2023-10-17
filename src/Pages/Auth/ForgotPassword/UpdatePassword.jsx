@@ -77,6 +77,7 @@ const UpdatePassword = () => {
                 }}
               />
               <div
+              className="cursor-pointer"
                 onClick={() => {
                   toggleVisibility("password");
                 }}

@@ -232,7 +232,7 @@ const PasswordSettings = () => {
                     newPassword === confirmNewPassword
                   )
                 }
-                className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 w-[129px]"
+                className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 w-[129px] cursor-pointer"
                 onClick={async (e) => {
                   e.preventDefault();
                   

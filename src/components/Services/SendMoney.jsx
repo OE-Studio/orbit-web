@@ -121,7 +121,7 @@ const SendMoney = ({ toggle, setToggle }) => {
         ) : (
           <div className="flex justify-between items-center">
             <div
-              className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
+              className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
               onClick={() => {
                 setStep(0);
               }}
@@ -146,7 +146,7 @@ const SendMoney = ({ toggle, setToggle }) => {
                 {/* Select Bank */}
                 <div className="relative">
                   <div
-                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center"
+                    className="bg-neutral100 flex p-2.5 rounded-lg justify-between items-center cursor-pointer"
                     onClick={() => {
                       setNetworkDrop(!networkDrop);
                     }}

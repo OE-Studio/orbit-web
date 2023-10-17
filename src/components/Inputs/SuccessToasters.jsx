@@ -24,7 +24,7 @@ const SuccessToasters = ({ value, onClose, customStyle }) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
           className={`fixed left-1/2 -translate-x-1/2 
-    shadow-[0px_4px_6px_-2px_#1018280D,_0px_12px_16px_-4px_#1018281A] p-4 w-[calc(100%-32px)] md:w-[546px] bg-white top-14 z-20 rounded-lg overflow-hidden flex justify-between ${customStyle}
+    shadow-[0px_4px_6px_-2px_#1018280D,_0px_12px_16px_-4px_#1018281A] p-4 w-[calc(100%-32px)] md:w-[546px] bg-white top-[calc(100%+24px)]  z-20 rounded-lg overflow-hidden flex justify-between ${customStyle}
     `}
         >
           <div className="absolute w-[20] h-0.5 bg-primary-300 bottom-0 left-0"></div>

@@ -45,7 +45,7 @@ const TransactionHeader = ({
         {/* buttons */}
         <div className="flex justify-between">
           <div
-            className="flex space-x-2 items-center px-6 py-2.5 border rounded-full border-neutral200 relative"
+            className="flex space-x-2 items-center px-6 py-2.5 border rounded-full border-neutral200 relative cursor-pointer"
             onClick={() => {
               setToggleOptions(!toggleOptions);
             }}

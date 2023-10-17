@@ -136,6 +136,7 @@ const SignupEmail = () => {
             }}
           />
           <div
+          className="cursor-pointer"
             onClick={() => {
               toggleVisibility("password");
             }}

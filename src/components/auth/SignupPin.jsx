@@ -29,7 +29,7 @@ const SignupPin = () => {
           onClose={() => {
             setSuccess("");
           }}
-          customStyle="absolute -top-14"
+          customStyle="absolute "
         />
       ) : null}
       {presentError ? (
@@ -38,7 +38,7 @@ const SignupPin = () => {
           onClose={() => {
             setPresentError("");
           }}
-          customStyle="absolute -top-14"
+          customStyle="absolute"
         />
       ) : null}
       <div>

@@ -10,7 +10,7 @@ const AddCard = ({ toggle, setToggle }) => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div
-          className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
+          className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
           onClick={() => {
             setToggle(!toggle);
           }}

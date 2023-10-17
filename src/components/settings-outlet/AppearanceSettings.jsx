@@ -14,7 +14,7 @@ const AppearanceItem = ({ url, bg, selectedBg, setSelectedBg }) => {
       className={`${
         bg.name === selectedBg?.name ? "border-[3px] border-green600" : ""
       } rounded-full flex h-16 w-16 items-center justify-center  bg-center 
-      relative overflow-hidden`}
+      relative overflow-hidden cursor-pointer`}
       onClick={() => {
         setSelectedBg(bg);
       }}

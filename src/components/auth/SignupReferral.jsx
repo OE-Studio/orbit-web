@@ -23,7 +23,7 @@ const SignupReferral = () => {
           onClose={() => {
             setSuccess("");
           }}
-          customStyle="absolute -top-14"
+          customStyle="absolute "
         />
       ) : null}
       {presentError ? (
@@ -32,7 +32,7 @@ const SignupReferral = () => {
           onClose={() => {
             setPresentError("");
           }}
-          customStyle="absolute -top-14"
+          customStyle="absolute "
         />
       ) : null}
       <div

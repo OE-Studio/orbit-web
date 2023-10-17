@@ -1,7 +1,6 @@
 import {
   CalendarIcon,
   ChevronRightIcon,
-  DocumentDuplicateIcon,
   EyeSlashIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
@@ -14,12 +13,13 @@ import { copyText } from "../utils/copyText";
 import AccountDetails from "./overlays/AccountDetails";
 import convertToSentenceCase from "../utils/convertToSentence";
 import { UserCircle } from "phosphor-react";
+import CopiedIcon from "./Inputs/CopiedIcon";
 
 const HomeHeader = () => {
   const [toggleReferral, setToggleReferral] = useState(false);
   const virtualAccount = useSelector((state) => state.virtualAccount.data);
   const wallet = useSelector((state) => state.wallet);
-  
+
   const user = useSelector((state) => state.user.user);
 
   const [balanceVisibility, setBalanceVisibility] = useState(false);
@@ -146,14 +146,7 @@ const HomeHeader = () => {
           </div>
 
           <div className="inline-flex space-x-4 items-start justify-start">
-            <div
-              className="flex space-x-4 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200 cursor-pointer"
-              onClick={() => {
-                let referralCode =
-                  user.referralCode !== null ? user.referralCode : "";
-                copyText(referralCode);
-              }}
-            >
+            <div className="flex space-x-4 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200">
               <p className="text-sm font-medium leading-normal text-blue25">
                 Referral Code
               </p>
@@ -167,9 +160,13 @@ const HomeHeader = () => {
                   <span className="text-grey100">no referral code</span>
                 )}
               </p>
-              <div className="cursor-pointer">
-                <DocumentDuplicateIcon className=" h-[20px] text-blue25" />
-              </div>
+              <CopiedIcon
+                copyMethod={() => {
+                  let referralCode =
+                    user.referralCode !== null ? user.referralCode : "";
+                  copyText(referralCode);
+                }}
+              />
             </div>
             <div
               className="flex space-x-2 items-center justify-center px-4 py-2.5 border rounded-full border-neutral200 cursor-pointer"

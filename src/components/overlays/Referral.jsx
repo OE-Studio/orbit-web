@@ -1,6 +1,6 @@
 import {
-  DocumentDuplicateIcon,
-  UserGroupIcon
+  
+  UserGroupIcon,
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import empty from "../../assets/empty-state/emptyReferrals.svg";
@@ -9,6 +9,7 @@ import { GetAllReferrals } from "../settings-outlet/SettingsApi";
 import { useSelector } from "react-redux";
 import { copyText } from "../../utils/copyText";
 import CloseButton from "../Inputs/CloseButton";
+import CopiedIcon from "../Inputs/CopiedIcon";
 
 export const EmptyReferrals = () => {
   return (
@@ -26,7 +27,7 @@ const Referral = ({ toggle, setToggle }) => {
 
   const getAllRefferrals = async () => {
     const response = await GetAllReferrals();
-    
+
     setAllReferrals(response.myReferrals);
   };
 
@@ -45,11 +46,10 @@ const Referral = ({ toggle, setToggle }) => {
           <UserGroupIcon className=" h-[20px] text-blue25" />
         </div>
         <CloseButton
-            onClick={() => {
-              setToggle(!toggle);
-            }}
+          onClick={() => {
+            setToggle(!toggle);
+          }}
         />
-       
       </div>
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14 ">
@@ -77,16 +77,13 @@ const Referral = ({ toggle, setToggle }) => {
               <span className="text-grey100">no referral code</span>
             )}
           </p>
-          <div
-            className="cursor-pointer"
-            onClick={() => {
+          <CopiedIcon
+            copyMethod={() => {
               let referralCode =
                 user.referralCode !== null ? user.referralCode : "";
               copyText(referralCode);
             }}
-          >
-            <DocumentDuplicateIcon className=" h-[20px] text-blue25 hover:text-green-500" />
-          </div>
+          />
         </div>
         <div className="h-[42px]" />
         {/* Table */}
@@ -107,7 +104,6 @@ const Referral = ({ toggle, setToggle }) => {
               <tbody>
                 {allReferrals && allReferrals.length > 0 ? (
                   allReferrals.map((item, index) => {
-                    
                     return (
                       <tr key={index} className="text-grey200 text-sm">
                         <td className="w-1/4 py-4 px-3 text-left">
