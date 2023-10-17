@@ -6,8 +6,7 @@ import {
   CheckBadgeIcon,
   ChevronLeftIcon,
   ExclamationTriangleIcon,
-  PaperAirplaneIcon,
-  XMarkIcon,
+  PaperAirplaneIcon
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import { transfertoFriends } from "./ServiceApi";
@@ -19,6 +18,7 @@ import TransactionFailed from "../TransactionStatus/TransactionFailed";
 import Receipt from "../Receipts/Receipt";
 import { fetchTransactions } from "../../features/TransactionsSlice";
 import { PaperPlaneTilt } from "phosphor-react";
+import CloseButton from "../Inputs/CloseButton";
 
 const TransfertoFriends = ({ toggle, setToggle }) => {
   const [step, setStep] = useState(0);
@@ -71,7 +71,6 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
         axios
           .post(`/v1/users/checkUsername`, { username: username.toLowerCase() })
           .then((response) => {
-            
             if (response.data.success) {
               if (
                 response.data.message.trim() ===
@@ -119,15 +118,11 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
                 Transfer to friends
               </p>
             </div>
-            <div
-              className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
+            <CloseButton
               onClick={() => {
-                
-                setToggle(false);
+                setToggle(!toggle);
               }}
-            >
-              <XMarkIcon className=" w-6 h-6" />
-            </div>
+            />
           </div>
         ) : (
           <div className="flex justify-between items-center">
@@ -331,15 +326,13 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
             amount: amount,
             receiverIdentity: username,
           };
-          
 
           try {
             const response = await transfertoFriends(userInput, pin);
-            
+
             setLoading(false);
 
             if (response && response.success) {
-              
               setTransaction(response.recordTransaction.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -363,9 +356,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
               setIsOpenFailed(true);
               return;
             }
-          } catch (error) {
-            
-          }
+          } catch (error) {}
         }}
       />
       <SuccessPage

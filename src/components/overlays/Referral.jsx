@@ -1,7 +1,6 @@
 import {
   DocumentDuplicateIcon,
-  UserGroupIcon,
-  XMarkIcon,
+  UserGroupIcon
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import empty from "../../assets/empty-state/emptyReferrals.svg";
@@ -9,6 +8,7 @@ import { useEffect, useState } from "react";
 import { GetAllReferrals } from "../settings-outlet/SettingsApi";
 import { useSelector } from "react-redux";
 import { copyText } from "../../utils/copyText";
+import CloseButton from "../Inputs/CloseButton";
 
 export const EmptyReferrals = () => {
   return (
@@ -44,14 +44,12 @@ const Referral = ({ toggle, setToggle }) => {
           </p>
           <UserGroupIcon className=" h-[20px] text-blue25" />
         </div>
-        <div
-          className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
-          onClick={() => {
-            setToggle(!toggle);
-          }}
-        >
-          <XMarkIcon className=" w-6 h-6" />
-        </div>
+        <CloseButton
+            onClick={() => {
+              setToggle(!toggle);
+            }}
+        />
+       
       </div>
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14 ">

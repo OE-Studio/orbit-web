@@ -8,8 +8,7 @@ import {
   ClipboardDocumentIcon,
   GiftIcon,
   GlobeAltIcon,
-  UserGroupIcon,
-  XMarkIcon,
+  UserGroupIcon
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import { fetchDataId, purchaseData } from "./ServiceApi";
@@ -20,6 +19,7 @@ import SuccessPage from "../TransactionStatus/TransactionSuccess";
 import TransactionFailed from "../TransactionStatus/TransactionFailed";
 import Receipt from "../Receipts/Receipt";
 import { fetchTransactions } from "../../features/TransactionsSlice";
+import CloseButton from "../Inputs/CloseButton";
 
 const PurchaseData = ({ toggle, setToggle }) => {
   const [network, setNetwork] = useState(null);
@@ -110,14 +110,11 @@ const PurchaseData = ({ toggle, setToggle }) => {
               </p>
               <UserGroupIcon className=" h-[20px] text-blue25" />
             </div>
-            <div
-              className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
+            <CloseButton
               onClick={() => {
                 setToggle(!toggle);
               }}
-            >
-              <XMarkIcon className=" w-6 h-6" />
-            </div>
+            />
           </div>
         ) : (
           <div className="flex justify-between items-center">
@@ -547,16 +544,15 @@ const PurchaseData = ({ toggle, setToggle }) => {
             network_api_id: plan.provider_id,
             data_api_id: plan.product_id,
           };
-          
 
           try {
             const response = await purchaseData(userInput, pin);
-            
+
             setLoading(false);
 
             if (response && response.success) {
               setLoading(false);
-              
+
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -578,7 +574,6 @@ const PurchaseData = ({ toggle, setToggle }) => {
 
               // Invalid Number
               if (response.message === "invalid network selection") {
-                
                 setStep(0);
                 setError("Invalid network selection");
                 return;
@@ -588,9 +583,7 @@ const PurchaseData = ({ toggle, setToggle }) => {
               setIsOpenFailed(true);
               return;
             }
-          } catch (error) {
-            
-          }
+          } catch (error) {}
         }}
       />
       <SuccessPage

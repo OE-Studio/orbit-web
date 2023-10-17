@@ -39,7 +39,7 @@ const SuccessToasters = ({ value, onClose, customStyle }) => {
             </p>
           </div>
           <div
-            className="p-2 rounded-md border border-gray-200 hover:bg-gray-25"
+            className="p-2 rounded-md border border-gray-200 hover:bg-gray-25 cursor-pointer"
             onClick={handleClose}
           >
             <X />

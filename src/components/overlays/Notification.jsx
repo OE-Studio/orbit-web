@@ -1,6 +1,5 @@
 import {
   BellIcon,
-  XMarkIcon,
   EllipsisVerticalIcon,
   ClipboardIcon,
   TrashIcon,
@@ -13,6 +12,7 @@ import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import emptyTransaction from "../../assets/empty-state/emptyNotification.svg";
 import { MarkNotificationRead } from "./NotificationApi";
+import CloseButton from "../Inputs/CloseButton";
 
 const NotificationItem = ({
   read,
@@ -113,14 +113,12 @@ const Notification = ({
             )}
           </div>
         </div>
-        <div
-          className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
-          onClick={() => {
-            setToggle(!toggle);
-          }}
-        >
-          <XMarkIcon className=" w-6 h-6" />
-        </div>
+        <CloseButton
+            onClick={() => {
+              setToggle(!toggle);
+            }}
+        />
+       
       </div>
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14">

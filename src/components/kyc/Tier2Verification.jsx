@@ -1,4 +1,4 @@
-import { UserGroupIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { UserGroupIcon } from "@heroicons/react/24/solid";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import SideBarWrapper from "../SideBarWrapper";
@@ -11,6 +11,7 @@ import Toaster from "../Inputs/Toasters";
 import PinInput from "react-pin-input";
 import { useDispatch } from "react-redux";
 import { getUserProfile } from "../../features/profile/userAction";
+import CloseButton from "../Inputs/CloseButton";
 
 const Tier2Verification = ({ toggle, setToggle }) => {
   const dispatch = useDispatch();
@@ -33,14 +34,11 @@ const Tier2Verification = ({ toggle, setToggle }) => {
             </p>
             <UserGroupIcon className=" h-[20px] text-blue25" />
           </div>
-          <div
-            className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
+          <CloseButton
             onClick={() => {
               setToggle(!toggle);
             }}
-          >
-            <XMarkIcon className=" w-6 h-6" />
-          </div>
+        />
         </div>
         <div className="h-9" />
         <div className="h-full overflow-y-scroll pb-14 font-inter ">

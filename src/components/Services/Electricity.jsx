@@ -6,8 +6,7 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronUpIcon,
-  GlobeAltIcon,
-  XMarkIcon,
+  GlobeAltIcon
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import { fetchDataId, purchaseElectricity, validateMeter } from "./ServiceApi";
@@ -20,6 +19,7 @@ import { MdSupportAgent } from "react-icons/md";
 import { truncateText } from "../../utils/TruncateText";
 import Receipt from "../Receipts/Receipt";
 import { fetchTransactions } from "../../features/TransactionsSlice";
+import CloseButton from "../Inputs/CloseButton";
 
 const minimumAmount = [
   {
@@ -168,14 +168,11 @@ const Electricity = ({ toggle, setToggle }) => {
                 Electricity
               </p>
             </div>
-            <div
-              className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
-              onClick={() => {
-                setToggle(!toggle);
-              }}
-            >
-              <XMarkIcon className=" w-6 h-6" />
-            </div>
+            <CloseButton
+            onClick={() => {
+              setToggle(!toggle);
+            }}
+        />
           </div>
         ) : (
           <div className="flex justify-between items-center">

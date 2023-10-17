@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { UserGroupIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { UserGroupIcon } from "@heroicons/react/24/solid";
 // import referralsData from "../../data/ReferralData";
 import SideBarWrapper from "../SideBarWrapper";
 // import document from "../../assets/images/kyc/document.svg";
@@ -14,6 +14,7 @@ import { Spinner } from "../Spinner";
 import check from "../../assets/images/kyc/checkBox.svg";
 import SelfieCapture from "./Selfie";
 import FileUploader from "../Inputs/FileUploader";
+import CloseButton from "../Inputs/CloseButton";
 
 const UploadGovtID = ({ setStep, setDocumentType, step }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -517,14 +518,12 @@ const Tier3Verification = ({ toggle, setToggle }) => {
           </p>
           <UserGroupIcon className=" h-[20px] text-blue25" />
         </div>
-        <div
-          className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
-          onClick={() => {
-            setToggle(!toggle);
-          }}
-        >
-          <XMarkIcon className=" w-6 h-6" />
-        </div>
+        <CloseButton
+            onClick={() => {
+              setToggle(!toggle);
+            }}
+        />
+       
       </div>
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14 font-inter ">

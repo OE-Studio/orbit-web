@@ -5,8 +5,7 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronUpIcon,
-  GlobeAltIcon,
-  XMarkIcon,
+  GlobeAltIcon
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import { BankTransfer, fetchAccountName } from "./ServiceApi";
@@ -18,6 +17,7 @@ import TransactionFailed from "../TransactionStatus/TransactionFailed";
 import Receipt from "../Receipts/Receipt";
 import { fetchTransactions } from "../../features/TransactionsSlice";
 import { PaperPlaneTilt } from "phosphor-react";
+import CloseButton from "../Inputs/CloseButton";
 
 const SendMoney = ({ toggle, setToggle }) => {
   const bankList = useSelector((state) => state.bankList.data);
@@ -112,14 +112,11 @@ const SendMoney = ({ toggle, setToggle }) => {
                 Send Money
               </p>
             </div>
-            <div
-              className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
-              onClick={() => {
-                setToggle(!toggle);
-              }}
-            >
-              <XMarkIcon className=" w-6 h-6" />
-            </div>
+            <CloseButton
+            onClick={() => {
+              setToggle(!toggle);
+            }}
+        />
           </div>
         ) : (
           <div className="flex justify-between items-center">

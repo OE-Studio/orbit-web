@@ -51,12 +51,12 @@ const SignupPhone = () => {
       ) : null}
       <div
         className={` ${
-          inputError
-            ? "focus-within:-[#F26969]"
-            : "focus-within:border-[#5DADEC]"
+          inputError ? "focus-within:-[#F26969]" : "border-transparent"
         } ${
           inputError ? "border-[#F26969]" : "border-transparent"
-        } border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA]`}
+        } border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA]
+        ${!inputSet ? "focus-within:border-[#5DADEC]" : ""}
+        `}
       >
         <label htmlFor="phoneNo" className="text-xs text-[#71879C] font-inter">
           Phone Number
@@ -103,17 +103,15 @@ const SignupPhone = () => {
                 )
                 .then((res) => {
                   setLoading(false);
-                  
+
                   setSuccess("Check your phone for the OTP");
+                  setInputSet(true);
                   setTimeout(() => {
-                    setInputSet(true);
                     setSuccess("");
                     return;
                   }, 3000);
                 })
-                .catch((err) => {
-                  
-                });
+                .catch((err) => {});
             }}
             label={loading ? <Spinner /> : " Continue"}
           />
@@ -171,7 +169,6 @@ const SignupPhone = () => {
                     phoneNumber: phoneNumber,
                   })
                   .then((res) => {
-                    
                     setResendLoading(false);
                     if (res.data.success) {
                       setSuccess(res.data.message);
@@ -199,9 +196,8 @@ const SignupPhone = () => {
                 className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 "
                 onClick={async (e) => {
                   e.preventDefault();
-                  
+
                   setLoading(true);
-                  
 
                   await axios
                     .put(
@@ -215,7 +211,7 @@ const SignupPhone = () => {
                     )
                     .then((res) => {
                       setLoading(false);
-                      
+
                       if (res.data.success) {
                         setSuccess(res.data.message);
                         setTimeout(() => {

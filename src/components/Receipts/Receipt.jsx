@@ -6,8 +6,7 @@ import {
   ArrowDownOnSquareIcon,
   CheckBadgeIcon,
   ExclamationTriangleIcon,
-  ReceiptPercentIcon,
-  XMarkIcon,
+  ReceiptPercentIcon
 } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
 
@@ -16,6 +15,7 @@ import transactionImg from "../../assets/empty-state/emptyTransaction.svg";
 import cut from "../../assets/receipt/bottom.svg";
 import html2canvas from "html2canvas";
 import { HourglassHigh } from "phosphor-react";
+import CloseButton from "../Inputs/CloseButton";
 // import html2pdf from "html2pdf.js";
 
 export const ReceiptHeader = ({
@@ -562,14 +562,12 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
             Receipt
           </p>
         </div>
-        <div
-          className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
-          onClick={() => {
-            setToggle(false);
-          }}
-        >
-          <XMarkIcon className=" w-6 h-6" />
-        </div>
+        <CloseButton
+            onClick={() => {
+              setToggle(!toggle);
+            }}
+        />
+       
       </div>
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14 font-inter ">

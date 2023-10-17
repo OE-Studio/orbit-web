@@ -5,8 +5,7 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronUpIcon,
-  GlobeAltIcon,
-  XMarkIcon,
+  GlobeAltIcon
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import { fetchDataId, purchaseData, validateCable } from "./ServiceApi";
@@ -19,6 +18,7 @@ import Receipt from "../Receipts/Receipt";
 import { fetchTransactions } from "../../features/TransactionsSlice";
 import { MdRouter, MdSupportAgent } from "react-icons/md";
 import { truncateText } from "../../utils/TruncateText";
+import CloseButton from "../Inputs/CloseButton";
 
 const CableSubscription = ({ toggle, setToggle }) => {
   const [network, setNetwork] = useState(null);
@@ -126,14 +126,12 @@ const CableSubscription = ({ toggle, setToggle }) => {
                 Cable subscription
               </p>
             </div>
-            <div
-              className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
-              onClick={() => {
-                setToggle(!toggle);
-              }}
-            >
-              <XMarkIcon className=" w-6 h-6" />
-            </div>
+            <CloseButton
+            onClick={() => {
+              setToggle(!toggle);
+            }}
+        />
+            
           </div>
         ) : (
           <div className="flex justify-between items-center">

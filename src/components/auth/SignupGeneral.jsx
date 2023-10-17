@@ -13,7 +13,7 @@ import PrimaryButton from "../Inputs/PrimaryButton";
 const SignupGeneral = () => {
   const dispatch = useDispatch();
   // const { userInput } = useSelector((state) => state.auth);
-  
+
   const navigate = useNavigate();
   const [buttonState, setButtonState] = useState(true);
   const [formDetails, setFormDetails] = useState({
@@ -26,6 +26,19 @@ const SignupGeneral = () => {
   const [usernameError, setUsernameError] = useState(false);
   const [username, setUsername] = useState(false);
   const [usernameAvailable, setUsernameAvailable] = useState(false);
+
+  const [minimumDate, setMinimumDate] = useState("");
+
+  useEffect(() => {
+    // Calculate the minimum date 18 years from today
+    const today = new Date();
+    today.setFullYear(today.getFullYear() - 18);
+    const minimumDateValue = today.toISOString().split("T")[0];
+    setMinimumDate(minimumDateValue);
+  }, []);
+  useEffect(() => {
+    return () => {};
+  }, []);
 
   // Debounce Input to Check Username
   React.useEffect(() => {
@@ -71,18 +84,16 @@ const SignupGeneral = () => {
 
   React.useEffect(() => {
     const userInput = JSON.parse(sessionStorage.getItem("userInput"));
-    if(userInput){
+    if (userInput) {
       let copiedInput = { ...formDetails };
       const inputs = Object.values(userInput);
-  
+
       if (inputs.length > 0 && !inputs.includes("")) {
-        copiedInput = {...userInput};
-        setFormDetails((formDetails) => (
-          {...copiedInput}
-        ));
+        copiedInput = { ...userInput };
+        setFormDetails((formDetails) => ({ ...copiedInput }));
       }
     }
-    
+
     // eslint-disable-next-line
   }, []);
 
@@ -196,26 +207,35 @@ const SignupGeneral = () => {
             name="dob"
             id="dob"
             value={formDetails?.d_o_b}
+            max={minimumDate}
             className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
             onChange={(e) => {
-              handleClick("d_o_b", e.target.value);
+              const selectedDate = new Date(e.target.value);
+
+              if (selectedDate > minimumDate) {
+                alert(
+                  "You must pick a date that is at least 18 years from today."
+                );
+                // You can also prevent form submission here
+              } else {
+                handleClick("d_o_b", e.target.value);
+              }
             }}
           />
         </div>
       </div>
       <div className="h-6" />
       <div className="flex justify-end">
-      <PrimaryButton
-        className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "
-        disabled={usernameError || !buttonState}
-        onClick={(e) => {
-          e.preventDefault();
-          dispatch(updateUserInput(formDetails));
-          navigate("/signup/email");
-        }}
-        label={"Continue"}
-      />
-       
+        <PrimaryButton
+          className="w-full bg-green-600 py-4 rounded-full font-clash font-medium text-white text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] "
+          disabled={usernameError || !buttonState}
+          onClick={(e) => {
+            e.preventDefault();
+            dispatch(updateUserInput(formDetails));
+            navigate("/signup/email");
+          }}
+          label={"Continue"}
+        />
       </div>
     </form>
   );

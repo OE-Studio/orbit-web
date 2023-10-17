@@ -6,8 +6,7 @@ import {
   ChevronLeftIcon,
   ChevronUpIcon,
   ClipboardDocumentIcon,
-  GlobeAltIcon,
-  XMarkIcon,
+  GlobeAltIcon
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import { fetchDataId, purchaseAirtime } from "./ServiceApi";
@@ -19,6 +18,7 @@ import TransactionFailed from "../TransactionStatus/TransactionFailed";
 import { MdOutlinePhonelinkRing } from "react-icons/md";
 import Receipt from "../Receipts/Receipt";
 import { fetchTransactions } from "../../features/TransactionsSlice";
+import CloseButton from "../Inputs/CloseButton";
 
 const PurchaseAirtime = ({ toggle, setToggle }) => {
   const [network, setNetwork] = useState(null);
@@ -129,7 +129,6 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
             transaction={transaction}
             setToggle={setToggleReceipt}
             toggle={toggleReceipt}
-            
           />
         </div>
       ) : null}
@@ -143,14 +142,11 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                 Purchase Airtime
               </p>
             </div>
-            <div
-              className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
+            <CloseButton
               onClick={() => {
                 setToggle(!toggle);
               }}
-            >
-              <XMarkIcon className=" w-6 h-6" />
-            </div>
+            />
           </div>
         ) : (
           <div className="flex justify-between items-center">
@@ -563,10 +559,9 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
 
           try {
             const response = await purchaseAirtime(userInput, pin);
-            
+
             setLoading(false);
             if (response && response.success) {
-              
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -587,7 +582,6 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
 
               // Invalid Number
               if (response.message === "invalid network selection") {
-                
                 setStep(0);
                 setError("Invalid network selection");
                 return;
@@ -597,9 +591,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
               setIsOpenFailed(true);
               return;
             }
-          } catch (error) {
-            
-          }
+          } catch (error) {}
         }}
       />
       <SuccessPage
@@ -615,7 +607,6 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
         onReceipt={() => {
           setIsOpenSuccess(!isOpenSuccess);
           setToggleReceipt(true);
-          
         }}
       />
 

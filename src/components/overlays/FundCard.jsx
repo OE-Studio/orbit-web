@@ -1,6 +1,7 @@
-import { CreditCardIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { CreditCardIcon } from "@heroicons/react/24/solid";
 import NumericKeypad from "../NumericKeypad";
 import SideBarWrapper from "../SideBarWrapper";
+import CloseButton from "../Inputs/CloseButton";
 
 const FundCard = ({ toggle, setToggle }) => {
   return (
@@ -13,14 +14,12 @@ const FundCard = ({ toggle, setToggle }) => {
             Fund Card
           </p>
         </div>
-        <div
-          className="bg-neutral100 w-10 h-10 rounded-full flex items-center justify-center"
-          onClick={() => {
-            setToggle(!toggle);
-          }}
-        >
-          <XMarkIcon className=" w-6 h-6" />
-        </div>
+        <CloseButton
+            onClick={() => {
+              setToggle(!toggle);
+            }}
+        />
+        
       </div>
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14">
