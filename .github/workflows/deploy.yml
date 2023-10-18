@@ -1,27 +1,26 @@
-name: Deploy app
-
 on:
   push:
     branches:
       - oluwatobi
 
 jobs:
-  build_and_deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main branch
-        uses: actions/checkout@v2
-
-      - name: Use Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: "16.x" # Update this line to use Node.js version 16
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Deploy to DigitalOcean
-        uses: digitalocean/app_action@main
+          node-version: 12
+      - run: npm ci
+      - run: npm run build
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
         with:
-          app_name: my_react_app
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: ${{ secrets.PRODUCTION_USERNAME }}
+          password: ${{ secrets.PRODUCTION_PASSWORD }}
+          script: |
+            cd /var/www/web-app
+            git pull origin main
+            npm install && npm run build
+            pm2 reload all
