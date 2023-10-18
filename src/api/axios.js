@@ -1,5 +1,6 @@
 import axios from "axios";
-import { logOut } from "../components/settings-outlet/SettingsApi";
+// import { logOut } from "../components/settings-outlet/SettingsApi";
+import { toast } from "react-toastify";
 
 // Create an instance of Axios with baseURL
 const api = axios.create({
@@ -12,9 +13,19 @@ api.interceptors.response.use(
   async (response) => {
     return response;
   },
-  (error) => {
+  async (error) => {
     if (error.response && error.response.status === 401) {
-      logOut();
+      // await logOut();
+      toast.error("User token expired, pls login again", {
+        position: "top-center",
+        autoClose: 15000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       // Clear sessionStorage
       sessionStorage.clear();
       // Reload the page

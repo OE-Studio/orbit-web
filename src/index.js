@@ -38,6 +38,7 @@ import UpdateSuccess from './Pages/Auth/ForgotPassword/UpdateSuccess';
 import ContactUs from './components/settings-outlet/ContactUs';
 import SignupReferral from './components/auth/SignupReferral';
 import MobileLayout from './Pages/MobileLayout';
+import { ToastContainer } from 'react-toastify';
 
 
 
@@ -191,6 +192,7 @@ const App = () => {
     return (
       <React.StrictMode>
         <Provider store={store}>
+        <ToastContainer />
           <RouterProvider router={router} />
         </Provider>
       </React.StrictMode>

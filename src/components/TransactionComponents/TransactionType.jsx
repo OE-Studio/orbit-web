@@ -1,3 +1,4 @@
+import { PaperPlaneTilt } from "phosphor-react";
 import React from "react";
 
 const TransactionType = ({ type }) => {
@@ -144,22 +145,6 @@ const TransactionType = ({ type }) => {
         </div>
       )}
 
-      {type === "money" && (
-        <div className="h-[42px] w-[42px] flex items-center justify-center bg-[#ECF8F6] rounded-full">
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 28 28"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M20.9142 11.1324C21.0163 10.9775 21.0732 10.7972 21.0787 10.6117C21.0842 10.4263 21.0379 10.2429 20.9452 10.0822C20.8524 9.92155 20.7167 9.78984 20.5534 9.70185C20.39 9.61385 20.2054 9.57304 20.0202 9.58398L4.39582 10.5218C4.20206 10.5334 4.01586 10.6011 3.85992 10.7167C3.70399 10.8323 3.58507 10.9908 3.51767 11.1728C3.45027 11.3548 3.4373 11.5525 3.48035 11.7418C3.52339 11.9311 3.62059 12.1037 3.76009 12.2387L7.49764 15.8543C7.65389 16.0054 7.85512 16.1015 8.07085 16.128C8.28659 16.1545 8.50508 16.11 8.69326 16.0012L12.6519 13.7157C12.8815 13.5831 13.1545 13.5471 13.4107 13.6158C13.6669 13.6844 13.8853 13.852 14.0179 14.0817C14.1505 14.3114 14.1864 14.5843 14.1178 14.8405C14.0491 15.0967 13.8815 15.3151 13.6519 15.4477L9.69326 17.7332C9.50496 17.8418 9.35717 18.0088 9.27225 18.2089C9.18733 18.4089 9.16992 18.6312 9.22264 18.8421L10.486 23.8862C10.533 24.0745 10.6338 24.2451 10.7761 24.3771C10.9183 24.5091 11.0959 24.5968 11.2872 24.6296C11.4785 24.6624 11.6752 24.6388 11.8533 24.5617C12.0314 24.4846 12.1833 24.3574 12.2903 24.1955L20.9147 11.1333L20.9142 11.1324Z"
-              fill="#5DADEC"
-            />
-          </svg>
-        </div>
-      )}
       {type === "wallet" && (
         <div className="h-[42px] w-[42px] flex items-center justify-center bg-[#F9EFFF] rounded-full">
           <svg
@@ -192,6 +177,53 @@ const TransactionType = ({ type }) => {
               strokeLinejoin="round"
             />
           </svg>
+        </div>
+      )}
+      {type === "bank" && (
+        <div className="h-[42px] w-[42px] flex items-center justify-center bg-[#F9EFFF] rounded-full">
+          <svg
+            width="23"
+            height="23"
+            viewBox="0 0 23 23"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.7474 11.0342V18.1383M5.28906 18.1383V11.0342M8.95573 18.1383V11.0342M13.0807 18.1383V11.0342"
+              stroke="#CA66FF"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M11.0193 2.75586L19.1988 10.0892H2.83984L11.0193 2.75586Z"
+              fill="#CA66FF"
+              stroke="#CA66FF"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M3.16016 18.1377H18.8748"
+              stroke="#CA66FF"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      )}
+      {type === "debit" && (
+        <div className="h-[42px] w-[42px] flex items-center justify-center bg-orange50 rounded-full">
+          <PaperPlaneTilt
+            className="-rotate-180 text-orange500"
+            weight="fill"
+          />
+        </div>
+      )}
+      {type === "credit" && (
+        <div className="h-[42px] w-[42px] flex items-center justify-center bg-green50 rounded-full">
+          <PaperPlaneTilt className="text-green500" weight="fill" />
         </div>
       )}
     </div>

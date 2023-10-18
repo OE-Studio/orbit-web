@@ -140,6 +140,7 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
   }, [status]);
 
   let receiptBody;
+  console.log(current);
 
   // Data Receipt
   if (current?.narration.startsWith("data")) {
@@ -310,7 +311,6 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
   }
   // Transfer Receipt
   if (current?.narration.includes("transfer")) {
-    console.log(current);
     receiptBody = (
       <>
         <div className="max-w-[350px] mx-auto">

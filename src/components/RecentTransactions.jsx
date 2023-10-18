@@ -10,15 +10,16 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import TransactionFlowChart from "./TransactionFlowChart";
 import chartDefault from "../assets/donutDefault.svg";
+import { capitalizeFirstLetter } from "../utils/capitalizeFirst";
 const TransactionCard = ({ type, title, desc, product, price }) => {
   return (
     <div className="inline-flex items-center justify-center w-full bg-white  rounded-lg gap-4 font-inter">
       <TransactionType type={type} />
 
       <div className="flex-1 flex justify-between">
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           <p className="font-medium leading-3 text-grey400">{title}</p>
-          <p className="text-sm  text-neutral300">{desc}</p>
+          <p className="text-sm  text-neutral300">{capitalizeFirstLetter(desc)}</p>
         </div>
         <div className="space-y-1 flex flex-col items-end">
           <p className="text-sm font-semibold leading-3 text-grey300">
@@ -37,6 +38,7 @@ const TransactionCard = ({ type, title, desc, product, price }) => {
 const RecentTransactions = () => {
   let currentDate = null;
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user);
 
   const { transactions } = useSelector((state) => state.transactions);
   const { cashFlow } = useSelector((state) => state.user);
@@ -119,10 +121,31 @@ const RecentTransactions = () => {
                   <div className="w-full h-[1px] bg-neutral200" />
                   <div className="h-4" />
                   <TransactionCard
-                    type={transaction.narration.split(" ")[0].toLowerCase()}
-                    title={`${convertToSentenceCase(
-                      transaction.narration.split(" ")[0]
-                    )} Purchase`}
+                    type={
+                      !transaction.recipient_name.includes("@")
+                        ? transaction.narration.split(" ")[0]
+                        : `@${user.username}` === transaction.recipient_name
+                        ? "credit"
+                        : "debit"
+                    }
+                    title={
+                      `${
+                        transaction.narration.split(" ")[0] === "money"
+                          ? transaction.recipient_name
+                          : convertToSentenceCase(
+                              transaction.narration.split(" ")[0]
+                            )
+                      }` +
+                      `${
+                        transaction.narration.split(" ")[0] === "wallet"
+                          ? " funding"
+                          : transaction.narration.split(" ")[0] === "money"
+                          ? ""
+                          : transaction.narration.split(" ")[0] === "bank"
+                          ? " transfer"
+                          : " purchase"
+                      }`
+                    }
                     desc={truncateText(transaction.narration, 40)}
                     product={""}
                     price={`₦ ${transaction.amount}`}
@@ -141,10 +164,33 @@ const RecentTransactions = () => {
                 <div className="w-full h-[1px] bg-neutral200" />
                 <div className="h-4" />
                 <TransactionCard
-                  type={transaction.narration.split(" ")[0].toLowerCase()}
-                  title={`${convertToSentenceCase(
-                    transaction.narration.split(" ")[0]
-                  )} Purchase`}
+                  type={
+                    !transaction.recipient_name.includes("@")
+                      ? transaction.narration.split(" ")[0]
+                      : `@${user.username}` === transaction.recipient_name
+                      ? "credit"
+                      : "debit"
+                  }
+                  
+                  title={
+                    `${
+                      transaction.narration.split(" ")[0].toLowerCase() ===
+                      "money"
+                        ? transaction.recipient_name
+                        : convertToSentenceCase(
+                            transaction.narration.split(" ")[0]
+                          )
+                    }` +
+                    `${
+                      transaction.narration.split(" ")[0] === "wallet"
+                        ? " funding"
+                        : transaction.narration.split(" ")[0] === "money"
+                        ? ""
+                        : transaction.narration.split(" ")[0] === "bank"
+                        ? " transfer"
+                        : " purchase"
+                    }`
+                  }
                   desc={truncateText(transaction.narration, 40)}
                   product={""}
                   price={`₦ ${transaction.amount}`}

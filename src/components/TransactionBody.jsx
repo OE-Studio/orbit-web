@@ -9,6 +9,7 @@ import { format } from "date-fns";
 
 import { truncateText } from "../utils/TruncateText";
 import Receipt, { StatusState } from "./Receipts/Receipt";
+import { capitalizeFirstLetter } from "../utils/capitalizeFirst";
 
 export const IndividualTransaction = ({
   title,
@@ -17,7 +18,7 @@ export const IndividualTransaction = ({
   type,
   transaction,
   setCurrent,
-  status
+  status,
 }) => {
   const [toggleReceipt, setToggleReceipt] = useState(false);
 
@@ -47,7 +48,7 @@ export const IndividualTransaction = ({
           </p>
         </div>
         <div className="flex gap-4 items-center w-[10%] ">
-          <StatusState status={status}/>
+          <StatusState status={status} />
         </div>
         <div className="flex gap-4 items-center w-[15%] justify-end">
           <p className="text-[15px]  text-neutral300 font-semibold">{price}</p>
@@ -70,9 +71,8 @@ export const EmptyTransaction = () => {
 
 const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
   const [filteredTransactions, setFilteredTransactions] = useState(null);
-
   const { transactions, status } = useSelector((state) => state.transactions);
-  
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (status === "fulfilled") {
@@ -97,7 +97,6 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
       const fromDate = sevenDaysAgo.toISOString().split("T")[0];
       filterOperation = filterOperation.filter((transaction) => {
-        
         return transaction.updatedAt >= fromDate;
       });
     } else if (dateFilter === "This Month") {
@@ -107,7 +106,6 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
         .slice(0, 2)
         .join("-");
 
-      
       filterOperation = filterOperation.filter((transaction) =>
         transaction.updatedAt.startsWith(currentMonth)
       );
@@ -127,7 +125,6 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
     // Filter by transaction type
     if (transactionFilter !== "All Transactions") {
       filterOperation = filterOperation.filter((transaction) => {
-        
         return transaction.narration
           .toLowerCase()
           .includes(transactionFilter.toLowerCase());
@@ -137,7 +134,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
     // Filter by search query
     if (searchFilter) {
       const query = searchFilter.toLowerCase();
-      
+
       filterOperation = filterOperation.filter((transaction) =>
         transaction.narration.toLowerCase().includes(query)
       );
@@ -177,21 +174,33 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
                   </div>
                 )}
                 <IndividualTransaction
-                  type={transaction.narration.split(" ")[0]}
+                   type={
+                    !transaction.recipient_name.includes("@")
+                      ? transaction.narration.split(" ")[0]
+                      : `@${user.username}` === transaction.recipient_name
+                      ? "credit"
+                      : "debit"
+                  }
                   status={transaction.status}
                   title={
-                    `${convertToSentenceCase(
-                      transaction.narration.split(" ")[0]
-                    )}` +
+                    `${
+                      transaction.narration.split(" ")[0] === "money"
+                        ? transaction.recipient_name
+                        : convertToSentenceCase(
+                            transaction.narration.split(" ")[0]
+                          )
+                    }` +
                     `${
                       transaction.narration.split(" ")[0] === "wallet"
                         ? " funding"
                         : transaction.narration.split(" ")[0] === "money"
+                        ? ""
+                        : transaction.narration.split(" ")[0] === "bank"
                         ? " transfer"
                         : " purchase"
                     }`
                   }
-                  description={truncateText(transaction.narration)}
+                  description={capitalizeFirstLetter(truncateText(transaction.narration))}
                   price={`₦ ${transaction.amount}`}
                   transaction={transaction.transactionId}
                 />
@@ -206,7 +215,13 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
             <div key={index}>
               {/* <div className="h-4" /> */}
               <IndividualTransaction
-                type={transaction.narration.split(" ")[0]}
+                type={
+                  !transaction.recipient_name.includes("@")
+                    ? transaction.narration.split(" ")[0]
+                    : `@${user.username}` === transaction.recipient_name
+                    ? "credit"
+                    : "debit"
+                }
                 status={transaction.status}
                 title={
                   `${
@@ -221,10 +236,12 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
                       ? " funding"
                       : transaction.narration.split(" ")[0] === "money"
                       ? ""
+                      : transaction.narration.split(" ")[0] === "bank"
+                      ? " transfer"
                       : " purchase"
                   }`
                 }
-                description={truncateText(transaction.narration)}
+                description={capitalizeFirstLetter(truncateText(transaction.narration))}
                 price={`₦ ${transaction.amount}`}
                 transaction={transaction.transactionId}
               />

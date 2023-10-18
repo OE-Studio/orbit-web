@@ -19,8 +19,6 @@ const loginSlice = createSlice({
             state.error = null;
         },
         [loginUser.fulfilled]: (state, { payload }) => {
-
-            state.user = payload;
             state.success = true
             state.isLoading = false;
             state.error = null;

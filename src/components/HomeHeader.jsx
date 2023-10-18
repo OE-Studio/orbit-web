@@ -22,8 +22,8 @@ const HomeHeader = () => {
 
   const user = useSelector((state) => state.user.user);
 
-  const [balanceVisibility, setBalanceVisibility] = useState(false);
   const [banks, setBanks] = useState(false);
+  const [balanceVisibility, setBalanceVisibility] = useState(false);
   const toggleBalanceVisibility = () => {
     setBalanceVisibility(!balanceVisibility);
   };
