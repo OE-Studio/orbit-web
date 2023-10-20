@@ -126,18 +126,15 @@ const AppearanceSettings = () => {
           <button
             disabled={!true}
             className="bg-[#00AA61] text-white hover:bg-green-500 transition-all duration-300 font-clash font-medium text-lg rounded-full disabled:bg-grey200 disabled:cursor-not-allowed px-8 py-2.5 w-[129px]"
-            onClick={async (e) => {
-              
+            onClick={async (e) => {     
               setUpdateLoading(true);
               let response = await SetPreferredBg({
                 bgName: selectedBg.name,
               });
               setUpdateLoading(false);
               if (response.success) {
-                
                 dispatch(getUserProfile());
               } else {
-                
               }
             }}
           >

@@ -30,7 +30,6 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
   const [isOpenFailed, setIsOpenFailed] = useState(false);
   const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
-  const [usernameLoading, setUsernameLoading] = useState(false);
   const [pinError, setPinError] = useState(false);
   const [error, setError] = useState("");
   const [failedMsg, setFailedMsg] = useState("");
@@ -52,7 +51,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
   const [usernameError, setUsernameError] = useState(false);
   const [username, setUsername] = useState("");
   const [usernameAvailable, setUsernameAvailable] = useState(false);
-
+  const [usernameLoading, setUsernameLoading] = useState(false);
   const user = useSelector((state) => state.user.user);
 
   // Debounce Input to Check Username
@@ -88,7 +87,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
             } else {
               if (
                 response.data.message ===
-                `Username; ${username.toLowerCase()} already exists`
+                `Username, ${username.toLowerCase()} already taken`
               ) {
                 setUsernameError(false);
                 setUsernameAvailable(true);
