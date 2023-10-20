@@ -20,7 +20,7 @@ export const SideCard = () => {
       <img src={orbitLogo} alt="" className="mx-auto mt-[94px]" />
       <div>
         <p className="text-[40px] font-medium leading-10 text-center mb-6 text-[#73ACE7] font-clash mx-auto max-w-[415px] mt-[65px]">
-          Your everyday needs in one place
+          Your everyday needs in one place "Edited Login for notice"
         </p>
 
         <p className="w-80 text-base leading-snug text-center mx-auto text-[#5A8FC4] font-dmsans mb-[56.6px]">
