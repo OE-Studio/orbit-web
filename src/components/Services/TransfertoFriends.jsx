@@ -70,7 +70,9 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
         }
         setUsernameLoading(true);
         axios
-          .post(`/v1/users/checkUsername`, { username: username.toLowerCase() })
+          .post(`/v1/users/checkUsername`, {
+            username: username.trim().toLowerCase(),
+          })
           .then((response) => {
             setUsernameLoading(false);
             console.log(response.data);
@@ -185,7 +187,7 @@ const TransfertoFriends = ({ toggle, setToggle }) => {
                           placeholder="username"
                           className="text-[#5b5b5b] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
                           onChange={(e) => {
-                            setUsername(e.target.value.toLowerCase());
+                            setUsername(e.target.value.toLowerCase().trim());
                             setUsernameAvailable(false);
                             setUsernameError(false);
                           }}

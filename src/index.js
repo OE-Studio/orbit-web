@@ -167,7 +167,7 @@ const App = () => {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const mobileMediaQuery = window.matchMedia('(max-width: 768px)'); // Adjust the breakpoint as needed
-    
+
 
     // Function to update the state based on the media query
     const handleResize = () => {
@@ -183,7 +183,7 @@ const App = () => {
       mobileMediaQuery.removeEventListener('change', handleResize);
     };
   }, []);
-  
+
   if (isMobile) {
     // Render a different component for mobile or tablet
     return <MobileLayout />;
@@ -192,7 +192,7 @@ const App = () => {
     return (
       <React.StrictMode>
         <Provider store={store}>
-        <ToastContainer />
+          <ToastContainer />
           <RouterProvider router={router} />
         </Provider>
       </React.StrictMode>
