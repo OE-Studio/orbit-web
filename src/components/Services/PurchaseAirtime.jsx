@@ -5,7 +5,6 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronUpIcon,
-  ClipboardDocumentIcon,
   GlobeAltIcon
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
@@ -23,7 +22,7 @@ import CloseButton from "../Inputs/CloseButton";
 const PurchaseAirtime = ({ toggle, setToggle }) => {
   const [network, setNetwork] = useState(null);
   const [plan, setPlan] = useState({});
-  const [balanceCheckDrop, setBalanceCheckDrop] = useState(false);
+  
 
   const networkRef = useRef(null);
   const [networkDrop, setNetworkDrop] = useState(false);
@@ -48,9 +47,6 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
     setAllProvider();
   }, []);
 
-  const copyText = (value) => {
-    navigator.clipboard.writeText(value);
-  };
 
   // PIN
   const [isOpen, setIsOpen] = useState(false);
@@ -180,7 +176,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                 }}
                 className="mx-auto w-[353px] space-y-6"
               >
-                {/* Balance USSD */}
+                {/* Balance USSD
                 <div className="relative">
                   <div
                     className="bg-neutral100 flex px-2.5 py-[14px] rounded-lg justify-between items-center cursor-pointer"
@@ -227,7 +223,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
                       </div>
                     </div>
                   )}
-                </div>
+                </div> */}
 
                 {/* Network */}
                 <div className="relative" ref={networkRef}>

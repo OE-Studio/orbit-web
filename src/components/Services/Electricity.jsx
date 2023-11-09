@@ -21,6 +21,7 @@ import Receipt from "../Receipts/Receipt";
 import { fetchTransactions } from "../../features/TransactionsSlice";
 import CloseButton from "../Inputs/CloseButton";
 
+
 const minimumAmount = [
   {
     name: "PH",
@@ -73,8 +74,8 @@ const Electricity = ({ toggle, setToggle }) => {
   const [currentProducts, setCurrentProducts] = useState(null);
   const [meter_number, setMeter_number] = useState("");
   const [amount, setAmount] = useState(0);
-  const [step, setStep] = useState(0);
   const [mobile_number, setMobile_number] = useState("");
+  const [step, setStep] = useState(0);
 
   const setAllProvider = async () => {
     const response = await fetchDataId();
@@ -139,9 +140,7 @@ const Electricity = ({ toggle, setToggle }) => {
   };
 
   const { products } = useSelector((state) => state.product);
-
   const wallet = useSelector((state) => state.wallet);
-
   let data_product = products.electricity;
   const meterTypes = [...new Set(data_product.map((item) => item.meter_type))];
   const [toggleReceipt, setToggleReceipt] = useState(false);

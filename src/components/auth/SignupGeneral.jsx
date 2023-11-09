@@ -196,11 +196,15 @@ const SignupGeneral = () => {
         </p>
       )}
       <div className="h-6" />
-      <div className={`${
-          dOBInputError ? "focus-within:border-[#F26969]" : "focus-within:border-[#5DADEC]"
+      <div
+        className={`${
+          dOBInputError
+            ? "focus-within:border-[#F26969]"
+            : "focus-within:border-[#5DADEC]"
         } ${
           dOBInputError ? "border-[#F26969]" : "border-transparent"
-        }  border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA]`}>
+        }  border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA]`}
+      >
         <label htmlFor="dob" className="text-xs text-[#71879C] font-inter">
           Date of birth
         </label>
@@ -215,8 +219,10 @@ const SignupGeneral = () => {
             max={maximumDate}
             className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
             onChange={(e) => {
-              setDOBInputError('')
-              setDOBInputError(e.target.value.split("-")[0] > maximumDate.split("-")[0]);
+              setDOBInputError("");
+              setDOBInputError(
+                e.target.value.split("-")[0] > maximumDate.split("-")[0]
+              );
               handleClick("d_o_b", e.target.value);
             }}
           />

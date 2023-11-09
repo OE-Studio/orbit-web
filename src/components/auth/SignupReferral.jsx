@@ -69,7 +69,6 @@ const SignupReferral = () => {
           disabled={inputError}
           className="w-full border border-grey15 py-4 rounded-full font-clash font-medium text-grey600 text-lg disabled:cursor-not-allowed disabled:bg-[#D1D1D1] flex items-center justify-center "
           onClick={async (e) => {
-            e.preventDefault();
             navigate("/");
           }}
           label={"Skip"}

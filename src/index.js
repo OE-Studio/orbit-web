@@ -9,7 +9,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // import ErrorPage from "./error-page";
 import "./index.css";
-
+import logo from '../src/assets/loadaer.svg'
 import Home from './Pages/Home';
 import Card from './Pages/Card';
 import Settings from './Pages/Settings';
@@ -164,31 +164,34 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
 const App = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(null); // Start with null to indicate loading state
+
   useEffect(() => {
-    const mobileMediaQuery = window.matchMedia('(max-width: 768px)'); // Adjust the breakpoint as needed
+    const mobileMediaQuery = window.matchMedia('(max-width: 768px)');
 
-
-    // Function to update the state based on the media query
     const handleResize = () => {
       setIsMobile(mobileMediaQuery.matches);
     };
 
-    // Initial check and add event listener
     handleResize();
     mobileMediaQuery.addEventListener('change', handleResize);
 
-    // Clean up the event listener on unmount
     return () => {
       mobileMediaQuery.removeEventListener('change', handleResize);
     };
   }, []);
 
+  if (isMobile === null) {
+    // Render a loading indicator while determining the device type
+    return <div className="animate-ping w-screen h-screen center">
+      <img src={logo} alt="" />
+    </div>;
+  }
+
   if (isMobile) {
     // Render a different component for mobile or tablet
     return <MobileLayout />;
   } else {
-    // Render the desktop component
     return (
       <React.StrictMode>
         <Provider store={store}>
@@ -200,9 +203,7 @@ const App = () => {
   }
 };
 
-root.render(
-  <App />
-);
+root.render(<App />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
