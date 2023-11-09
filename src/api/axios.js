@@ -1,6 +1,6 @@
 import axios from "axios";
 // import { logOut } from "../components/settings-outlet/SettingsApi";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 // Create an instance of Axios with baseURL
 const api = axios.create({
