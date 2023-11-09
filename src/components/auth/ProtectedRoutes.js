@@ -28,7 +28,6 @@ const ProtectedRoutes = () => {
         return storedFirstLoad ? JSON.parse(storedFirstLoad) : true;
     });
 
-
     const [render, setRender] = useState(false);
 
     let user = JSON.parse(sessionStorage.getItem('loginToken'))
@@ -41,28 +40,12 @@ const ProtectedRoutes = () => {
     const bankListStatus = useSelector((state) => state.bankList.status);
     const notificationStatus = useSelector((state) => state.notifications.status);
     const bgStatus = useSelector((state) => state.backgrounds.status);
-    
 
 
-
-    // window.addEventListener('beforeunload', async (event) => {
-    //     event.preventDefault();
-    //     // alert("You're leavin and you'll be logged out")
-    //     try {
-    //         const response = await logOut();
-    //         if (response.success) {
-    //             navigate("/login");
-    //             sessionStorage.clear();
-    //             window.location.reload()
-    //         }
-    //     } catch (error) {
-    //         console.error('Logout API call failed:', error);
-    //     }
-    // });
 
     // getUser
     useEffect(() => {
-        if (userStatus === "idle") {
+        if (user && userStatus === "idle") {
             dispatch(getUserProfile())
         }
         // eslint-disable-next-line
@@ -70,7 +53,7 @@ const ProtectedRoutes = () => {
 
     // getBankList
     useEffect(() => {
-        if (bankListStatus === "idle") {
+        if (user && bankListStatus === "idle") {
             dispatch(fetchBankList())
 
         }
@@ -79,7 +62,7 @@ const ProtectedRoutes = () => {
 
     // getVirtualAccount
     useEffect(() => {
-        if (virtualAccountStatus === "idle") {
+        if (user && virtualAccountStatus === "idle") {
             dispatch(fetchVirtualAccount())
         }
         // eslint-disable-next-line
@@ -87,7 +70,7 @@ const ProtectedRoutes = () => {
 
     // fetchProduct
     useEffect(() => {
-        if (productsStatus === "idle") {
+        if (user && productsStatus === "idle") {
             dispatch(fetchProducts())
         }
         return () => { };
@@ -96,7 +79,7 @@ const ProtectedRoutes = () => {
 
     // fetchWallet
     useEffect(() => {
-        if (walletStatus === "idle") {
+        if (user && walletStatus === "idle") {
             dispatch(fetchWalletData());
         }
         return () => { };
@@ -106,7 +89,7 @@ const ProtectedRoutes = () => {
 
     // fetchBackgrounds
     useEffect(() => {
-        if (bgStatus === "idle") {
+        if (user && bgStatus === "idle") {
             dispatch(fetchAllBackground());
         }
         return () => { };
@@ -116,7 +99,7 @@ const ProtectedRoutes = () => {
 
     // fetchTransactions
     useEffect(() => {
-        if (transactionStatus === "idle") {
+        if (user && transactionStatus === "idle") {
             dispatch(fetchTransactions());
         }
         return () => { };
@@ -125,7 +108,7 @@ const ProtectedRoutes = () => {
 
     // fetchNotifications
     useEffect(() => {
-        if (notificationStatus === "idle") {
+        if (user && notificationStatus === "idle") {
             dispatch(fetchNotifications());
         }
         return () => { };
@@ -133,7 +116,7 @@ const ProtectedRoutes = () => {
     }, [notificationStatus]);
 
     useEffect(() => {
-        if (
+        if (user &&
             productsStatus === "fulfilled" &&
             walletStatus === "fulfilled"
             && transactionStatus === "fulfilled"
@@ -144,7 +127,7 @@ const ProtectedRoutes = () => {
         ) {
             if (firstLoad) {
                 setTimeout(() => {
-                    
+
                     setRender(true);
                     setFirstLoad(false); // Mark first load as completed
                     localStorage.setItem("firstLoad", JSON.stringify(false)); // Store firstLoad in local storage
@@ -154,6 +137,7 @@ const ProtectedRoutes = () => {
             }
         }
     }, [
+        user,
         firstLoad,
         productsStatus,
         walletStatus,
@@ -164,7 +148,7 @@ const ProtectedRoutes = () => {
 
     return (
         <AnimatePresence>
-            {user ?
+            {!user ? <Navigate to='/login' /> :
                 render ? (
                     <>
                         <RootLayout />
@@ -177,7 +161,7 @@ const ProtectedRoutes = () => {
                     </>
                 )
 
-                : <Navigate to='/login' />}
+            }
         </AnimatePresence>
     )
 }
