@@ -16,16 +16,16 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response && error.response.status === 401) {
       // await logOut();
-      toast.error("User token expired, pls login again", {
-        position: "top-center",
-        autoClose: 15000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      // toast.error("User token expired, pls login again", {
+      //   position: "top-center",
+      //   autoClose: 15000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "light",
+      // });
       // Clear sessionStorage
       sessionStorage.clear();
       // Reload the page
