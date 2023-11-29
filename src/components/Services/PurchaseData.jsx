@@ -552,7 +552,6 @@ const PurchaseData = ({ toggle, setToggle }) => {
 
             if (response && response.success) {
               setLoading(false);
-
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);

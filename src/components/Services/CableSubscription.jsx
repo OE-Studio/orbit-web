@@ -5,10 +5,10 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronUpIcon,
-  GlobeAltIcon
+  GlobeAltIcon,
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
-import { fetchDataId, purchaseData, validateCable } from "./ServiceApi";
+import { fetchDataId, purchaseCable, validateCable } from "./ServiceApi";
 import PrimaryButton from "../Inputs/PrimaryButton";
 import PinDialog from "../TransactionPin/PinDialog";
 import { Spinner } from "../Spinner";
@@ -53,7 +53,6 @@ const CableSubscription = ({ toggle, setToggle }) => {
   const [meterLoading, setMeterLoading] = useState(false);
 
   const validMeter = async () => {
-    
     setMeterLoading(true);
     setMeterDetail("");
     try {
@@ -63,7 +62,6 @@ const CableSubscription = ({ toggle, setToggle }) => {
       });
       setMeterLoading(false);
       setMeterDetail(response.data.customer_name);
-      
     } catch (error) {}
   };
 
@@ -127,11 +125,10 @@ const CableSubscription = ({ toggle, setToggle }) => {
               </p>
             </div>
             <CloseButton
-            onClick={() => {
-              setToggle(!toggle);
-            }}
-        />
-            
+              onClick={() => {
+                setToggle(!toggle);
+              }}
+            />
           </div>
         ) : (
           <div className="flex justify-between items-center">
@@ -188,7 +185,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
                   >
                     <div className="space-y-2">
                       <p className="text-[11px] text-text100">
-                        Cable TV Service Provide
+                        Cable TV Service Provider
                       </p>
                       <p className="text-[16px] text-neutral300">
                         {network || "Select"}
@@ -268,9 +265,11 @@ const CableSubscription = ({ toggle, setToggle }) => {
                               className="flex rounded-md px-3 py-[5px] hover:bg-neutral100 justify-between cursor-pointer"
                               key={index}
                               onClick={() => {
+                                console.log(networkItem);
                                 setPlan({
                                   ...networkItem,
                                 });
+                                setNetwork(networkItem.provider_name);
                                 setPlanDrop(false);
                               }}
                             >
@@ -409,7 +408,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
                   <div className=" flex p-2.5 justify-between items-center ">
                     <p className="text-[11px] text-text100 text-xs">Network</p>
                     <p className="text-[11px] text-neutral300 text-xs">
-                      {network?.name}
+                      {network}
                     </p>
                   </div>
 
@@ -459,18 +458,16 @@ const CableSubscription = ({ toggle, setToggle }) => {
           onClose();
           let userInput = {
             smart_card_number: meter_number,
-            cable_plan_api_id: plan.provider_id,
+            cable_plan_api_id: plan.product_id,
             validated_customer_name: meterDetail,
           };
-          
-
+          console.log(userInput);
           try {
-            const response = await purchaseData(userInput, pin);
-            
+            const response = await purchaseCable(userInput, pin);
+
             setLoading(false);
 
             if (response && response.success) {
-              
               setTransaction(response.trxDetails.transactionId);
               dispatch(fetchTransactions());
               setIsOpenSuccess(true);
@@ -492,7 +489,6 @@ const CableSubscription = ({ toggle, setToggle }) => {
 
               // Invalid Number
               if (response.message === "invalid network selection") {
-                
                 setStep(0);
                 setError("Invalid network selection");
                 return;
@@ -502,9 +498,7 @@ const CableSubscription = ({ toggle, setToggle }) => {
               setIsOpenFailed(true);
               return;
             }
-          } catch (error) {
-            
-          }
+          } catch (error) {}
         }}
       />
       <SuccessPage
@@ -518,7 +512,6 @@ const CableSubscription = ({ toggle, setToggle }) => {
           window.location.reload();
         }}
         onReceipt={() => {
-          setToggle(false);
           setIsOpenSuccess(!isOpenSuccess);
           setToggleReceipt(true);
         }}

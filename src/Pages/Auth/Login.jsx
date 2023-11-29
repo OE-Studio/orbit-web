@@ -89,7 +89,10 @@ const Login = () => {
   const loginUserFunc = async () => {
     setSuccess("");
     setPresentError("");
-    const userInput = { ...formDetails };
+    const userInput = {
+      identity: formDetails.identity.toLowerCase(),
+      password: formDetails.password,
+    };
     await dispatch(loginUser(userInput)).then((payload) => {
       if (payload.error) {
         setPresentError(payload.payload);

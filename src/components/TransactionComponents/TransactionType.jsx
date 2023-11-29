@@ -74,7 +74,7 @@ const TransactionType = ({ type }) => {
           </svg>
         </div>
       )}
-      {type === "electricity" && (
+      {type.toLowerCase() === "electricity" && (
         <div className="h-[42px] w-[42px] flex items-center justify-center bg-[#EFF7FD] rounded-full">
           <svg
             width="25"
@@ -109,7 +109,7 @@ const TransactionType = ({ type }) => {
           </svg>
         </div>
       )}
-      {type === "cable" && (
+      {type.toLowerCase() === "tv" && (
         <div className="h-[42px] w-[42px] flex items-center justify-center bg-[#FDF4EC] rounded-full">
           <svg
             width="25"

@@ -91,12 +91,13 @@ export const logOut = async () => {
 }
 
 
-export const deleteUser = async () => {
+export const deleteUser = async (userInput) => {
     const token = JSON.parse(sessionStorage.getItem('loginToken'))
     try {
         const response = await axios({
             method: 'POST',
-            url: `v1/users/logout?token=${token}`,
+            url: `v1/users/delete?token=${token}`,
+            data: userInput,
         })
         return response.data
     } catch (error) {

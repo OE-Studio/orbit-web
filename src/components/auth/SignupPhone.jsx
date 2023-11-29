@@ -115,7 +115,7 @@ const SignupPhone = () => {
                   `/v1/users/setPhoneNumber?token=${JSON.parse(
                     sessionStorage.getItem("loginToken")
                   )}`,
-                  { phoneNumber: phoneNumber }
+                  { phoneNumber: `234${Number(phoneNumber)}` }
                 )
                 .then((res) => {
                   setLoading(false);
@@ -186,7 +186,7 @@ const SignupPhone = () => {
                   .put("/v1/users/resendSMSotp", {
                     accountId: JSON.parse(sessionStorage.getItem("userInfo"))
                       .userId,
-                    phoneNumber: phoneNumber,
+                    phoneNumber: `234${Number(phoneNumber)}`,
                   })
                   .then((res) => {
                     setResendLoading(false);
@@ -207,19 +207,19 @@ const SignupPhone = () => {
             </span>
           </div>
           <div className="h-7" />
-          
-            {loading ? (
-              <Spinner />
-            ) : (
-              <div className="flex justify-end gap-6">
-            <SecondaryButton
-              width="flex-1"
-              label={"Edit Number"}
-              onClick={() => {
-                setInputSet(!inputSet);
-                setOtp("");
-              }}
-            />
+
+          {loading ? (
+            <Spinner />
+          ) : (
+            <div className="flex justify-end gap-6">
+              <SecondaryButton
+                width="flex-1"
+                label={"Edit Number"}
+                onClick={() => {
+                  setInputSet(!inputSet);
+                  setOtp("");
+                }}
+              />
               <PrimaryButton
                 disabled={!(otp.length === 6)}
                 onClick={async (e) => {
@@ -232,7 +232,7 @@ const SignupPhone = () => {
                       )}`,
                       {
                         otp: otp,
-                        phoneNumber: phoneNumber,
+                        phoneNumber: `234${Number(phoneNumber)}`,
                       }
                     )
                     .then((res) => {
@@ -266,8 +266,8 @@ const SignupPhone = () => {
                 label={"Submit OTP"}
                 width="flex-1"
               />
-          </div>
-            )}
+            </div>
+          )}
         </div>
       )}
     </>

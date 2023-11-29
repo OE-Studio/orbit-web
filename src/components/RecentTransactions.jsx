@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import TransactionFlowChart from "./TransactionFlowChart";
 import chartDefault from "../assets/donutDefault.svg";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirst";
+import { extractToken } from "../utils/ExtractToken";
 const TransactionCard = ({ type, title, desc, product, price }) => {
   return (
     <div className="inline-flex items-center justify-center w-full bg-white  rounded-lg gap-4 font-inter">
@@ -19,7 +20,9 @@ const TransactionCard = ({ type, title, desc, product, price }) => {
       <div className="flex-1 flex justify-between">
         <div className="space-y-1.5">
           <p className="font-medium leading-3 text-grey400">{title}</p>
-          <p className="text-sm  text-neutral300">{capitalizeFirstLetter(desc)}</p>
+          <p className="text-sm  text-neutral300">
+            {capitalizeFirstLetter(desc)}
+          </p>
         </div>
         <div className="space-y-1 flex flex-col items-end">
           <p className="text-sm font-semibold leading-3 text-grey300">
@@ -132,6 +135,8 @@ const RecentTransactions = () => {
                       `${
                         transaction.narration.split(" ")[0] === "money"
                           ? transaction.recipient_name
+                          : transaction.narration.split(" ")[0] === "TV"
+                          ? "Cable"
                           : convertToSentenceCase(
                               transaction.narration.split(" ")[0]
                             )
@@ -146,7 +151,15 @@ const RecentTransactions = () => {
                           : " purchase"
                       }`
                     }
-                    desc={truncateText(transaction.narration, 40)}
+                    desc={
+                      transaction.narration.startsWith("Electricity")
+                        ? `Electricity Token: ${extractToken(
+                            transaction.narration
+                          )}`
+                        : capitalizeFirstLetter(
+                            truncateText(transaction.narration)
+                          )
+                    }
                     product={""}
                     price={`₦ ${transaction.amount}`}
                     transaction={transaction}
@@ -171,12 +184,12 @@ const RecentTransactions = () => {
                       ? "credit"
                       : "debit"
                   }
-                  
                   title={
                     `${
-                      transaction.narration.split(" ")[0].toLowerCase() ===
-                      "money"
+                      transaction.narration.split(" ")[0] === "money"
                         ? transaction.recipient_name
+                        : transaction.narration.split(" ")[0] === "TV"
+                        ? "Cable"
                         : convertToSentenceCase(
                             transaction.narration.split(" ")[0]
                           )
@@ -191,7 +204,15 @@ const RecentTransactions = () => {
                         : " purchase"
                     }`
                   }
-                  desc={truncateText(transaction.narration, 40)}
+                  desc={
+                    transaction.narration.startsWith("Electricity")
+                      ? `Electricity Token: ${extractToken(
+                          transaction.narration
+                        )}`
+                      : capitalizeFirstLetter(
+                          truncateText(transaction.narration)
+                        )
+                  }
                   product={""}
                   price={`₦ ${transaction.amount}`}
                   transaction={transaction}

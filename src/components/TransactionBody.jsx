@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { truncateText } from "../utils/TruncateText";
 import Receipt, { StatusState } from "./Receipts/Receipt";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirst";
+import { extractToken } from "../utils/ExtractToken";
 
 export const IndividualTransaction = ({
   title,
@@ -174,7 +175,7 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
                   </div>
                 )}
                 <IndividualTransaction
-                   type={
+                  type={
                     !transaction.recipient_name.includes("@")
                       ? transaction.narration.split(" ")[0]
                       : `@${user.username}` === transaction.recipient_name
@@ -186,6 +187,8 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
                     `${
                       transaction.narration.split(" ")[0] === "money"
                         ? transaction.recipient_name
+                        : transaction.narration.split(" ")[0] === "TV"
+                        ? "Cable"
                         : convertToSentenceCase(
                             transaction.narration.split(" ")[0]
                           )
@@ -200,7 +203,13 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
                         : " purchase"
                     }`
                   }
-                  description={capitalizeFirstLetter(truncateText(transaction.narration))}
+                  description={
+                    transaction.narration.startsWith("Electricity")
+                      ? `Electricity Token: ${extractToken(transaction.narration)}`
+                      : capitalizeFirstLetter(
+                          truncateText(transaction.narration)
+                        )
+                  }
                   price={`₦ ${transaction.amount}`}
                   transaction={transaction.transactionId}
                 />
@@ -227,6 +236,8 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
                   `${
                     transaction.narration.split(" ")[0] === "money"
                       ? transaction.recipient_name
+                      : transaction.narration.split(" ")[0] === "TV"
+                      ? "Cable"
                       : convertToSentenceCase(
                           transaction.narration.split(" ")[0]
                         )
@@ -241,7 +252,13 @@ const TransactionBody = ({ transactionFilter, dateFilter, searchFilter }) => {
                       : " purchase"
                   }`
                 }
-                description={capitalizeFirstLetter(truncateText(transaction.narration))}
+                description={
+                  transaction.narration.startsWith("Electricity")
+                    ? `Electricity Token: ${extractToken(transaction.narration)}`
+                    : capitalizeFirstLetter(
+                        truncateText(transaction.narration)
+                      )
+                }
                 price={`₦ ${transaction.amount}`}
                 transaction={transaction.transactionId}
               />

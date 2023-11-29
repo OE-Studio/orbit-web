@@ -16,6 +16,7 @@ import cut from "../../assets/receipt/bottom.svg";
 import html2canvas from "html2canvas";
 import { HourglassHigh } from "phosphor-react";
 import CloseButton from "../Inputs/CloseButton";
+import { extractToken } from "../../utils/ExtractToken";
 // import html2pdf from "html2pdf.js";
 
 export const ReceiptHeader = ({
@@ -456,7 +457,20 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
           </div>
           <div className="h-5"></div>
           <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
-
+          {/* Token */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Token</p>
+              <div className="w-[60%]">
+                <p className="text-sm font-inter text-grey300 text-right font-semibold">
+                  {extractToken(current.narration)}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
           {/* Date */}
           <div className="h-6"></div>
           <div className="w-full">
@@ -481,7 +495,7 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
             <div className="flex justify-between">
               <p className="text-md font-inter text-grey200">Name</p>
               <div className="w-[45%]">
-                <p className="text-sm font-inter text-grey300 text-right font-semibold">
+                <p className="text-xs font-inter text-grey300 text-right font-medium">
                   {current.recipient_name}
                 </p>
               </div>
@@ -498,21 +512,6 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
               <div className="w-[60%]">
                 <p className="text-xs font-inter text-grey300 text-right font-medium">
                   {current.address}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="h-5"></div>
-          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
-
-          {/* Token */}
-          <div className="h-6"></div>
-          <div className="w-full">
-            <div className="flex justify-between">
-              <p className="text-md font-inter text-grey200">Token</p>
-              <div className="w-[60%]">
-                <p className="text-xs font-inter text-grey300 text-right font-medium">
-                  {current.narration}
                 </p>
               </div>
             </div>
@@ -543,6 +542,123 @@ const Receipt = ({ transaction, toggle, setToggle }) => {
               <div className="w-[45%]">
                 <p className="text-sm font-inter text-grey300 text-right font-semibold">
                   {current.phone_number_trx}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Status */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">Status</p>
+              <StatusState status={current.status} />
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+        </div>
+      </>
+    );
+  }
+
+  // Cable Receipt
+  if (current?.narration.toLowerCase().startsWith("tv")) {
+    receiptBody = (
+      <>
+        <div className="max-w-[350px] mx-auto">
+          <ReceiptHeader
+            topLabel={"PROVIDER"}
+            topDesc={
+              <>
+                ₦
+                <span className="font-semibold">
+                  {" "}
+                  {current.amount.toFixed(2)}
+                </span>
+              </>
+            }
+            bottomLabel={"Smart Card Number"}
+            bottomDesc={
+              <span className="font-semibold">
+                {" "}
+                {current.smart_card_number}
+              </span>
+            }
+          />
+          <div className="h-6"></div>
+          {/* Wallet */}
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">Account</p>
+              <p className="text-sm font-inter text-grey300 text-right font-semibold w-[45%]">
+                {" "}
+                Wallet
+              </p>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Transaction Reference */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-sm font-inter text-grey200">
+                Transaction reference
+              </p>
+              <p className="text-sm font-inter text-grey300 text-right font-semibold w-[45%]">
+                {" "}
+                # {current.transactionId}
+              </p>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Name */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Name</p>
+              <div className="w-[45%]">
+                <p className="text-sm font-inter text-grey300 text-right font-semibold">
+                  {current.recipient_name}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Date */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Date</p>
+              <div className="w-[45%]">
+                <p className="text-sm font-inter text-grey300 text-right font-semibold">
+                  {format(Date.parse(current.updatedAt), "do MMM, yyyy")}
+                </p>
+                <p className="text-xs font-inter text-grey300 text-right font-medium">
+                  {format(Date.parse(current.updatedAt), "h:mmaaaa")}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="h-5"></div>
+          <div className="w-full border-b-[1.5px] border-dashed border-neutral200"></div>
+
+          {/* Email */}
+          <div className="h-6"></div>
+          <div className="w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-inter text-grey200">Email</p>
+              <div className="w-[45%]">
+                <p className="text-sm font-inter text-grey300 text-right font-semibold">
+                  {current.email_trx}
                 </p>
               </div>
             </div>

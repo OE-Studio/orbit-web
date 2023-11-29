@@ -35,7 +35,7 @@ const TransactionHeader = ({
     "Electricity",
     "Airtime",
     "Data",
-    "Cable",
+    "TV",
   ];
 
   return (

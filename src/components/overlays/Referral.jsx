@@ -24,7 +24,6 @@ const Referral = ({ toggle, setToggle }) => {
 
   const getAllRefferrals = async () => {
     const response = await GetAllReferrals();
-
     setAllReferrals(response.myReferrals);
   };
 

@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 // Create an instance of Axios with baseURL
 const api = axios.create({
   // baseURL: 'http://localhost:3012/users/api/v1'
-  baseURL: 'https://orbit-finance-api.herokuapp.com/users/api'
+  // baseURL: 'https://orbit-finance-api.herokuapp.com/users/api'
+  baseURL: 'https://api.theorbit.finance/users/api'
 });
 
 // Add a response interceptor new
@@ -26,10 +27,12 @@ api.interceptors.response.use(
         progress: undefined,
         theme: "light",
       });
-      // Clear sessionStorage
-      sessionStorage.clear();
-      // Reload the page
-      window.location.reload();
+      setTimeout(() => {
+        // Clear sessionStorage
+        sessionStorage.clear();
+        // Reload the page
+        window.location.reload();
+      }, 2000);
     }
     return Promise.reject(error);
   }

@@ -3,6 +3,7 @@ import React from 'react'
 import OverlayWrapper from '../OvelayWrapper'
 
 const DeleteCard = ({toggle, setToggle}) => {
+   
   return (
     <OverlayWrapper toggle={toggle}>
         <div className="pt-4 space-y-5">

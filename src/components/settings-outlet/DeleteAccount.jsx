@@ -2,8 +2,29 @@ import React, { useState } from "react";
 import PrimaryButton from "../Inputs/PrimaryButton";
 import SecondaryButton from "../Inputs/SecondaryButton";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import { deleteUser } from "./SettingsApi";
+import { Spinner } from "../Spinner";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const DeleteModal = ({ isOpen, onClose }) => {
+  const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+  // Toggle Visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const toggleVisibility = (inputId) => {
+    let x = document.getElementById(inputId);
+    if (x.type === "password") {
+      x.type = "text";
+      setPasswordVisible(true);
+    } else {
+      x.type = "password";
+      setPasswordVisible(false);
+    }
+  };
   return (
     <>
       {isOpen ? (
@@ -25,7 +46,7 @@ const DeleteModal = ({ isOpen, onClose }) => {
                 <XMarkIcon className="h-5 text-[#1C1B1F]" />
               </div>
             </div>
-            <div className=" p-5 pb-10">
+            <div className=" p-5 pb-5">
               <div className="w-full max-w-[400px] bg-neutral100 p-6 rounded-t-2xl">
                 <p className="text-text100 font-inter text-[13px] text-center ">
                   Transfer out all money in your wallet and card before deleting
@@ -38,18 +59,91 @@ const DeleteModal = ({ isOpen, onClose }) => {
                 </p>
               </div>
             </div>
+
+            <div className="focus-within:border-[#5DADEC] border-transparent border-2 px-2.5 py-1.5 rounded-[10px] bg-[#F2F7FA] flex items-center mx-5">
+              <div className="flex-1 gap-2">
+                <label
+                  htmlFor="password"
+                  className="text-xs text-[#71879C] font-inter"
+                >
+                  Enter your password to confirm action
+                </label>
+                <br />
+                <div className="h-[2px]" />
+                <div className="flex items-center gap-2 ">
+                  <input
+                    type="password"
+                    name="password"
+                    value={password}
+                    id="newpassword"
+                    placeholder="********"
+                    className="text-[#3D3D3D] placeholder:text-[#71879C] focus:outline-none font-inter text-lg bg-transparent w-full"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+              <div
+                className=""
+                onClick={() => {
+                  toggleVisibility("newpassword");
+                }}
+              >
+                {passwordVisible ? (
+                  <EyeSlashIcon className="h-6 text-green600" />
+                ) : (
+                  <EyeIcon className="h-6 text-green600" />
+                )}
+              </div>
+            </div>
+            <div className="h-4"></div>
+
             <div className="bg-neutral100 p-4 justify-center flex gap-6">
               <SecondaryButton
                 width="flex-1"
                 label={"Cancel"}
                 onClick={() => {
                   onClose();
+                  setLoading(false);
                 }}
               />
-              <PrimaryButton
-                width="flex-1 bg-red500 hover:bg-red600"
-                label={"Continue"}
-              />
+              {!loading ? (
+                <PrimaryButton
+                  disabled={!password}
+                  width="flex-1 bg-red500 hover:bg-red600"
+                  label={"Continue"}
+                  onClick={async () => {
+                    setLoading(true);
+                    const userInput = {
+                      password,
+                    };
+                    const result = await deleteUser(userInput);
+                    setLoading(false);
+                    if (!result.success) {
+                      toast.error(result.message, {
+                        position: "top-center",
+                        autoClose: 15000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                      });
+                    }
+                    if (result.success) {
+                      sessionStorage.clear();
+                      navigate("/login");
+                    }
+                    console.log(result);
+                  }}
+                />
+              ) : (
+                <div className="flex-1 px-8 py-2.5 bg-red500 hover:bg-red600 text-white  rounded-full flex center">
+                  <Spinner color="white" />
+                </div>
+              )}
             </div>
           </div>
         </div>

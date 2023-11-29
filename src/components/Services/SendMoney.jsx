@@ -483,7 +483,6 @@ const SendMoney = ({ toggle, setToggle }) => {
           window.location.reload();
         }}
         onReceipt={() => {
-          setToggle(false);
           setIsOpenSuccess(!isOpenSuccess);
           setToggleReceipt(true);
         }}

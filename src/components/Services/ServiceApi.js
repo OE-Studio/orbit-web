@@ -10,12 +10,12 @@ export const fetchDataId = async () => {
 
         return response.data
     } catch (error) {
-        
+
     }
 }
 export const purchaseData = async (userInput, pin) => {
     const token = JSON.parse(sessionStorage.getItem('loginToken'))
-    
+
     try {
         const response = await axios({
             method: 'POST',
@@ -25,18 +25,18 @@ export const purchaseData = async (userInput, pin) => {
                 pin: pin
             }
         })
-        
+
 
         return response.data
     } catch (error) {
-        
+
     }
 }
 
 
 export const purchaseAirtime = async (userInput, pin) => {
     const token = JSON.parse(sessionStorage.getItem('loginToken'))
-    
+
     try {
         const response = await axios({
             method: 'POST',
@@ -49,14 +49,12 @@ export const purchaseAirtime = async (userInput, pin) => {
 
         return response.data
     } catch (error) {
-        
+
     }
 }
 
 
 export const validateMeter = async (userInput) => {
-    
-
 
     try {
         const response = await axios({
@@ -67,14 +65,14 @@ export const validateMeter = async (userInput) => {
 
         return response
     } catch (error) {
-        
+
     }
 }
 
 
 export const purchaseElectricity = async (userInput, pin) => {
     const token = JSON.parse(sessionStorage.getItem('loginToken'))
-    
+
     try {
         const response = await axios({
             method: 'POST',
@@ -96,7 +94,7 @@ export const purchaseElectricity = async (userInput, pin) => {
 
 export const transfertoFriends = async (userInput, pin) => {
     const token = JSON.parse(sessionStorage.getItem('loginToken'))
-    
+
     try {
         const response = await axios({
             method: 'POST',
@@ -125,7 +123,7 @@ export const validateCable = async (userInput) => {
 
         return response
     } catch (error) {
-        
+
     }
 }
 
@@ -133,6 +131,7 @@ export const validateCable = async (userInput) => {
 export const purchaseCable = async (userInput, pin) => {
     const token = JSON.parse(sessionStorage.getItem('loginToken'))
     
+
     try {
         const response = await axios({
             method: 'POST',
@@ -153,7 +152,7 @@ export const purchaseCable = async (userInput, pin) => {
 
 export const getVirtualAccount = async () => {
     const token = JSON.parse(sessionStorage.getItem('loginToken'))
-    
+
     try {
         const response = await axios({
             method: 'GET',
@@ -186,7 +185,7 @@ export const fetchAccountName = async (userInput) => {
 
 export const BankTransfer = async (userInput, pin) => {
     const token = JSON.parse(sessionStorage.getItem('loginToken'))
-    
+
     try {
         const response = await axios({
             method: 'POST',

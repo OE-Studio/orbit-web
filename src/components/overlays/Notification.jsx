@@ -5,14 +5,15 @@ import {
   TrashIcon,
   EnvelopeIcon,
 } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SideBarWrapper from "../SideBarWrapper";
 import { format } from "date-fns";
 // import notifications from "../../data/notifications";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import emptyTransaction from "../../assets/empty-state/emptyNotification.svg";
 import { MarkNotificationRead } from "./NotificationApi";
 import CloseButton from "../Inputs/CloseButton";
+import { fetchNotifications } from "../../features/NotificationsSlice";
 
 const NotificationItem = ({
   read,
@@ -76,6 +77,23 @@ const Notification = ({
   const [toggleOptions, setToggleOptions] = useState(false);
 
   const { notifications } = useSelector((state) => state.notifications);
+  const [filteredNotifications, setFilteredNotifications] = useState(0);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchNotifications());
+
+    let filterOperation;
+
+    // Sort by date in descending order
+    if (notifications !== null) {
+      filterOperation = [...notifications].sort(
+        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      );
+    }
+    setFilteredNotifications(filterOperation);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <SideBarWrapper toggle={toggle}>
@@ -114,16 +132,15 @@ const Notification = ({
           </div>
         </div>
         <CloseButton
-            onClick={() => {
-              setToggle(!toggle);
-            }}
+          onClick={() => {
+            setToggle(!toggle);
+          }}
         />
-       
       </div>
       <div className="h-9" />
       <div className="h-full overflow-y-scroll pb-14">
-        {notifications.length > 0 ? (
-          notifications.map((notification, index) => {
+        {filteredNotifications.length > 0 ? (
+          filteredNotifications.map((notification, index) => {
             return (
               <NotificationItem
                 setToggleNotification={setToggle}
