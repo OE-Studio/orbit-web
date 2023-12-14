@@ -16,10 +16,10 @@ import CloseButton from "../Inputs/CloseButton";
 const Tier2Verification = ({ toggle, setToggle }) => {
   const dispatch = useDispatch();
   const [BVN, setBVN] = useState("");
-  const [err, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [presentError, setPresentError] = useState("");
+  const [err, setError] = useState({});
   const [resendLoading, setResendLoading] = useState(false);
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
@@ -175,7 +175,7 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                     <div>
                       <div className="h-6" />
                       <p className="text-base leading-snug text-[#71879C] font-inter">
-                        Enter your confirmation otp sent to the Phone number
+                        Enter confirmation otp sent to the Phone number
                         linked to the BVN
                       </p>
                       <div className="h-4" />

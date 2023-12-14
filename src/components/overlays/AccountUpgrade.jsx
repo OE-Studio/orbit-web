@@ -50,7 +50,11 @@ const AccountUpgrade = ({ toggle, setToggle }) => {
               </div>
             </div>
             <div className="h-full overflow-y-scroll max-h-[600px] space-y-6">
-              <div className={`${(level === "tier1" || level === "tier2") && "opacity-50"}   `}>
+              <div
+                className={`${
+                  (level === "tier1" || level === "tier2") && "opacity-50"
+                }   `}
+              >
                 <Tier1Card />
               </div>
               <div
@@ -70,7 +74,6 @@ const AccountUpgrade = ({ toggle, setToggle }) => {
                 className={`${level === "tier3" && "opacity-50"} ${
                   level === "tier2" ? "cursor-pointer" : "cursor-not-allowed"
                 }`}
-
                 onClick={() => {
                   if (level === "tier2") {
                     setToggleTier3Verification(true);

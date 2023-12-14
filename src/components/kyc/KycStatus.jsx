@@ -10,7 +10,7 @@ export const Tier1Card = () => {
       <div className="relative w-fit h-fit">
         <div className="bg-green50 flex py-1.5 px-3 gap-1.5 rounded-full relative z-[1]">
           <p className="text-sm font-semibold font-inter text-green700">
-            Tire 1
+            Tier 1
           </p>
           <UserCircle weight="fill" className="text-xl text-green700 " />
         </div>
@@ -127,13 +127,11 @@ export const Tier3Card = () => {
 };
 
 const KycStatus = () => {
-  
   const [upgrade, setUpgrade] = useState(false);
   const user = useSelector((state) => state.user.user);
 
   return (
     <>
-      
       <AccountUpgrade toggle={upgrade} setToggle={setUpgrade} />
       <div
         className="cursor-pointer"

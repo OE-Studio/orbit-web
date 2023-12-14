@@ -15,7 +15,7 @@ export const fetchProducts = createAsyncThunk(
                 },
             }
             let response = await axios.get(
-                `https://orbit-finance-api.herokuapp.com/admin/api/v1/products`,
+                `https://api.theorbit.finance/admin/api/v1/products`,
                 config
             )
             return response
@@ -27,7 +27,7 @@ export const fetchProducts = createAsyncThunk(
             // } else {
             //     return rejectWithValue(error.message)
             // }
-            
+
         }
     }
 )
