@@ -45,15 +45,19 @@ const SignupGeneral = () => {
   React.useEffect(() => {
     const getData = setTimeout(() => {
       if (username) {
-        axios.post(`/v1/users/checkUsername`, { username }).then((response) => {
-          if (response.data.success) {
-            setUsernameError(false);
-            setUsernameAvailable(true);
-          } else {
-            setUsernameError(true);
-            setUsernameAvailable(false);
-          }
-        });
+        axios
+          .post(`/v1/users/checkUsername`, {
+            username: username.toLowerCase().trim(),
+          })
+          .then((response) => {
+            if (response.data.success) {
+              setUsernameError(false);
+              setUsernameAvailable(true);
+            } else {
+              setUsernameError(true);
+              setUsernameAvailable(false);
+            }
+          });
       } else {
         setUsernameAvailable(false);
         setUsernameError(false);

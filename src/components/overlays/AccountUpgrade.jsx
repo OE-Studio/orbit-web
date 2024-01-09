@@ -20,12 +20,20 @@ const AccountUpgrade = ({ toggle, setToggle }) => {
           toggle={toggleTier2Verification}
         />
       )}
-      {toggleTier3Verification && (
+
+      {/* TESTING */}
+      {true && (
         <Tier3Verification
           setToggle={setToggleTier3Verification}
           toggle={toggleTier3Verification}
         />
       )}
+      {/* {toggleTier3Verification && (
+        <Tier3Verification
+          setToggle={setToggleTier3Verification}
+          toggle={toggleTier3Verification}
+        />
+      )} */}
 
       {toggle && (
         <OverlayWrapper toggle={toggle} customStyle={"w-[633px]"}>

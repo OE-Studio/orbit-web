@@ -100,7 +100,7 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                         }`}
                       >
                         <label
-                          htmlFor="username"
+                          htmlFor="bvn"
                           className="text-xs text-[#71879C] font-inter"
                         >
                           bvn
@@ -175,8 +175,8 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                     <div>
                       <div className="h-6" />
                       <p className="text-base leading-snug text-[#71879C] font-inter">
-                        Enter confirmation otp sent to the Phone number
-                        linked to the BVN
+                        Enter confirmation otp sent to the Phone number linked
+                        to the BVN
                       </p>
                       <div className="h-4" />
                       <div>
@@ -219,6 +219,7 @@ const Tier2Verification = ({ toggle, setToggle }) => {
                             setPresentError("");
                             try {
                               const result = await updateIdentity(BVN);
+                              console.log(result);
                               setLoading(false);
                               setPresentError("");
                               setSuccess("");

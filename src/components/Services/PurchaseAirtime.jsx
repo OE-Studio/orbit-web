@@ -5,7 +5,7 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronUpIcon,
-  GlobeAltIcon
+  GlobeAltIcon,
 } from "@heroicons/react/24/solid";
 import SideBarWrapper from "../SideBarWrapper";
 import { fetchDataId, purchaseAirtime } from "./ServiceApi";
@@ -22,7 +22,6 @@ import CloseButton from "../Inputs/CloseButton";
 const PurchaseAirtime = ({ toggle, setToggle }) => {
   const [network, setNetwork] = useState(null);
   const [plan, setPlan] = useState({});
-  
 
   const networkRef = useRef(null);
   const [networkDrop, setNetworkDrop] = useState(false);
@@ -46,7 +45,6 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
   useEffect(() => {
     setAllProvider();
   }, []);
-
 
   // PIN
   const [isOpen, setIsOpen] = useState(false);
@@ -550,7 +548,7 @@ const PurchaseAirtime = ({ toggle, setToggle }) => {
             mobile_number: mobile_number,
             network_api_id: plan.provider_id,
             airtime_api_id: plan.product_id,
-            amount: amount,
+            input_amount: amount,
           };
 
           try {

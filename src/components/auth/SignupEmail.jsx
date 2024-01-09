@@ -74,7 +74,7 @@ const SignupEmail = () => {
   const registerUserFunc = async () => {
     dispatch(
       updateUserInput({
-        email,
+        email: email.toLowerCase().trim(),
         password,
       })
     );
